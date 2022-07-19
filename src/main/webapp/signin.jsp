@@ -56,21 +56,27 @@
                             <label for="inputName" class="form-label">Nom</label>
                             <div class="ms-auto position-relative">
                               <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-person-circle"></i></div>
-                              <input name="nom" type="text" class="form-control radius-30 ps-5" id="inputName" placeholder="Entrer votre nom">
+                              <input 
+                              	value="toto"
+                              	name="nom" type="text" class="form-control radius-30 ps-5" id="inputName" placeholder="Entrer votre nom">
                             </div>
                           </div>
                           <div class="col-12">
                             <label for="inputEmailAddress" class="form-label">Email</label>
                             <div class="ms-auto position-relative">
                               <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-envelope-fill"></i></div>
-                              <input name="mail" type="email" class="form-control radius-30 ps-5" id="inputEmailAddress" placeholder="Entrer votre email">
+                              <input
+                              	value="toto@toto.fr" 
+                              	name="mail" type="email" class="form-control radius-30 ps-5" id="inputEmailAddress" placeholder="Entrer votre email">
                             </div>
                           </div>
                           <div class="col-12">
                             <label for="inputChoosePassword" class="form-label">Mot de passe</label>
                             <div class="ms-auto position-relative">
                               <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-lock-fill"></i></div>
-                              <input name="pass" type="password" class="form-control radius-30 ps-5" id="inputChoosePassword" placeholder="Entrer votre mot de passe">
+                              <input
+                              	value="000" 
+                              	name="pass" type="password" class="form-control radius-30 ps-5" id="inputChoosePassword" placeholder="Entrer votre mot de passe">
                             </div>
                           </div>
 
