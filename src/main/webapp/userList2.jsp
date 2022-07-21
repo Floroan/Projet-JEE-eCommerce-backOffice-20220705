@@ -1,9 +1,10 @@
+<%@page import="tools.DateManipulator"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="utf-8"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="tools.DataTablesListeClients"%>
+<%@ page import="model.Utilisateur"%>
 <% 
-ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcList");
+ArrayList<Utilisateur> u = (ArrayList<Utilisateur>) request.getAttribute("utilisateur");
 %>
 <!doctype html>
 <html lang="fr">
@@ -39,7 +40,7 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
   <!-- FONTAWESOME -->
   <script src="https://kit.fontawesome.com/bff2375f4b.js" crossorigin="anonymous"></script>
 
-  <title>Clients</title>
+  <title>Utilisateurs</title>
 </head>
 
 <body>
@@ -59,67 +60,121 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 
        <!--start content-->
        <main class="page-content">
-				<!--breadcrumb-->
-				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">Tables</div>
-					<div class="ps-3">
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb mb-0 p-0">
-								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-								</li>
-								<li class="breadcrumb-item active" aria-current="page">Data Table</li>
-							</ol>
-						</nav>
-					</div>
-					<div class="ms-auto">
-						<div class="btn-group">
-							<button type="button" class="btn btn-primary">Settings</button>
-							<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-							</button>
-							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-								<a class="dropdown-item" href="javascript:;">Another action</a>
-								<a class="dropdown-item" href="javascript:;">Something else here</a>
-								<div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-							</div>
+			<!--breadcrumb-->
+			<!-- <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+				<div class="breadcrumb-title pe-3">Tables</div>
+				<div class="ps-3">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb mb-0 p-0">
+							<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">Data Table</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="ms-auto">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary">Settings</button>
+						<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+						</button>
+						<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
+							<a class="dropdown-item" href="javascript:;">Another action</a>
+							<a class="dropdown-item" href="javascript:;">Something else here</a>
+							<div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
 						</div>
 					</div>
 				</div>
-				<!--end breadcrumb-->
-				<h6 class="mb-0 text-uppercase">Liste des clients</h6>
-				<hr/>
-				<div class="card">
-					<div class="card-body">
-						<div class="table-responsive">
-							<table id="example" class="table table-striped table-bordered" style="width:100%">
+			</div> -->
+			<!--end breadcrumb-->
+			<h6 class="mb-0 text-uppercase">Liste des utilisateurs</h6>
+			<hr/>
+			<div>
+				<div class="alert alert-danger text-center" role="alert">
+					Je souhaite utiliser <a href="https://editor.datatables.net/examples/simple/simple.html">EDITOR</a> mais je n’arrive pas à le faire fonctionner.<br>
+					Avec DATATABLE, seuls les td qui n’ont pas d’Input peuvent être triés !<br> 
+				</div>
+			</div>
+			<hr/>
+			<div class="card">
+				<div class="card-body">
+				<%
+				if (request.getAttribute("msg") != null) {
+				%>
+				<div>
+					<div class="alert alert-danger text-center" role="alert">
+						<%=request.getAttribute("msg")%>
+					</div>
+				</div>
+				<%
+				}
+				%>
+					<!-- <div class="table-responsive">
+						-->
+						<form id="form-id" method="post" action="UserList"> 
+							<button type="submit" name="update" class="btn btn-primary btn-block">Mettre à jour</button>
+							<p></p>
+							<table id="example" class="display" style="width:100%">
 								<thead>
 								<tr>
+									<th>Inscrit(e) le</th>
+									<th>ID</th>
 									<th>Nom</th>
+									<th>Prénom</th>
 									<th>Mail</th>
-									<th class="text-center">Première commande</th>
-									<th class="text-center">Dernière commande</th>
-									<th class="text-center">Panier moyen</th>
-									<th class="text-center">Panier total</th>
-									<th class="text-center dt-no-sorting">Fiche client</th>
+									<th class="text-center">Archiver</th>
+									<th class="text-center">Fiche</th>
 								</tr>
 							</thead>
 								<tbody>
+								<% 
+								int i = 0;
+								for( Utilisateur cmd : u ) {
+									i++;
+								%>
+										<tr>
+											<td>
+											<%
+											String d = DateManipulator.dateConvertToDDmmYYYY( cmd.getDate_inscription() );
+											
+											%>
+												<%= d %>
+											</td>
+											<td>
+												<input type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= cmd.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
+											</td>
+											<td>
+												<input type="text" id="row-<%= i %>-nom" name="row-<%= i %>-nom" value="<%= cmd.getNom() %>" <%-- name="<%= cmd.getNom() %>" --%>>
+											</td>
+											<td>
+												<input type="text" id="row-<%= i %>-prenom" name="row-<%= i %>-prenom" value="<%= cmd.getPrenom() %>" <%-- name="<%= cmd.getPrenom() %>" --%>>
+											</td>
+											<td>
+												<input type="text" id="row-<%= i %>-mail" name="row-<%= i %>-mail" value="<%= cmd.getEmail() %>" <%-- name='<%= cmd.getEmail() %>' --%>>
+											</td>
+									<%
+									if ( cmd.getArchiver() == 0 ) {
+									%>
+											<td class="text-center">
+												<a href="UserList?id=<%=cmd.getId() %>&archived=isNotArchived" class="btn btn-success btn-block"><i class="fa-solid fa-file-circle-plus"></i></a>
+											</td>
+									<%
+									} else {
+									%>
+											<td class="text-center">
+												<a href="UserList?id=<%=cmd.getId() %>&archived=isArchived" class="btn btn-danger btn-block"><i class="fa-solid fa-file-circle-minus"></i></a>
+											</td>
+									<%
+									}
+									%>
+											<td class="text-center">
+			                                    <%-- <a href="UserCard?id=<%=cmd.getId() %>" class="btn btn-warning btn-block"><i class="bi bi-pencil-fill"></i></a> --%>
+			                                    <a href='UserCard?id=<%= cmd.getId() %>';" class="btn btn-primary btn-block"><i class="fa-solid fa-eye"></i></a>
+		                                   </td>
+		                                   
+										</tr>
 								<%
-	                            for ( DataTablesListeClients client : dcList) {
-	                            %>
-	                                <tr>
-	                                    <td><%= client.getName() %></td>
-	                                    <td><%= client.getMail() %></td>
-	                                    <td class="text-center"><%= client.getDateFirstOrder() %></td>
-	                                    <td class="text-center"><%= client.getDateLastOrder() %></td>
-	                                    <td class="text-center"><%= client.getOrderAverage() %>€</td>
-	                                    <td class="text-center"><%= client.getOrderSum() %>€</td>
-	                                    <td class="text-center">
-	                                    	<a href='ClientCard?id=<%= client.getId() %>';" class="btn btn-primary btn-block"><i class="fa-solid fa-eye"></i></a>
-	                                    </td>
-	                                </tr>
-	                            <%
-	                            }
-	                            %>
+								} 
+								%>
 								</tbody>
 								<!-- <tfoot>
 									<tr>
@@ -132,10 +187,12 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 									</tr>
 								</tfoot> -->
 							</table>
-						</div>
-					</div>
+						</form>
+						<!-- 
+					</div> -->
 				</div>
-			</main>
+			</div>
+		</main>
        <!--end page main-->
 
 
@@ -229,7 +286,43 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 	
   <!--app-->
   <script src="assets/js/app.js"></script>
-  
+  <script type="text/javascript">
+  $(document).ready(function () {
+	    /* var table = $('#example').DataTable({
+	        columnDefs: [
+	            {
+	                orderable: false,
+	                targets: [1, 2, 3, 4],
+	            },
+	        ],
+	    });
+	 
+	  	var form = document.getElementById("form-id");
+	    $('button').click(function () {
+	        var data = table.$('input, select').serialize();
+	        alert('The following data would have been submitted to the server: \n\n' + data*//* .substr(0, 120) + '...' *//*);
+			form.submit();
+	        return false;
+	    }); */
+	    
+	    /* POUR ALIMENTER LE ALERT CI-DESSOUS 	    
+	*/
+		var table = $('#example').DataTable({
+			columnDefs: [
+				{
+					orderable: true,
+					targets: [1, 2, 3],
+				},
+			],
+		}); 
+	 
+		$('button').click(function () {
+			var data = table.$('input, select').serialize();
+			alert('The following data would have been submitted to the server: \n\n' + data.substr(0, 120) + '...');
+			return true;
+		}); 
+	});
+  </script>
 </body>
 
 </html>

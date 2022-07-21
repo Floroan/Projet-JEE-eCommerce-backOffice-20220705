@@ -29,6 +29,19 @@ public class Utilisateur {
 		this.date_inscription = date_inscription;
 	}
 
+	public Utilisateur(int id, int archiver, String nom, String prenom, String email, String password,
+			Date date_inscription, ArrayList<Commande> commandes) {
+		super();
+		this.id = id;
+		this.archiver = archiver;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.password = password;
+		this.date_inscription = date_inscription;
+		this.commandes = commandes;
+	}
+	
 	public Utilisateur() {
 		super();
 	}
@@ -196,12 +209,13 @@ public class Utilisateur {
 				+ commandes + ", recherches=" + recherches + ", adresses=" + adresses + ", contacts=" + contacts
 				+ ", favoris=" + favoris + ", commentaires=" + commentaires + "]";
 	}
-
 	
 	@Override
 	public String toString() {
 		return "Utilisateur [id=" + id + ", archiver=" + archiver + ", nom=" + nom + ", prenom=" + prenom + ", email="
-				+ email + ", password=" + password + ", date_inscription=" + date_inscription + "]";
+				+ email + ", password=" + password + ", date_inscription=" + date_inscription + ", commandes="
+				+ commandes + ", recherches=" + recherches + ", adresses=" + adresses + ", contacts=" + contacts
+				+ ", favoris=" + favoris + ", commentaires=" + commentaires + ", visites=" + visites + "]";
 	}
 
 }

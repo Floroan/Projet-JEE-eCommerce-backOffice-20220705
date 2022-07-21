@@ -189,4 +189,24 @@
     <servlet-name>AjoutProduit</servlet-name>
     <url-pattern>/AjoutProduit</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserClientList</display-name>
+    <servlet-name>UserClientList</servlet-name>
+    <servlet-class>control.UserClientList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserClientList</servlet-name>
+    <url-pattern>/UserClientList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserList</display-name>
+    <servlet-name>UserList</servlet-name>
+    <servlet-class>control.UserList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserList</servlet-name>
+    <url-pattern>/UserList</url-pattern>
+  </servlet-mapping>
 </web-app>
