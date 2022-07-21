@@ -3,26 +3,26 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import dao.CommandeDAO;
 import dao.UtilisateurDAO;
+import dao.VisiteDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Utilisateur;
-import tools.DataTablesListeClients;
+import tools.DataTablesListeProspects;
 import tools.Database;
 
 /**
- * Servlet implementation class UserClientList
+ * Servlet implementation class UserProspect
  */
-public class UserClientList extends HttpServlet {
+public class UserProspectList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserClientList() {
+    public UserProspectList() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,32 +38,34 @@ public class UserClientList extends HttpServlet {
 		Database.Connect();
 		
 		UtilisateurDAO ud = new UtilisateurDAO();
-		CommandeDAO od = new CommandeDAO();
+		VisiteDAO vd = new VisiteDAO();
 		
-		// DATATABLE : LISTE DES CLIENTS
-		// Les clients sont des Users qui ont au moins une commande (Order)
-		ArrayList<Utilisateur> u = ud.getAllClients();
-		ArrayList<DataTablesListeClients> dcList = new ArrayList<DataTablesListeClients>();
+		// DATATABLE : LISTE DES PROSPECTS
+		// Les prospects sont des Users qui n’ont jamais acheté (Order)
+		ArrayList<Utilisateur> u = ud.getAllProspect();
+		ArrayList<DataTablesListeProspects> dcList = new ArrayList<DataTablesListeProspects>();
 		
 		for ( Utilisateur ubOne : u) {
 		
-			DataTablesListeClients dc = new DataTablesListeClients();
+			DataTablesListeProspects dc = new DataTablesListeProspects();
 			
-			dc.setId( ubOne.getId() );
+			int id = ubOne.getId(); 
+			
+			dc.setId( id );
 			dc.setName( ubOne.getNom() );
 			dc.setMail( ubOne.getEmail() );
-			dc.setDateFirstOrder( od.dateFirstOrder( ubOne.getId()) );
-			dc.setDateLastOrder( od.dateLastOrder( ubOne.getId() ) );
-			dc.setOrderAverage( od.orderAverage( ubOne.getId() ) );
-			dc.setOrderSum( od.ordersSum( ubOne.getId() ) );
-			
+			dc.setDateLastVisit( vd.dateLastVisit( id ) );
+			dc.setNumberOfProductsViewed( vd.numberOfProductsViewedBy( id ) );
+			dc.setSumOfProductClicks( vd.sumOfProductClicks( id ) );
+						
 			dcList.add(dc);
 			
 		}
 		
-		request.setAttribute("dcList", dcList);
-		request.getRequestDispatcher("userClientList.jsp").forward(request, response);
+		dcList.remove(0); // visitor
 		
+		request.setAttribute("dcList", dcList);
+		request.getRequestDispatcher("userProspectList.jsp").forward(request, response);
 	}
 
 	/**
