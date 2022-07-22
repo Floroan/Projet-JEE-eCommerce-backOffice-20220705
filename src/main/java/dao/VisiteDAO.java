@@ -141,8 +141,11 @@ public class VisiteDAO {
 
 				ProduitDAO prodDao = new ProduitDAO();
 				Produit p = prodDao.getById(o.getFk_prod());
+				o.setP(p);				
 
-				o.setP(p);
+				UtilisateurDAO ud = new UtilisateurDAO();
+				Utilisateur u = ud.getById(id);
+				o.setU(u);
 
 				list.add(o);
 			}
@@ -221,7 +224,7 @@ public class VisiteDAO {
 		}
 	}
 	
-	// RETRIEVE THE NUMBER OF PRODUCT VIEWED BY A CLIENT, LEAD OR A VISITOR
+	// RETRIEVE THE NUMBER OF PRODUCT VIEWED BY A CLIENT, A LEAD OR A VISITOR
 	public Integer numberOfProductsViewedBy( int id ) {
 		
 		try {
@@ -244,13 +247,37 @@ public class VisiteDAO {
 		}
 	}
 	
-	// RETRIEVE TOTAL CLICKS ON PRODUCT CARD BY A CLIENT, LEAD OR A VISITOR
+	// RETRIEVE TOTAL CLICKS ON PRODUCT CARD BY A CLIENT, A LEAD OR A VISITOR
 	public Integer sumOfProductClicks( int id ) {
 		
 		try {
 			PreparedStatement ps = Database.connexion
 					.prepareStatement("SELECT COUNT(fk_prod) FROM visites WHERE `fk_user`=?");
 			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			rs.next();
+			
+			Integer i = rs.getInt("COUNT(fk_prod)");
+			
+			return i;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	// RETRIEVE TOTAL CLICKS ON PRODUCT CARD BY fk_user AND fk_prod 
+	public Integer sumOfProductClicksByOneUserForOneProduct( int fk_user, int fk_prod ) {
+		
+		try {
+			PreparedStatement ps = Database.connexion
+					.prepareStatement("SELECT COUNT(fk_prod) FROM visites WHERE `fk_user`=? AND `fk_prod`=?");
+			ps.setInt(1, fk_user);
+			ps.setInt(2, fk_prod);
 			
 			ResultSet rs = ps.executeQuery();
 			

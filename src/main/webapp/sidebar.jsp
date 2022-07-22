@@ -107,11 +107,20 @@
               </a>
               <ul>
               	<li> <a href="UserList"><i class="bi bi-circle"></i>Utilisateurs</a></li>
-                <li> <a href="UserClientList"><i class="bi bi-circle"></i>Clients</a></li>
-                <li> <a href="UserProspectList"><i class="bi bi-circle"></i>Leads</a></li>
-                <li> <a href="UserVisitorList"><i class="bi bi-circle"></i>Visiteurs</a></li>
               </ul>
             </li>
+            <li class="menu-label">Statistiques</li>
+           	<li>
+           		<a class="has-arrow" href="javascript:;">
+               		<div class="parent-icon"><i class="bi bi-award-fill"></i></div>
+               		<div class="menu-title">Utilisateurs</div>
+               	</a>
+             	<ul>
+               		<li> <a href="UserClientList"><i class="bi bi-circle"></i>Clients</a></li>
+               		<li> <a href="UserProspectList"><i class="bi bi-circle"></i>Prospects</a></li>
+               		<li> <a href="UserVisitorList"><i class="bi bi-circle"></i>Visiteurs</a></li>
+             	</ul>
+			</li>
             <!-- <li>
               <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class="bi bi-cloud-arrow-down-fill"></i>

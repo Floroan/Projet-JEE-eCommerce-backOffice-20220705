@@ -229,4 +229,14 @@
     <servlet-name>UserProspectList</servlet-name>
     <url-pattern>/UserProspectList</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserVisitorList</display-name>
+    <servlet-name>UserVisitorList</servlet-name>
+    <servlet-class>control.UserVisitorList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserVisitorList</servlet-name>
+    <url-pattern>/UserVisitorList</url-pattern>
+  </servlet-mapping>
 </web-app>
