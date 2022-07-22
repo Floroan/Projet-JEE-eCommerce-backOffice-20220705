@@ -289,6 +289,10 @@ ArrayList<Utilisateur> u = (ArrayList<Utilisateur>) request.getAttribute("utilis
   <!--app-->
   <script src="assets/js/app.js"></script>
   <script type="text/javascript">
+  
+var editor; // use a global for the submit and return data rendering in the examples
+
+  
 $(document).ready(function () {
 	
 	editor = new $.fn.dataTable.Editor( {

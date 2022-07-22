@@ -131,45 +131,45 @@ ArrayList<Utilisateur> u = (ArrayList<Utilisateur>) request.getAttribute("utilis
 								for( Utilisateur cmd : u ) {
 									i++;
 								%>
-										<tr>
-											<td>
-											<%
-											String d = DateManipulator.dateConvertToDDmmYYYY( cmd.getDate_inscription() );
-											
-											%>
-												<%= d %>
-											</td>
-											<td>
-												<input type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= cmd.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
-											</td>
-											<td>
-												<input type="text" id="row-<%= i %>-nom" name="row-<%= i %>-nom" value="<%= cmd.getNom() %>" <%-- name="<%= cmd.getNom() %>" --%>>
-											</td>
-											<td>
-												<input type="text" id="row-<%= i %>-prenom" name="row-<%= i %>-prenom" value="<%= cmd.getPrenom() %>" <%-- name="<%= cmd.getPrenom() %>" --%>>
-											</td>
-											<td>
-												<input type="text" id="row-<%= i %>-mail" name="row-<%= i %>-mail" value="<%= cmd.getEmail() %>" <%-- name='<%= cmd.getEmail() %>' --%>>
-											</td>
+									<tr>
+										<td>
+										<%
+										String d = DateManipulator.dateConvertToDDmmYYYY( cmd.getDate_inscription() );
+										
+										%>
+											<%= d %>
+										</td>
+										<td>
+											<input type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= cmd.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
+										</td>
+										<td>
+											<input type="text" id="row-<%= i %>-nom" name="row-<%= i %>-nom" value="<%= cmd.getNom() %>" <%-- name="<%= cmd.getNom() %>" --%>>
+										</td>
+										<td>
+											<input type="text" id="row-<%= i %>-prenom" name="row-<%= i %>-prenom" value="<%= cmd.getPrenom() %>" <%-- name="<%= cmd.getPrenom() %>" --%>>
+										</td>
+										<td>
+											<input type="text" id="row-<%= i %>-mail" name="row-<%= i %>-mail" value="<%= cmd.getEmail() %>" <%-- name='<%= cmd.getEmail() %>' --%>>
+										</td>
 									<%
 									if ( cmd.getArchiver() == 0 ) {
 									%>
-											<td class="text-center">
-												<a href="UserList?id=<%=cmd.getId() %>&archived=isNotArchived" class="btn btn-success btn-block"><i class="fa-solid fa-file-circle-plus"></i></a>
-											</td>
+										<td class="text-center">
+											<a href="UserList?id=<%=cmd.getId() %>&archived=isNotArchived" class="btn btn-success btn-block"><i class="fa-solid fa-file-circle-plus"></i></a>
+										</td>
 									<%
 									} else {
 									%>
-											<td class="text-center">
-												<a href="UserList?id=<%=cmd.getId() %>&archived=isArchived" class="btn btn-danger btn-block"><i class="fa-solid fa-file-circle-minus"></i></a>
-											</td>
+										<td class="text-center">
+											<a href="UserList?id=<%=cmd.getId() %>&archived=isArchived" class="btn btn-danger btn-block"><i class="fa-solid fa-file-circle-minus"></i></a>
+										</td>
 									<%
 									}
 									%>
-											<td class="text-center">
-			                                    <%-- <a href="UserCard?id=<%=cmd.getId() %>" class="btn btn-warning btn-block"><i class="bi bi-pencil-fill"></i></a> --%>
-			                                    <a href='UserCard?id=<%= cmd.getId() %>';" class="btn btn-primary btn-block"><i class="fa-solid fa-eye"></i></a>
-		                                   </td>
+										<td class="text-center">
+		                                    <%-- <a href="UserCard?id=<%=cmd.getId() %>" class="btn btn-warning btn-block"><i class="bi bi-pencil-fill"></i></a> --%>
+		                                    <a href='UserCard?id=<%= cmd.getId() %>';" class="btn btn-primary btn-block"><i class="fa-solid fa-eye"></i></a>
+	                                   </td>
 		                                   
 										</tr>
 								<%
