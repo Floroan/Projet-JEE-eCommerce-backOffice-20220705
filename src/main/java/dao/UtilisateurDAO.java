@@ -9,6 +9,7 @@ import model.Adresse_livraison;
 import model.Commande;
 import model.Commentaire;
 import model.Utilisateur;
+import model.Visite;
 import tools.Database;
 
 public class UtilisateurDAO {
@@ -292,45 +293,87 @@ public class UtilisateurDAO {
 	}
 
 	// RETRIEVE ALL WHO HAVE ORDER(S)
-		public ArrayList<Utilisateur> getAllClients() {
+	public ArrayList<Utilisateur> getAllClients() {
+		
+		ArrayList<Utilisateur> list = new ArrayList<Utilisateur>();
+		
+		try {
 			
-			ArrayList<Utilisateur> list = new ArrayList<Utilisateur>();
+			CommandeDAO od = new CommandeDAO();
 			
-			try {
-				
-				CommandeDAO od = new CommandeDAO();
-				
-				PreparedStatement ps = Database.connexion
-						.prepareStatement("SELECT * FROM `utilisateurs` WHERE id IN(SELECT fk_utilisateur FROM `commandes`)");
+			PreparedStatement ps = Database.connexion
+					.prepareStatement("SELECT * FROM `utilisateurs` WHERE id IN(SELECT fk_utilisateur FROM `commandes`)");
 
-				ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
 				
-				while (rs.next()) {
-					
-					Utilisateur o = new Utilisateur();
-					
-					o.setId(rs.getInt("id"));
-					o.setNom(rs.getString("nom"));
-					o.setPrenom(rs.getString("prenom"));
-					o.setDate_inscription(rs.getDate("date_inscription"));
-					o.setEmail(rs.getString("email"));
-					o.setPassword(rs.getString("password"));
-					
-					ArrayList<Commande> orders = od.getAllByClient( o.getId() );
-					o.setCommandes(orders);
-					
-					list.add(o);
-				}
+				Utilisateur o = new Utilisateur();
 				
-				return list;
-
-			} catch (SQLException e) {
+				o.setId(rs.getInt("id"));
+				o.setNom(rs.getString("nom"));
+				o.setPrenom(rs.getString("prenom"));
+				o.setDate_inscription(rs.getDate("date_inscription"));
+				o.setEmail(rs.getString("email"));
+				o.setPassword(rs.getString("password"));
 				
-				e.printStackTrace();
-				return null;
+				ArrayList<Commande> orders = od.getAllByClient( o.getId() );
+				o.setCommandes(orders);
 				
+				list.add(o);
 			}
+			
+			return list;
+
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return null;
+			
 		}
+	}
+	
+	// RETRIEVE ALL WHO HAVE NO ORDER
+	public ArrayList<Utilisateur> getAllProspect() {
+		
+		ArrayList<Utilisateur> list = new ArrayList<Utilisateur>();
+		
+		try {
+			
+			VisiteDAO vd = new VisiteDAO();
+			
+			PreparedStatement ps = Database.connexion
+				.prepareStatement("SELECT * FROM `utilisateurs` WHERE id NOT IN(SELECT fk_utilisateur FROM `commandes`)");
+
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				
+				Utilisateur o = new Utilisateur();
+				
+				o.setId(rs.getInt("id"));
+				o.setNom(rs.getString("nom"));
+				o.setPrenom(rs.getString("prenom"));
+				o.setDate_inscription(rs.getDate("date_inscription"));
+				o.setEmail(rs.getString("email"));
+				o.setPassword(rs.getString("password"));
+				
+				ArrayList<Visite> v = vd.getAllByClient( o.getId() );
+				o.setVisites(v);
+				
+				list.add(o);
+			}
+			
+			return list;
+
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return null;
+			
+		}
+	}
+		
 	public ArrayList<Utilisateur> getAllNotArchived() {
 		ArrayList<Utilisateur> list = new ArrayList<Utilisateur>();
 		try {

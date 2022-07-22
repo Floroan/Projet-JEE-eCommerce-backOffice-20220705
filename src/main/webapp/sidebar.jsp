@@ -108,7 +108,7 @@
               <ul>
               	<li> <a href="UserList"><i class="bi bi-circle"></i>Utilisateurs</a></li>
                 <li> <a href="UserClientList"><i class="bi bi-circle"></i>Clients</a></li>
-                <li> <a href="UserLeadList"><i class="bi bi-circle"></i>Leads</a></li>
+                <li> <a href="UserProspectList"><i class="bi bi-circle"></i>Leads</a></li>
                 <li> <a href="UserVisitorList"><i class="bi bi-circle"></i>Visiteurs</a></li>
               </ul>
             </li>

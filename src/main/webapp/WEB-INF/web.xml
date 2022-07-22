@@ -209,4 +209,24 @@
     <servlet-name>UserList</servlet-name>
     <url-pattern>/UserList</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserProspect</display-name>
+    <servlet-name>UserProspect</servlet-name>
+    <servlet-class>control.UserProspect</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserProspect</servlet-name>
+    <url-pattern>/UserProspect</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserProspectList</display-name>
+    <servlet-name>UserProspectList</servlet-name>
+    <servlet-class>control.UserProspectList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserProspectList</servlet-name>
+    <url-pattern>/UserProspectList</url-pattern>
+  </servlet-mapping>
 </web-app>
