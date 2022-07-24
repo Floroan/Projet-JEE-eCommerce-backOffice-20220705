@@ -61,7 +61,7 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 		<main class="page-content">
 			<div class="row">
 				<div class="col-12 col-lg-6">
-					<h6 class="mb-0 text-uppercase">Total Cliques(s) par mois</h6>
+					<h6 class="mb-0 text-uppercase">Nombre de fiches produit vues par mois</h6>
 					<a href="#">Détails</a>
 					<hr/>
 	                <div class="card">
@@ -93,7 +93,7 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 					</div> -->
 				</div>
 				<div class="col-12 col-lg-6">
-					<h6 class="mb-0 text-uppercase">Clique(s) par article</h6>
+					<h6 class="mb-0 text-uppercase">Nombre de Clique(s) par article</h6>
 					<a href="#">Détails</a> 
 	                <hr/>
 	                <div class="card">
@@ -113,14 +113,14 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 								class="d-flex align-items-stretch justify-content-between overflow-hidden">
 								<div class="w-50">
 									<p>
-										<a href="">Recherches produits</a>
+										<a href="">Recherches</a>
 									</p>
-									<h4 class="">8,542</h4>
+									<h4 class="">${totalResearches}</h4>
 								</div>
 								<div class="w-50">
-									<p class="mb-3 float-end text-success">
+									<!-- <p class="mb-3 float-end text-success">
 										+ 16% <i class="bi bi-arrow-up"></i>
-									</p>
+									</p> -->
 									<div id="chart1"></div>
 								</div>
 							</div>
@@ -136,12 +136,12 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 									<p>
 										<a href="">Messages Envoyés</a>
 									</p>
-									<h4 class="">12.5M</h4>
+									<h4 class="">${totalMessages}</h4>
 								</div>
 								<div class="w-50">
-									<p class="mb-3 float-end text-danger">
+									<!-- <p class="mb-3 float-end text-danger">
 										- 3.4% <i class="bi bi-arrow-down"></i>
-									</p>
+									</p> -->
 									<div id="chart2"></div>
 								</div>
 							</div>
@@ -157,12 +157,12 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 									<p>
 										<a href="">Commentaires</a>
 									</p>
-									<h4 class="">$64.5K</h4>
+									<h4 class="">${totalComments}</h4>
 								</div>
 								<div class="w-50">
-									<p class="mb-3 float-end text-success">
+									<!-- <p class="mb-3 float-end text-success">
 										+ 24% <i class="bi bi-arrow-up"></i>
-									</p>
+									</p> -->
 									<div id="chart3"></div>
 								</div>
 							</div>
@@ -178,103 +178,15 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 									<p>
 										<a href="">Commandes</a>
 									</p>
-									<h4 class="">25.8K</h4>
+									<h4 class="">${totalCommandes}</h4>
 								</div>
 								<div class="w-50">
-									<p class="mb-3 float-end text-success">
+									<!-- <p class="mb-3 float-end text-success">
 										+ 8.2% <i class="bi bi-arrow-up"></i>
-									</p>
+									</p> -->
 									<div id="chart4"></div>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--end row-->
-			<div class="row">
-				<div class="col-12 col-lg-6 d-flex">
-					<div class="card radius-10 w-100">
-						<div class="card-body">
-							<div class="d-flex align-items-center">
-								<h6 class="mb-0">Fiches Produits Vues</h6>
-								<div class="fs-5 ms-auto dropdown">
-									<div
-										class="dropdown-toggle dropdown-toggle-nocaret cursor-pointer"
-										data-bs-toggle="dropdown">
-										<i class="bi bi-three-dots"></i>
-									</div>
-									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#">Voir en détails</a></li>
-										<!-- <li><a class="dropdown-item" href="#">Another action</a></li>
-                             <li><hr class="dropdown-divider"></li>
-                             <li><a class="dropdown-item" href="#">Something else here</a></li> -->
-									</ul>
-								</div>
-							</div>
-							<div id="chart5"></div>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-lg-6 d-flex">		
-					<div class="card radius-10 w-100">
-						<div class="card-body">
-							<!-- <div id="chart9"></div> -->
-							
-							<!-- 
-							<div class="d-flex align-items-center">
-								<h6 class="mb-0">Produits vues par sous catégories</h6>
-								<div class="fs-5 ms-auto dropdown">
-		                        	<div class="dropdown-toggle dropdown-toggle-nocaret cursor-pointer" data-bs-toggle="dropdown">
-		                        		<i class="bi bi-three-dots"></i>
-		                        	</div>
-	                            	<ul class="dropdown-menu">
-	                              		<li><a class="dropdown-item" href="#">Action</a></li>
-	                              		<li><a class="dropdown-item" href="#">Another action</a></li>
-	                              		<li><hr class="dropdown-divider"></li>
-	                              		<li><a class="dropdown-item" href="#">Something else here</a></li>
-	                            	</ul>
-		                        </div>
-							</div>
-							 -->
-							
-							
-							<div class="row row-cols-1 row-cols-md-2 g-3 mt-2 align-items-center">
-								<div class="col-lg-7 col-xl-7 col-xxl-8">
-									<div class="by-device-container">
-										<div class="piechart-legend">
-											<h2 class="mb-1">85%</h2>
-											<h6 class="mb-0">Total Visitors</h6>
-										</div>
-										<!-- <canvas id="chart6"></canvas> -->
-									</div>
-								</div>
-											<!-- 
-								<div class="col-lg-5 col-xl-5 col-xxl-4">
-									<div class="">
-										<ul class="list-group list-group-flush">
-											<li
-												class="list-group-item d-flex align-items-center justify-content-between border-0">
-												<i class="bi bi-display-fill me-2 text-primary"></i> <span>Desktop
-													- </span> <span>15.2%</span>
-											</li>
-											<li
-												class="list-group-item d-flex align-items-center justify-content-between border-0">
-												<i class="bi bi-phone-fill me-2 text-success"></i> <span>Mobile
-													- </span> <span>62.3%</span>
-											</li>
-											<li
-												class="list-group-item d-flex align-items-center justify-content-between border-0">
-												<i class="bi bi-tablet-landscape-fill me-2 text-orange"></i>
-												<span>Tablet - </span> <span>22.5%</span>
-											</li> 
-										</ul>
-									</div>
-								</div>
-											-->
-							</div>
-							
-							
 						</div>
 					</div>
 				</div>
@@ -405,8 +317,9 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 	// chart 1
 	var options = {
 		series: [{
-			name: "Total Orders",
-			data: [240, 160, 671, 414, 555, 257]
+			name: "Total recherches",
+			/* data: [240, 160, 671, 414, 555, 257] */
+			data: [${cliksPerResearch}]
 		}],
 		chart: {
 			type: "line",
@@ -487,11 +400,13 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 
 
 
-/*	// chart 2
+ 
+ 	// chart 2
 	var options = {
 		series: [{
 			name: "Total Views",
-			data: [400, 555, 257, 640, 460, 671, 350]
+			/* data: [400, 555, 257, 640, 460, 671, 350] */
+			data: [${countMessagesPerMonth}]
 		}],
 		chart: {
 			type: "bar",
@@ -576,7 +491,8 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 	var options = {
 		series: [{
 			name: "Revenue",
-			data: [240, 160, 555, 257, 671, 414]
+			/* data: [240, 160, 555, 257, 671, 414] */
+			data: [${countCommentsPerMonth}]
 		}],
 		chart: {
 			type: "line",
@@ -662,7 +578,8 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 	var options = {
 		series: [{
 			name: "Customers",
-			data: [400, 555, 257, 640, 460, 671, 350]
+			/* data: [400, 555, 257, 640, 460, 671, 350] */
+			data: [${countOrdersPerMonth}]
 		}],
 		chart: {
 			type: "bar",
@@ -740,10 +657,9 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 
 	  var chart = new ApexCharts(document.querySelector("#chart4"), options);
 	  chart.render();
-*/
+	  
 
-
-	// chart 5
+	// GRAPHIQUE : id="chart5"
 
 	var options = {
 	    series: [{
@@ -889,7 +805,7 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 	var chart = new ApexCharts(document.querySelector("#chart9"), options);
 	chart.render(); */
 	
-	/* CAMEMBERT */
+	/* CAMEMBERT : id="chart9" */
     /* pour le total à l’intérieur cf */
     /* https://apexcharts.com/docs/options/plotoptions/pie/#labels */
     var donutChart = {
