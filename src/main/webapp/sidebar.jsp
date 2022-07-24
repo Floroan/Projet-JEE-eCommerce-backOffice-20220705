@@ -86,9 +86,9 @@
                 <div class="menu-title">Fournisseurs</div>
               </a>
               <ul>
-                <li> <a href="TableCommandes?"><i class="bi bi-circle"></i>Les achats</a>
+                <li> <a href="TableCommandes?"><i class="bi bi-circle"></i>Achats en cours</a>
                 </li>
-                <li> <a href="ecommerce-orders-detail.html"><i class="bi bi-circle"></i>Passer un achat</a>
+                <li> <a href="ecommerce-orders-detail.html"><i class="bi bi-circle"></i>Historique</a>
                 </li>
               </ul>
             </li>

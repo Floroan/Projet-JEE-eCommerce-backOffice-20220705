@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import dao.Adresse_livraisonDAO;
 import dao.CommandeDAO;
 import dao.CommentaireDAO;
 import dao.ContactDAO;
@@ -14,7 +15,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Adresse_livraison;
 import model.Produit;
+import model.Utilisateur;
+import tools.DataTablesListeClients;
 import tools.Database;
 
 /**
@@ -39,8 +43,6 @@ public class UserClientCard extends HttpServlet {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		int id = Integer.parseInt( request.getParameter("id") );
-		
 		Database.Connect();
 		
 		UtilisateurDAO ud = new UtilisateurDAO();
@@ -50,6 +52,37 @@ public class UserClientCard extends HttpServlet {
 		ContactDAO cd = new ContactDAO(); // mails envoyés par User
 		CommentaireDAO comD = new CommentaireDAO();
 		CommandeDAO commandeD = new CommandeDAO();
+		Adresse_livraisonDAO ad = new Adresse_livraisonDAO();
+		
+		
+		/*
+		 * HREF 
+		 */
+		// from userList.jsp
+		// from POST from Servlet UserClientCard
+		int id = Integer.parseInt( request.getParameter("id") );
+		// from POST from Servlet UserClientCard
+		if ( request.getParameter("msg") != null ) {
+			
+			if ( request.getParameter("msg").equals("yes") ) {
+				
+				String msg = "Avec le statut archivé, vous ne pouvez pas mettre à jour cette fiche.";
+				System.out.println(request.getParameter("msg"));
+				request.setAttribute("msg", msg);
+				
+			}
+
+		}
+		
+		
+		// STATISTIQUES DES COMMANDES
+		DataTablesListeClients dc = new DataTablesListeClients();
+		Utilisateur ub = ud.getById(id);
+		
+		dc.setDateFirstOrder( commandeD.dateFirstOrder( ub.getId()) );
+		dc.setDateLastOrder( commandeD.dateLastOrder( ub.getId() ) );
+		dc.setOrderAverage( commandeD.orderAverage( ub.getId() ) );
+		dc.setOrderSum( commandeD.ordersSum( ub.getId() ) );
 		
 		/*
 		 * CAMEMBERT Cliques par article - id="chart9" : clique(s) par article
@@ -98,6 +131,32 @@ public class UserClientCard extends HttpServlet {
 		String countOrdersPerMonth = commandeD.countAllOrdersByOneUserPerEachMonthOfTheCurrentYear(id);
 		int totalCommandes = commandeD.countAllOrdersByOneUser(id);
 		
+		/*
+		 * FORMULAIRES
+		 */
+		// BOUTON ARCHIVER USER
+		if ( request.getParameter("archived") != null ) {
+			
+			if ( request.getParameter( "archived").equals( "isArchived" ) ) {
+				
+				int idHref = Integer.parseInt( request.getParameter("id") );
+				ud.archiverById(idHref, 0);
+				
+			} 
+			
+			if ( request.getParameter( "archived").equals( "isNotArchived" ) ) {
+				
+				int idForm = Integer.parseInt( request.getParameter("id") );
+				ud.archiverById(idForm, 1);
+				
+			}
+		}
+		// AFFICHER LES ADRESSE DE LIVRAISON
+		ArrayList<Adresse_livraison> abCol = ad.getAllByClient(id);
+		
+		
+		request.setAttribute("ub", ud.getById(id));
+		request.setAttribute("dc", dc);
 		request.setAttribute("char_cats_titre", title);
 		request.setAttribute("char_cats_nbr", counts);
 		request.setAttribute("cliksPerProduct", productsClickedPerMonth);
@@ -109,6 +168,7 @@ public class UserClientCard extends HttpServlet {
 		request.setAttribute("totalComments", totalComments);
 		request.setAttribute("countOrdersPerMonth", countOrdersPerMonth);
 		request.setAttribute("totalCommandes", totalCommandes);
+		request.setAttribute("abCol", abCol);
 		
 		request.getRequestDispatcher("userClientCard.jsp").forward(request, response);
 		
@@ -120,7 +180,96 @@ public class UserClientCard extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		// doGet(request, response);
+		
+		
+		/*
+		 * 
+		 * ATTENTION TRÈS DANGEREUX MAIS C’EST MON CHOIX ;)
+		 * toujours entrer dans getPost avec name="id" (id du user) sinon ça plante
+		 * 
+		 */
+		int id = Integer.parseInt( request.getParameter("id") );
+		
+		
+		Database.Connect();
+		
+		// FORM METTRE À JOUR USER
+		if ( request.getParameter("updateProfileForm") != null ) {
+		
+			UtilisateurDAO ud = new UtilisateurDAO();
+			Utilisateur u = ud.getById( id );
+			System.out.println(u);
+			
+			String msg = "no";
+			if ( u.getArchiver() == 1 ) {
+				
+				msg = "yes";
+				
+			} else {
+				
+				String fn = request.getParameter( "row-1-nom" );
+				String ln = request.getParameter( "row-1-prenom" );
+				String e = request.getParameter( "row-1-mail" );
+				
+				u.setNom(fn);
+				u.setPrenom(ln);
+				u.setEmail(e);
+				
+				System.out.println(u);
+				ud.save(u);
+				
+			}
+			
+			response.sendRedirect("UserClientCard?id=" + id + "&msg=" + msg);
+			
+		}
+		
+		// FORM AJOUTER UNE NOUVELLE ADRESSE
+		if (request.getParameter("addAddressForm") != null ) {
+			
+			Adresse_livraisonDAO ad = new Adresse_livraisonDAO();
+			Adresse_livraison ab = new Adresse_livraison();
+			
+			String address = request.getParameter( "address" );
+			String cp = request.getParameter( "cp" );
+			String ville = request.getParameter( "city" );
+			String pays = request.getParameter( "country" );
+			
+			ab.setFk_user(id);
+			ab.setAdresse(address);
+			ab.setCp(cp);
+			ab.setVille(ville);
+			ab.setPays(pays);
+			
+			ad.save(ab);
+			
+			response.sendRedirect("UserClientCard?id=" + id);
+			
+		}
+		
+		// FORM METTRE À JOUR ADRESSE
+		if (request.getParameter("updateAddressForm") != null ) {
+			
+			Adresse_livraisonDAO ad = new Adresse_livraisonDAO();
+			Adresse_livraison ab = new Adresse_livraison();
+			
+			String address = request.getParameter( "address" );
+			String cp = request.getParameter( "cp" );
+			String ville = request.getParameter( "city" );
+			String pays = request.getParameter( "country" );
+			
+			ab.setFk_user(id);
+			ab.setAdresse(address);
+			ab.setCp(cp);
+			ab.setVille(ville);
+			ab.setPays(pays);
+			System.out.println(ab);
+			//ad.save(ab);
+			
+			response.sendRedirect("UserClientCard?id=" + id);
+			
+		}
 	}
 
 }

@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="utf-8"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="model.Utilisateur"%>
+<%@ page import="model.Adresse_livraison"%>
 <%@ page import="tools.DataTablesListeClients"%>
-<% 
-ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcList");
+<%@page import="tools.DateManipulator"%>
+<%
+Utilisateur client = (Utilisateur) request.getAttribute("ub");
+DataTablesListeClients dc = (DataTablesListeClients) request.getAttribute("dc");
+ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
 %>
 <!doctype html>
 <html lang="fr">
@@ -59,6 +64,72 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 
        <!--start content-->
 		<main class="page-content">
+			<h1 class="mb-0 text-uppercase text-center"><%= client.getNom() %> <%= client.getPrenom() %> </h6>
+			<%
+			String d = DateManipulator.dateConvertToDDmmYYYY( client.getDate_inscription() );
+			%>
+			<p class="text-center">inscrit(e) depuis le <%= d %></p>
+			<hr/>
+			
+			
+			
+			
+			
+
+				
+				
+							
+			<h6 class="mb-0 text-uppercase">Statistiques commandes</h6>
+			<hr/>
+			<div class="card">
+				<div class="card-body">
+					<!-- <div class="table-responsive"> -->
+					<div class="table-responsive mt-3">
+						<!-- <table class="table table-striped table-bordered" style="width:100%" > -->
+						<table class="table align-middle mb-0">
+							<!-- <thead> -->
+							<thead class="table-light">
+							<tr>
+								<th class="text-center">Première commande</th>
+								<th class="text-center">Dernière commande</th>
+								<th class="text-center">Panier moyen</th>
+								<th class="text-center">Panier total</th>
+							</tr>
+						</thead>
+							<tbody>
+							
+                                <tr>
+                                    <td class="text-center"><%= dc. getDateFirstOrder() %></td>
+                                    <td class="text-center"><%= dc.getDateLastOrder() %></td>
+                                    <td class="text-center"><%= dc.getOrderAverage() %>€</td>
+                                    <td class="text-center"><%= dc.getOrderSum() %>€</td>
+                                </tr>
+                           
+							</tbody>
+							<!-- <tfoot>
+								<tr>
+									<th>Name</th>
+									<th>Position</th>
+									<th>Office</th>
+									<th>Age</th>
+									<th>Start date</th>
+									<th>Salary</th>
+								</tr>
+							</tfoot> -->
+						</table>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			<div class="row">
 				<div class="col-12 col-lg-6">
 					<h6 class="mb-0 text-uppercase">Nombre de fiches produit vues par mois</h6>
@@ -192,7 +263,138 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 				</div>
 			</div>
 			<!--end row-->
+
+			<h6 class="mb-0 text-uppercase">Fiche client</h6>
+			<hr/>
+			<%
+			if (request.getAttribute("msg") != null) {
+			%>
+			<div>
+				<div class="alert alert-danger text-center" role="alert">
+					<%=request.getAttribute("msg")%>
+				</div>
+			</div>
+			<%
+			}
+			%>
+			<div class="card">
+				<div class="card-body">
+					<form class="row g-5" method="post" action="UserClientCard" >
+						<input type="hidden" name="id" value="<%= client.getId() %>" >
+						
+						<div class="col-md-3">
+							<!-- <input type="text" class="form-control" placeholder="First name" aria-label="First name"> -->
+							<input type="text" class="form-control" name="row-1-nom" value="<%= client.getNom() %>" >
+						</div>
+						<div class="col-md-3">
+							<%-- <input type="text" name="row-1-prenom" value="<%= client.getPrenom() %>" name="<%= client.getPrenom() %>"> --%>
+							<input type="text" class="form-control" name="row-1-prenom" value="<%= client.getPrenom() %>">
+						</div>
+						<div class="col-md-4">
+							<div class="input-group">
+								<div class="input-group-text">@</div>
+						    	<!-- <input type="email" class="form-control" placeholder="email" aria-label="Last name"> -->
+						    	<input type="email" class="form-control" name="row-1-mail" value="<%= client.getEmail() %>">
+						    </div>
+						</div>
+							<div class="col-auto">
+								<button class="btn btn-warning" type="submit" name="updateProfileForm">Mettre à jour</button>
+							</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="card-body">
+					<div class="row g-5">
+					<%
+					if ( client.getArchiver() == 0 ) {
+					%>
+						<div class="col-md-10">
+							<p>Le compte de ce client est actif. Voulez-vous l’archiver ?</p>
+						</div>
+						<div class="col-auto">
+							<a href="UserClientCard?id=<%=client.getId() %>&archived=isNotArchived" class="btn btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
+						</div>
+					<%
+					} else {
+					%>
+						<div class="col-md-10">
+							<p>Le compte de ce client est archivé. Voulez-vous le réactiver ?</p>
+						</div>
+						<div class="col-auto">
+							<a href="UserClientCard?id=<%=client.getId() %>&archived=isArchived" class="btn btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
+						</div>
+					<%
+					}
+					%>				
+					</div>
+				</div>
+			</div>			
 			
+			
+			<h6 class="mb-0 text-uppercase">Adresses de livraison</h6>
+			<hr/>
+			<div class="card">
+				<div class="card-body">
+					<form class="row g-5" method="post">
+						<input type="hidden" name="id" value="<%= client.getId() %>" >
+						<div class="col-md-4">
+							<input type="text" name="address" class="form-control" placeholder="adresse" aria-label="First name">
+						</div>
+						<div class="col-md-2">
+							<input type="text" name="cp" class="form-control" placeholder="code postal" aria-label="Last name">
+						</div>
+						<div class="col-md-2">
+							<input type="text" name="city" class="form-control" placeholder="ville" aria-label="Last name">
+						</div>
+						<div class="col-md-2">
+							<input type="text" name="country" class="form-control" placeholder="pays" aria-label="Last name">
+						</div>
+						<div class="col-auto">
+							<button type="submit" class="btn btn-primary" name="addAddressForm">Ajouter</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<!-- boucle -->
+		<%
+		int i = 0;
+		for ( Adresse_livraison ab : abCol ) {
+			i++;
+		%>
+			<div class="card">
+				<div class="card-body">
+					<form class="row g-5" method="post">
+						<input type="hidden" name="id" value="<%= client.getId() %>" >
+						<div class="col-md-4">
+							<input type="text" name="address" class="form-control" value="<%= ab.getAdresse() %>">
+						</div>
+						<div class="col-md-2">
+							<input type="text" name="cp" class="form-control" value="<%= ab.getCp() %>">
+						</div>
+						<div class="col-md-2">
+							<input type="text" name="city" class="form-control" value="<%= ab.getVille() %>">
+						</div>
+						<div class="col-md-2">
+							<input type="text" name="country" class="form-control" value="<%= ab.getPays() %>">
+						</div>
+						<div class="col-auto">
+							<button type="submit" class="btn btn-warning" name="updateAddressForm">Mettre à jour</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		<%
+		}
+		%>
+			
+			
+			
+			
+			
+					
 		</main>
 		<!--end page main-->
 
@@ -310,6 +512,27 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
   <!-- AFFICHER LES GRAPHIQUES AVEC CHARTJS -->
   <!-- <script src="assets/js/index2.js"></script> -->
   <script type="text/javascript">
+  /* $(document).ready(function () {
+	
+	DATATABLE
+	Alimente le alert ci-dessous
+	var table = $('#userTable').DataTable({
+		columnDefs: [
+			{
+				orderable: true,
+				targets: [1, 2, 3],
+			},
+		],
+	}); 
+	 
+	$('button').click(function () {
+		var data = table.$('input, select').serialize();
+		alert('The following data would have been submitted to the server: \n\n' + data.substr(0, 120) + '...');
+		return true;
+	});
+	
+  }); */
+  
   $(function() {
 		"use strict";
 
