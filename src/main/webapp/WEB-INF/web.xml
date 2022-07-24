@@ -239,4 +239,14 @@
     <servlet-name>UserVisitorList</servlet-name>
     <url-pattern>/UserVisitorList</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserClientCard</display-name>
+    <servlet-name>UserClientCard</servlet-name>
+    <servlet-class>control.UserClientCard</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserClientCard</servlet-name>
+    <url-pattern>/UserClientCard</url-pattern>
+  </servlet-mapping>
 </web-app>

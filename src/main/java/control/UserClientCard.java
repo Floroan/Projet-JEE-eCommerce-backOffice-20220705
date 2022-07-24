@@ -3,26 +3,26 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import dao.ProduitDAO;
 import dao.UtilisateurDAO;
 import dao.VisiteDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Utilisateur;
-import tools.DataTablesListeProspects;
+import model.Produit;
 import tools.Database;
 
 /**
- * Servlet implementation class UserProspect
+ * Servlet implementation class UserClientCard
  */
-public class UserProspectList extends HttpServlet {
+public class UserClientCard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserProspectList() {
+    public UserClientCard() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,35 +35,41 @@ public class UserProspectList extends HttpServlet {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 		
+		int id = Integer.parseInt( request.getParameter("id") );
+		
 		Database.Connect();
 		
 		UtilisateurDAO ud = new UtilisateurDAO();
 		VisiteDAO vd = new VisiteDAO();
+		ProduitDAO pd = new ProduitDAO();
 		
-		// DATATABLE : LISTE DES PROSPECTS
-		// Les prospects sont des Users qui n’ont jamais acheté (Order)
-		ArrayList<Utilisateur> u = ud.getAllProspect();
-		ArrayList<DataTablesListeProspects> dcList = new ArrayList<DataTablesListeProspects>();
+		/*
+		 * CAMEMBERT id="chart9" : clique(s) par article
+		 */
+		ArrayList<Produit> pbCol = pd.getAll();
 		
-		for ( Utilisateur ubOne : u) {
+		String title = "";
+		String counts = "";
 		
-			DataTablesListeProspects dc = new DataTablesListeProspects();
+		for (Produit p : pbCol) {
 			
-			int id = ubOne.getId(); 
-			
-			dc.setId( id );
-			dc.setName( ubOne.getNom() );
-			dc.setMail( ubOne.getEmail() );
-			dc.setDateLastVisit( vd.dateLastVisit( id ) );
-			dc.setNumberOfProductsViewed( vd.numberOfProductsViewedBy( id ) );
-			dc.setSumOfProductClicks( vd.sumOfProductClicks( id ) );
-						
-			dcList.add(dc);
+			title += "'" + p.getTitre().substring(0, 10) + "',";
+			counts += vd.sumOfProductClicksByOneUserForOneProduct(id, p.getId()) + ",";
 			
 		}
+		title.substring( 0, title.length() - 1 ); // retirer la ,
+		counts.substring( 0, counts.length() - 1 );
 		
-		request.setAttribute("dcList", dcList);
-		request.getRequestDispatcher("userProspectList.jsp").forward(request, response);
+		/*
+		 * GRAPHIQUE id="chart5" : total clique(s) par mois
+		 */
+		String cliksPerProduct = vd.countAllProductClicksByOneUserPerEachMonthOfTheCurrentYear(id);
+		
+		request.setAttribute("char_cats_titre", title);
+		request.setAttribute("char_cats_nbr", counts);
+		request.setAttribute("cliksPerProduct", cliksPerProduct);
+		request.getRequestDispatcher("userClientCard.jsp").forward(request, response);
+		
 	}
 
 	/**

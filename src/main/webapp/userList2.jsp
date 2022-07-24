@@ -4,7 +4,9 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="model.Utilisateur"%>
 <% 
-ArrayList<Utilisateur> u = (ArrayList<Utilisateur>) request.getAttribute("utilisateur");
+Utilisateur visiteurs = (Utilisateur) request.getAttribute("visiteurs");
+ArrayList<Utilisateur> clients = (ArrayList<Utilisateur>) request.getAttribute("clients");
+ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute("prospects");
 %>
 <!doctype html>
 <html lang="fr">
@@ -113,10 +115,11 @@ ArrayList<Utilisateur> u = (ArrayList<Utilisateur>) request.getAttribute("utilis
 						<form id="form-id" method="post" action="UserList"> 
 							<button type="submit" name="update" class="btn btn-primary btn-block">Mettre à jour</button>
 							<p></p>
-							<table id="example" class="display" style="width:100%">
+							<table id="userTable" class="display" style="width:100%">
 								<thead>
 								<tr>
 									<th>Inscrit(e) le</th>
+									<th>Catégorie</th>
 									<th>ID</th>
 									<th>Nom</th>
 									<th>Prénom</th>
@@ -126,49 +129,130 @@ ArrayList<Utilisateur> u = (ArrayList<Utilisateur>) request.getAttribute("utilis
 								</tr>
 							</thead>
 								<tbody>
+									<tr>
+										<td>
+										<%
+										String d = DateManipulator.dateConvertToDDmmYYYY( visiteurs.getDate_inscription() );
+										
+										%>
+											<%= d %>
+										</td>
+										<td>Visiteurs</td>
+										<td>
+											<input type="text" id="row-1-id" name="row-1-id" value="1" <%-- name="id"--%> class='form-control-plaintext' readonly>
+										</td>
+										<td>
+											<input type="text" id="row-1-nom" name="row-1-nom" value="<%= visiteurs.getNom() %>" <%-- name="<%= client.getNom() %>" --%>>
+										</td>
+										<td>
+											<input type="text" id="row-1-prenom" name="row-1-prenom" value="<%= visiteurs.getPrenom() %>" <%-- name="<%= client.getPrenom() %>" --%>>
+										</td>
+										<td>
+											<input type="text" id="row-1-mail" name="row-1-mail" value="<%= visiteurs.getEmail() %>" <%-- name='<%= client.getEmail() %>' --%>>
+										</td>
+									
+										<td class="text-center">
+											<b style="color: RED;">impossible</b>
+										</td>
+									
+										<td class="text-center">
+		                                    <%-- <a href="UserCard?id=<%=client.getId() %>" class="btn btn-warning btn-block"><i class="bi bi-pencil-fill"></i></a> --%>
+		                                    <a href="UserVisitorCard" class="btn btn-sm btn-primary px-5"><i class="fa-solid fa-eye"></i></a>
+	                                    </td>
+									</tr>
 								<% 
-								int i = 0;
-								for( Utilisateur cmd : u ) {
+								int i = 1;
+								for( Utilisateur client : clients ) {
 									i++;
 								%>
 									<tr>
 										<td>
 										<%
-										String d = DateManipulator.dateConvertToDDmmYYYY( cmd.getDate_inscription() );
+										String dc = DateManipulator.dateConvertToDDmmYYYY( client.getDate_inscription() );
 										
 										%>
-											<%= d %>
+											<%= dc %>
+										</td>
+										<td>Client</td>
+										<td>
+											<input type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= client.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
 										</td>
 										<td>
-											<input type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= cmd.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
+											<input type="text" id="row-<%= i %>-nom" name="row-<%= i %>-nom" value="<%= client.getNom() %>" <%-- name="<%= client.getNom() %>" --%>>
 										</td>
 										<td>
-											<input type="text" id="row-<%= i %>-nom" name="row-<%= i %>-nom" value="<%= cmd.getNom() %>" <%-- name="<%= cmd.getNom() %>" --%>>
+											<input type="text" id="row-<%= i %>-prenom" name="row-<%= i %>-prenom" value="<%= client.getPrenom() %>" <%-- name="<%= client.getPrenom() %>" --%>>
 										</td>
 										<td>
-											<input type="text" id="row-<%= i %>-prenom" name="row-<%= i %>-prenom" value="<%= cmd.getPrenom() %>" <%-- name="<%= cmd.getPrenom() %>" --%>>
-										</td>
-										<td>
-											<input type="text" id="row-<%= i %>-mail" name="row-<%= i %>-mail" value="<%= cmd.getEmail() %>" <%-- name='<%= cmd.getEmail() %>' --%>>
+											<input type="text" id="row-<%= i %>-mail" name="row-<%= i %>-mail" value="<%= client.getEmail() %>" <%-- name='<%= client.getEmail() %>' --%>>
 										</td>
 									<%
-									if ( cmd.getArchiver() == 0 ) {
+									if ( client.getArchiver() == 0 ) {
 									%>
 										<td class="text-center">
-											<a href="UserList?id=<%=cmd.getId() %>&archived=isNotArchived" class="btn btn-success btn-block"><i class="fa-solid fa-file-circle-plus"></i></a>
+											<a href="UserList?id=<%=client.getId() %>&archived=isNotArchived" class="btn btn-sm btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
 										</td>
 									<%
 									} else {
 									%>
 										<td class="text-center">
-											<a href="UserList?id=<%=cmd.getId() %>&archived=isArchived" class="btn btn-danger btn-block"><i class="fa-solid fa-file-circle-minus"></i></a>
+											<a href="UserList?id=<%=client.getId() %>&archived=isArchived" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
 										</td>
 									<%
 									}
 									%>
 										<td class="text-center">
-		                                    <%-- <a href="UserCard?id=<%=cmd.getId() %>" class="btn btn-warning btn-block"><i class="bi bi-pencil-fill"></i></a> --%>
-		                                    <a href='UserCard?id=<%= cmd.getId() %>';" class="btn btn-primary btn-block"><i class="fa-solid fa-eye"></i></a>
+		                                    <%-- <a href="UserCard?id=<%=client.getId() %>" class="btn btn-warning btn-block"><i class="bi bi-pencil-fill"></i></a> --%>
+		                                    <a href="UserClientCard?id=<%= client.getId() %>" class="btn btn-sm btn-primary px-5"><i class="fa-solid fa-eye"></i></a>
+	                                   </td>
+									</tr>
+								<%
+								} 
+								%>
+								<% 
+								int j = clients.size() + 1;
+								for( Utilisateur prospect : prospects ) {
+									j++;
+								%>
+									<tr>
+										<td>
+										<%
+										String dp = DateManipulator.dateConvertToDDmmYYYY( prospect.getDate_inscription() );
+										
+										%>
+											<%= dp %>
+										</td>
+										<td>Prospect</td>
+										<td>
+											<input type="text" id="row-<%= j %>-id" name="row-<%= j %>-id" value="<%= prospect.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
+										</td>
+										<td>
+											<input type="text" id="row-<%= j %>-nom" name="row-<%= j %>-nom" value="<%= prospect.getNom() %>" <%-- name="<%= prospect.getNom() %>" --%>>
+										</td>
+										<td>
+											<input type="text" id="row-<%= j %>-prenom" name="row-<%= j %>-prenom" value="<%= prospect.getPrenom() %>" <%-- name="<%= prospect.getPrenom() %>" --%>>
+										</td>
+										<td>
+											<input type="text" id="row-<%= j %>-mail" name="row-<%= j %>-mail" value="<%= prospect.getEmail() %>" <%-- name='<%= prospect.getEmail() %>' --%>>
+										</td>
+									<%
+									if ( prospect.getArchiver() == 0 ) {
+									%>
+										<td class="text-center">
+											<a href="UserList?id=<%=prospect.getId() %>&archived=isNotArchived" class="btn btn-sm btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
+										</td>
+									<%
+									} else {
+									%>
+										<td class="text-center">
+											<a href="UserList?id=<%=prospect.getId() %>&archived=isArchived" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
+										</td>
+									<%
+									}
+									%>
+										<td class="text-center">
+		                                    <%-- <a href="UserCard?id=<%=prospect.getId() %>" class="btn btn-warning btn-block"><i class="bi bi-pencil-fill"></i></a> --%>
+		                                    <a href="UserProspectCard?id=<%= prospect.getId() %>" class="btn btn-sm btn-primary px-5"><i class="fa-solid fa-eye"></i></a>
 	                                   </td>
 		                                   
 										</tr>
@@ -307,7 +391,7 @@ ArrayList<Utilisateur> u = (ArrayList<Utilisateur>) request.getAttribute("utilis
 	    
 	    /* POUR ALIMENTER LE ALERT CI-DESSOUS 	    
 	*/
-		var table = $('#example').DataTable({
+		var table = $('#userTable').DataTable({
 			columnDefs: [
 				{
 					orderable: true,
@@ -318,7 +402,7 @@ ArrayList<Utilisateur> u = (ArrayList<Utilisateur>) request.getAttribute("utilis
 	 
 		$('button').click(function () {
 			var data = table.$('input, select').serialize();
-			alert('The following data would have been submitted to the server: \n\n' + data.substr(0, 120) + '...');
+			/* alert('The following data would have been submitted to the server: \n\n' + data.substr(0, 120) + '...'); */
 			return true;
 		}); 
 	});

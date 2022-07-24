@@ -40,12 +40,13 @@ public class UserList extends HttpServlet {
 		// BOUTON ARCHIVER
 		if ( request.getParameter("archived") != null ) {
 			
-			if ( request.getParameter( "archived") .equals( "isArchived" ) ) {
+			if ( request.getParameter( "archived").equals( "isArchived" ) ) {
 				
 				int id = Integer.parseInt( request.getParameter("id") );
 				ud.archiverById(id, 0);
 				
-			} else {
+			} 
+			if ( request.getParameter( "archived").equals( "isNotArchived" ) ) {
 				
 				int id = Integer.parseInt( request.getParameter("id") );
 				ud.archiverById(id, 1);
@@ -126,7 +127,9 @@ public class UserList extends HttpServlet {
 		
 		// BOUTON METTRE À JOUR AVEC LE DATATABLE EDITOR : userList3EDITOR.jsp
 		
-		request.setAttribute("utilisateur", ud.getAll());
+		request.setAttribute("visiteurs", ud.getById(1));
+		request.setAttribute("clients", ud.getAllClients());
+		request.setAttribute("prospects", ud.getAllProspect());
 		request.getRequestDispatcher("userList2.jsp").forward(request, response);
 	}
 

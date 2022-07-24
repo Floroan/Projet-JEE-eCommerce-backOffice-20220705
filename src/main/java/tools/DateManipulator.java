@@ -24,4 +24,17 @@ public class DateManipulator {
 			return date;
 			
 		}
+		
+		public static String dateGetCurrentYYYY () {
+			
+			System.currentTimeMillis();
+			
+			SimpleDateFormat formatter =  new SimpleDateFormat("yyyy");
+			
+			Date date = new Date(System.currentTimeMillis());
+			
+			String year = formatter.format(date);
+			
+			return year;
+		}
 }

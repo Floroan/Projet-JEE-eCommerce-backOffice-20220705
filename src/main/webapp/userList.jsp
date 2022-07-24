@@ -158,8 +158,8 @@ ArrayList<Utilisateur> u = (ArrayList<Utilisateur>) request.getAttribute("utilis
 									%>
 											<td class="text-center">
 			                                    <%-- <a href="UserCard?id=<%=cmd.getId() %>" class="btn btn-warning btn-block"><i class="bi bi-pencil-fill"></i></a> --%>
-			                                    <button type="submit" name="update" class="btn btn-primary btn-block">Mettre à jour</button>                                 
-			                                    <a href='UserCard?id=<%= cmd.getId() %>';" class="btn btn-primary btn-block"><i class="fa-solid fa-eye"></i></a>
+			                                    <button type="submit" name="update" class="btn btn-sm btn-primary px-5">Mettre à jour</button>                                 
+			                                    <a href='UserCard?id=<%= cmd.getId() %>';" class="btn btn-sm btn-primary px-5"><i class="fa-solid fa-eye"></i></a>
 		                                   </td>
 		                                   
 										</tr>

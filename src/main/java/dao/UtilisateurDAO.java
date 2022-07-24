@@ -316,6 +316,7 @@ public class UtilisateurDAO {
 				o.setDate_inscription(rs.getDate("date_inscription"));
 				o.setEmail(rs.getString("email"));
 				o.setPassword(rs.getString("password"));
+				o.setArchiver(rs.getInt("archiver"));
 				
 				ArrayList<Commande> orders = od.getAllByClient( o.getId() );
 				o.setCommandes(orders);
@@ -343,7 +344,7 @@ public class UtilisateurDAO {
 			VisiteDAO vd = new VisiteDAO();
 			
 			PreparedStatement ps = Database.connexion
-				.prepareStatement("SELECT * FROM `utilisateurs` WHERE id NOT IN(SELECT fk_utilisateur FROM `commandes`)");
+				.prepareStatement("SELECT * FROM `utilisateurs` WHERE id!=1 AND id NOT IN(SELECT fk_utilisateur FROM `commandes`)");
 
 			ResultSet rs = ps.executeQuery();
 			
@@ -357,6 +358,7 @@ public class UtilisateurDAO {
 				o.setDate_inscription(rs.getDate("date_inscription"));
 				o.setEmail(rs.getString("email"));
 				o.setPassword(rs.getString("password"));
+				o.setArchiver(rs.getInt("archiver"));
 				
 				ArrayList<Visite> v = vd.getAllByClient( o.getId() );
 				o.setVisites(v);
@@ -384,7 +386,9 @@ public class UtilisateurDAO {
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {
+				
 				Utilisateur u = new Utilisateur();
+				
 				u.setId(resultat.getInt("id"));
 				u.setNom(resultat.getString("nom"));
 				u.setPrenom(resultat.getString("prenom"));

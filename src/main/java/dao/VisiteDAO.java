@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import model.Produit;
 import model.Utilisateur;
 import model.Visite;
+import tools.DaoTools;
 import tools.Database;
 
 public class VisiteDAO {
@@ -292,5 +293,16 @@ public class VisiteDAO {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	// COUNT ALL PRODUCT CLICKS BY ONE USER PER EACH MONTH OF THE CURRENT YEAR
+	// return String
+	public String countAllProductClicksByOneUserPerEachMonthOfTheCurrentYear (int fk_user) {
+		
+		DaoTools dt = new DaoTools();
+		String paramGraph =  dt.countAllClicksByOneUserPerEachMonthOfTheCurrentYearForOneTable(fk_user, "visites");
+		
+		return paramGraph;
+
 	}
 }
