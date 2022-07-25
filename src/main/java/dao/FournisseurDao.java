@@ -53,6 +53,7 @@ public class FournisseurDao {
 				while(resultat.next()) {
 					u.setId(resultat.getInt( "id" ));
 					u.setNom(resultat.getString( "nom" ));
+					u.setArchiver(resultat.getInt( "archiver" ));
 					
 				}
 				return u;
@@ -77,6 +78,7 @@ public class FournisseurDao {
 					Fournisseur o = new Fournisseur();
 					o.setId(resultat.getInt( "id" ));
 					o.setNom(resultat.getString( "nom" ));
+					o.setArchiver(resultat.getInt("archiver"));
 					list.add(o);
 				}
 				

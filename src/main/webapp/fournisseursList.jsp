@@ -1,10 +1,11 @@
-<%@page import="tools.DateManipulator"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="utf-8"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="tools.DataTablesListeProspects"%>
-<% 
-ArrayList<DataTablesListeProspects> dcList = (ArrayList) request.getAttribute("dcList");
+<%@ page import="model.Fournisseur"%>
+<%@ page import="model.Entree_stock"%>
+<%@page import="tools.DateManipulator"%>
+<%
+ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 %>
 <!doctype html>
 <html lang="fr">
@@ -40,13 +41,10 @@ ArrayList<DataTablesListeProspects> dcList = (ArrayList) request.getAttribute("d
   <!-- FONTAWESOME -->
   <script src="https://kit.fontawesome.com/bff2375f4b.js" crossorigin="anonymous"></script>
 
-  <title>Prospects</title>
+  <title>Fournisseurs</title>
 </head>
 
-<body>
-
-
-  <!--start wrapper-->
+<!--start wrapper-->
   <div class="wrapper">
     
 		<!--start top header-->
@@ -59,98 +57,85 @@ ArrayList<DataTablesListeProspects> dcList = (ArrayList) request.getAttribute("d
 
 
        <!--start content-->
-       <main class="page-content">
-				<!--breadcrumb-->
-				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">Tables</div>
-					<div class="ps-3">
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb mb-0 p-0">
-								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-								</li>
-								<li class="breadcrumb-item active" aria-current="page">Data Table</li>
-							</ol>
-						</nav>
-					</div>
-					<div class="ms-auto">
-						<div class="btn-group">
-							<button type="button" class="btn btn-primary">Settings</button>
-							<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-							</button>
-							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-								<a class="dropdown-item" href="javascript:;">Another action</a>
-								<a class="dropdown-item" href="javascript:;">Something else here</a>
-								<div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-							</div>
+		<main class="page-content">
+		
+			<h6 class="mb-0 text-uppercase">Liste des fournisseurs</h6>
+			<hr/>
+			<div class="row">
+				<div class="col-xl-6 mx-auto">
+					<div class="card">
+						<div class="card-body">
+							<form class="row g-2" method="post">
+								<div class="col-md-6">
+									<input type="text" name="nom" class="form-control" placeholder="Nom du fournisseur" aria-label="First name">
+								</div>
+								<div class="col-md-6">
+									<div class="d-grid">
+										<button type="submit" class="btn btn-primary" name="addFournisseurForm">Ajouter</button>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
-				</div>
-				<!--end breadcrumb-->
-				<h6 class="mb-0 text-uppercase">Liste des prospects</h6>
-				<hr/>
-				<div class="card">
-					<div class="card-body">
-						<div class="table-responsive">
-							<table id="example" class="table table-striped table-bordered" style="width:100%">
-								<thead>
-								<tr>
-									<th>Nom</th>
-									<th>Mail</th>
-									<th class="text-center">Dernière visite</th>
-									<th class="text-center">Articles vus</th>
-									<th class="text-center">Total clicks</th>
-									<th class="text-center dt-no-sorting">Fiche prospect</th>
-								</tr>
-							</thead>
-								<tbody>
-								<%
-	                            for ( DataTablesListeProspects client : dcList) {
-	                            %>
-	                                <tr>
-	                                    <td><%= client.getName() %></td>
-	                                    <td><%= client.getMail() %></td>
-	                                    <%
-	                                    if ( client.getDateLastVisit() != null ) {
-	                                    	String d = DateManipulator.dateConvertToDDmmYYYY( client.getDateLastVisit() );
-	                                    %>
-	                                    <td class="text-center"><%= d %></td>	                                    
-	                                    <%
-	                                    } else {
-	                                    %>
-	                                    <td class="text-center">aucune</td>
-	                                    <%
-	                                    }
-	                                    %>
-	                                    <td class="text-center"><%= client.getNumberOfProductsViewed() %></td>
-	                                    <td class="text-center"><%= client.getSumOfProductClicks() %></td>
-	                                    
-	                                    <td class="text-center">
-	                                    	<a href='ProspectCard?id=<%= client.getId() %>';" class="btn btn-sm btn-primary px-5"><i class="fa-solid fa-eye"></i></a>
-	                                    </td>
-	                                </tr>
-	                            <%
-	                            }
-	                            %>
-								</tbody>
-								<!-- <tfoot>
-									<tr>
-										<th>Name</th>
-										<th>Position</th>
-										<th>Office</th>
-										<th>Age</th>
-										<th>Start date</th>
-										<th>Salary</th>
-									</tr>
-								</tfoot> -->
-							</table>
+					
+					<!-- boucle -->
+				<%
+				for ( Fournisseur fb : fbCol ) {
+				%>
+					<div class="card">
+						<div class="card-body">
+							<form class="row g-2" method="post">
+								<input type="hidden" name="idFournisseur" value="<%= fb.getId() %>" >
+								<div class="col-md-6">
+									<input type="text" name="nom" class="form-control" value="<%= fb.getNom() %>">
+								</div>
+								<div class="col-md-3">
+									<div class="d-grid">
+										<button type="submit" class="btn btn-warning" name="updateFournisseurForm">Mettre à jour</button>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="d-grid">
+										<a href="FournisseursList?id=<%= fb.getId() %>&idFournisseur=<%= fb.getId() %>&delete=ok" class="btn btn-danger" name="addAddressForm">Supprimer</a>
+									</div>
+								</div>
+					<%
+					if ( fb.getArchiver() == 0 ) {
+					%>
+								<div class="col-md-6">
+									<p>Le compte de ce client est actif.<br>Voulez-vous l’archiver ?</p>
+								</div>
+								<div class="col-md-6">
+									<div class="d-grid">
+										<a href="FournisseursList?id=<%=fb.getId() %>&archived=isNotArchived" class="btn btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
+									</div>
+								</div>
+					<%
+					} else {
+					%>
+								<div class="col-md-6">
+									<p>Le compte de ce client est archivé.<br>Voulez-vous le réactiver ?</p>
+								</div>
+								<div class="col-md-6">
+									<div class="d-grid">
+										<a href="FournisseursList?id=<%=fb.getId() %>&archived=isArchived" class="btn btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
+									</div>
+								</div>
+					<%
+					}
+					%>
+							</form>
 						</div>
 					</div>
+				<%
+				}
+				%>
 				</div>
-			</main>
-       <!--end page main-->
-
-
-       <!--start overlay-->
+			</div>
+		</main>
+		<!--end page main-->
+		
+<!--start overlay-->
         <div class="overlay nav-toggle-icon"></div>
        <!--end overlay-->
 
@@ -233,7 +218,26 @@ ArrayList<DataTablesListeProspects> dcList = (ArrayList) request.getAttribute("d
   <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
   <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
   <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+  
+  <!-- CARTE GRAPHIQUE -->
+  <!-- <script src="assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+  <script src="assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script> -->
+  
   <script src="assets/js/pace.min.js"></script>
+  
+  <!-- GRAPHIQUE -->
+  	<!--
+  	ChartJS : https://www.chartjs.org/
+  	-->
+  <script src="assets/plugins/chartjs/js/Chart.min.js"></script>
+  <script src="assets/plugins/chartjs/js/Chart.extension.js"></script>
+  	<!-- 
+  		Apex Charts : https://apexcharts.com/docs/options/plotoptions/pie/#labels 
+  	-->
+  <script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+  <!-- AFFICHER LES GRAPHIQUES AVEC APEXCHARTS -->
+  <!-- <script src="assets/plugins/apexcharts-bundle/js/apex-custom.js"></script> -->
+  
   <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
   <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
   <script src="assets/js/table-datatable.js"></script>
@@ -243,4 +247,4 @@ ArrayList<DataTablesListeProspects> dcList = (ArrayList) request.getAttribute("d
   
 </body>
 
-</html>
+</html>		

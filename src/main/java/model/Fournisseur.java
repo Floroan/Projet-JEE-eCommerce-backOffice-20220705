@@ -4,15 +4,16 @@ public class Fournisseur {
 
 	private int id, archiver;
 	private String nom;
-	
-	public Fournisseur(int id, String nom) {
-		super();
-		this.id = id;
-		this.nom = nom;
-	}
 
 	public Fournisseur() {
 		super();
+	}
+
+	public Fournisseur(int id, int archiver, String nom) {
+		super();
+		this.id = id;
+		this.archiver = archiver;
+		this.nom = nom;
 	}
 
 	public int getId() {
@@ -23,16 +24,6 @@ public class Fournisseur {
 		this.id = id;
 	}
 
-	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-	
-	
-
 	public int getArchiver() {
 		return archiver;
 	}
@@ -41,9 +32,17 @@ public class Fournisseur {
 		this.archiver = archiver;
 	}
 
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
 	@Override
 	public String toString() {
 		return "Fournisseur [id=" + id + ", archiver=" + archiver + ", nom=" + nom + "]";
 	}
-	
+
 }

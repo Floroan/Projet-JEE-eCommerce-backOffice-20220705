@@ -273,8 +273,6 @@ public class UserClientCard extends HttpServlet {
 			Adresse_livraison ab = new Adresse_livraison();
 			
 			int idAddress = Integer.parseInt( request.getParameter("idAddress") );
-			System.out.println("request : " + request.getParameter("idAddress"));
-			System.out.println("idAddress : " + idAddress);
 			String address = request.getParameter( "address" );
 			String cp = request.getParameter( "cp" );
 			String ville = request.getParameter( "city" );
@@ -286,7 +284,7 @@ public class UserClientCard extends HttpServlet {
 			ab.setCp(cp);
 			ab.setVille(ville);
 			ab.setPays(pays);
-			System.out.println(ab);
+			
 			ad.save(ab);
 			
 			response.sendRedirect("UserClientCard?id=" + id);

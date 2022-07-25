@@ -249,4 +249,14 @@
     <servlet-name>UserClientCard</servlet-name>
     <url-pattern>/UserClientCard</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FournisseursList</display-name>
+    <servlet-name>FournisseursList</servlet-name>
+    <servlet-class>control.FournisseursList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FournisseursList</servlet-name>
+    <url-pattern>/FournisseursList</url-pattern>
+  </servlet-mapping>
 </web-app>

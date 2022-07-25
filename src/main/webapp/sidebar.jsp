@@ -8,7 +8,7 @@
               <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
             </div>
             <div>
-              <h4 class="logo-text">Onedash</h4>
+              <h4 class="logo-text">HyTek</h4>
             </div>
             <div class="toggle-icon ms-auto"> <i class="bi bi-list"></i>
             </div>
@@ -20,7 +20,7 @@
                 </div>
                 <div class="menu-title">Dashboard</div>
               </a>
-            <li>
+            <!-- <li>
               <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bi bi-grid-fill"></i>
                 </div>
@@ -40,7 +40,7 @@
                 <li> <a href="app-fullcalender.html"><i class="bi bi-circle"></i>Calendar</a>
                 </li>
               </ul>
-            </li>
+            </li> -->
             <li class="menu-label">Gestion générale</li>
             <li>
               <a href="javascript:;" class="has-arrow">
@@ -86,10 +86,9 @@
                 <div class="menu-title">Fournisseurs</div>
               </a>
               <ul>
-                <li> <a href="TableCommandes?"><i class="bi bi-circle"></i>Achats en cours</a>
-                </li>
-                <li> <a href="ecommerce-orders-detail.html"><i class="bi bi-circle"></i>Historique</a>
-                </li>
+                <li> <a href="#"><i class="bi bi-circle"></i>Achats en cours</a></li>
+                <li> <a href="#"><i class="bi bi-circle"></i>Historique</a></li>
+                <li> <a href="FournisseursList"><i class="bi bi-circle"></i>Fournisseurs</a></li>
               </ul>
             </li>
             <li class="menu-label">Gestion des utilisateurs</li>

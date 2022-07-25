@@ -44,7 +44,7 @@ ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
   <!-- FONTAWESOME -->
   <script src="https://kit.fontawesome.com/bff2375f4b.js" crossorigin="anonymous"></script>
 
-  <title>Clients</title>
+  <title><%= client.getNom() %> <%= client.getPrenom() %></title>
 </head>
 
 <body>
