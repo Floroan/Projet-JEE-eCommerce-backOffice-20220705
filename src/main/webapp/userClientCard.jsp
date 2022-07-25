@@ -1051,6 +1051,7 @@ ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
    	    	show: true,
    	    	showForSingleSeries: true,
    	      	showForNullSeries: true,
+   	     	showForZeroSeries: true,
    	    	position: 'right',
    	    	horizontalAlign: 'center',
    	    	onItemClick: {

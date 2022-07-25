@@ -88,17 +88,30 @@ public class UserClientCard extends HttpServlet {
 		 * CAMEMBERT Cliques par article - id="chart9" : clique(s) par article
 		 */
 		ArrayList<Produit> pbCol = pd.getAll();
+		ArrayList<Integer> countsCol = new ArrayList<>();
 		
 		String title = "";
 		String counts = "";
 		
 		for (Produit p : pbCol) {
 			
-			title += "'" + p.getTitre().substring(0, 10) + "',";
-			counts += vd.sumOfProductClicksByOneUserForOneProduct(id, p.getId()) + ",";
+			countsCol.add( vd.sumOfProductClicksByOneUserForOneProduct( id, p.getId() ) );
 			
 		}
-		title.substring( 0, title.length() - 1 ); // retirer la ,
+		
+		int i = -1;
+		for (Produit p : pbCol) {
+			
+			i++;
+			
+			if ( countsCol.get(i) > 0 ) {
+				
+				title += "'" + p.getTitre().substring(0, 10) + "',";
+				counts += vd.sumOfProductClicksByOneUserForOneProduct(id, p.getId()) + ",";
+				
+			}
+		}
+		title.substring( 0, title.length() - 1 ); // retirer la dernière virgule
 		counts.substring( 0, counts.length() - 1 );
 		
 		/*
