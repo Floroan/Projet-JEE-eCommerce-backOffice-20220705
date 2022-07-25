@@ -10,8 +10,8 @@ public class Entree_stock {
 	private Fournisseur f;
 	private Produit p;
 	
-	public Entree_stock(int id, int fk_fournisseur, int fk_produit, int qte, int archiver, Date date, Fournisseur f,
-			Produit p) {
+	public Entree_stock(int id, int fk_fournisseur, int fk_produit, int qte, 
+			int archiver, Date date, Fournisseur f, Produit p) {
 		super();
 		this.id = id;
 		this.fk_fournisseur = fk_fournisseur;

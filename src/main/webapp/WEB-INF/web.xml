@@ -259,4 +259,14 @@
     <servlet-name>FournisseursList</servlet-name>
     <url-pattern>/FournisseursList</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FournisseursHistoriqueAchat</display-name>
+    <servlet-name>FournisseursHistoriqueAchat</servlet-name>
+    <servlet-class>control.FournisseursHistoriqueAchat</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FournisseursHistoriqueAchat</servlet-name>
+    <url-pattern>/FournisseursHistoriqueAchat</url-pattern>
+  </servlet-mapping>
 </web-app>

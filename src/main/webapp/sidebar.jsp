@@ -87,7 +87,7 @@
               </a>
               <ul>
                 <li> <a href="#"><i class="bi bi-circle"></i>Achats en cours</a></li>
-                <li> <a href="#"><i class="bi bi-circle"></i>Historique</a></li>
+                <li> <a href="FournisseursHistoriqueAchat"><i class="bi bi-circle"></i>Historique</a></li>
                 <li> <a href="FournisseursList"><i class="bi bi-circle"></i>Fournisseurs</a></li>
               </ul>
             </li>
