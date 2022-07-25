@@ -151,9 +151,14 @@ public class UserClientCard extends HttpServlet {
 				
 			}
 		}
-		// AFFICHER LES ADRESSE DE LIVRAISON
-		ArrayList<Adresse_livraison> abCol = ad.getAllByClient(id);
 		
+		// DELETE ADRESSE DE LIVRAISON
+		if ( request.getParameter("delete") != null ) {
+			
+			int idAddress = Integer.parseInt( request.getParameter("idAddress") );
+			ad.deleteById(idAddress);
+			
+		}
 		
 		request.setAttribute("ub", ud.getById(id));
 		request.setAttribute("dc", dc);
@@ -168,7 +173,7 @@ public class UserClientCard extends HttpServlet {
 		request.setAttribute("totalComments", totalComments);
 		request.setAttribute("countOrdersPerMonth", countOrdersPerMonth);
 		request.setAttribute("totalCommandes", totalCommandes);
-		request.setAttribute("abCol", abCol);
+		request.setAttribute("abCol", ad.getAllByClient(id)); // AFFICHER LES ADRESSE DE LIVRAISON
 		
 		request.getRequestDispatcher("userClientCard.jsp").forward(request, response);
 		
@@ -186,7 +191,7 @@ public class UserClientCard extends HttpServlet {
 		/*
 		 * 
 		 * ATTENTION TRÈS DANGEREUX MAIS C’EST MON CHOIX ;)
-		 * toujours entrer dans getPost avec name="id" (id du user) sinon ça plante
+		 * toujours entrer dans getPost avec name="id" (id du user) sinon ça va planter
 		 * 
 		 */
 		int id = Integer.parseInt( request.getParameter("id") );
@@ -254,18 +259,22 @@ public class UserClientCard extends HttpServlet {
 			Adresse_livraisonDAO ad = new Adresse_livraisonDAO();
 			Adresse_livraison ab = new Adresse_livraison();
 			
+			int idAddress = Integer.parseInt( request.getParameter("idAddress") );
+			System.out.println("request : " + request.getParameter("idAddress"));
+			System.out.println("idAddress : " + idAddress);
 			String address = request.getParameter( "address" );
 			String cp = request.getParameter( "cp" );
 			String ville = request.getParameter( "city" );
 			String pays = request.getParameter( "country" );
 			
+			ab.setId(idAddress);
 			ab.setFk_user(id);
 			ab.setAdresse(address);
 			ab.setCp(cp);
 			ab.setVille(ville);
 			ab.setPays(pays);
 			System.out.println(ab);
-			//ad.save(ab);
+			ad.save(ab);
 			
 			response.sendRedirect("UserClientCard?id=" + id);
 			

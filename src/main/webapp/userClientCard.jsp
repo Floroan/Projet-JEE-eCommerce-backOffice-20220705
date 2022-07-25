@@ -337,13 +337,12 @@ ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
 			<hr/>
 			<div class="card">
 				<div class="card-body">
-					<form class="row g-5" method="post">
-						<input type="hidden" name="id" value="<%= client.getId() %>" >
+					<form class="row g-6" method="post">
 						<div class="col-md-4">
 							<input type="text" name="address" class="form-control" placeholder="adresse" aria-label="First name">
 						</div>
-						<div class="col-md-2">
-							<input type="text" name="cp" class="form-control" placeholder="code postal" aria-label="Last name">
+						<div class="col-md-1">
+							<input type="text" name="cp" class="form-control" placeholder="cp" aria-label="Last name">
 						</div>
 						<div class="col-md-2">
 							<input type="text" name="city" class="form-control" placeholder="ville" aria-label="Last name">
@@ -360,18 +359,16 @@ ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
 			
 			<!-- boucle -->
 		<%
-		int i = 0;
 		for ( Adresse_livraison ab : abCol ) {
-			i++;
 		%>
 			<div class="card">
 				<div class="card-body">
-					<form class="row g-5" method="post">
-						<input type="hidden" name="id" value="<%= client.getId() %>" >
+					<form class="row g-6" method="post">
+						<input type="hidden" name="idAddress" value="<%= ab.getId() %>" >
 						<div class="col-md-4">
 							<input type="text" name="address" class="form-control" value="<%= ab.getAdresse() %>">
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-1">
 							<input type="text" name="cp" class="form-control" value="<%= ab.getCp() %>">
 						</div>
 						<div class="col-md-2">
@@ -382,6 +379,7 @@ ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
 						</div>
 						<div class="col-auto">
 							<button type="submit" class="btn btn-warning" name="updateAddressForm">Mettre à jour</button>
+							<a href="UserClientCard?id=<%= client.getId() %>&idAddress=<%= ab.getId() %>&delete=ok" class="btn btn-danger" name="addAddressForm">Supprimer</a>
 						</div>
 					</form>
 				</div>
