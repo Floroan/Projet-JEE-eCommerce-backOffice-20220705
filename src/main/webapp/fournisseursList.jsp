@@ -66,10 +66,10 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 					<div class="card">
 						<div class="card-body">
 							<form class="row g-2" method="post">
-								<div class="col-md-6">
+								<div class="col-md-9">
 									<input type="text" name="nom" class="form-control" placeholder="Nom du fournisseur" aria-label="First name">
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-3">
 									<div class="d-grid">
 										<button type="submit" class="btn btn-primary" name="addFournisseurForm">Ajouter</button>
 									</div>
@@ -86,7 +86,7 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 						<div class="card-body">
 							<form class="row g-2" method="post">
 								<input type="hidden" name="idFournisseur" value="<%= fb.getId() %>" >
-								<div class="col-md-6">
+								<div class="col-md-9">
 									<input type="text" name="nom" class="form-control" value="<%= fb.getNom() %>">
 								</div>
 								<div class="col-md-3">
@@ -94,18 +94,18 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 										<button type="submit" class="btn btn-warning" name="updateFournisseurForm">Mettre à jour</button>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<%-- <div class="col-md-3">
 									<div class="d-grid">
 										<a href="FournisseursList?id=<%= fb.getId() %>&idFournisseur=<%= fb.getId() %>&delete=ok" class="btn btn-danger" name="addAddressForm">Supprimer</a>
 									</div>
-								</div>
+								</div> --%>
 					<%
 					if ( fb.getArchiver() == 0 ) {
 					%>
-								<div class="col-md-6">
-									<p>Le compte de ce client est actif.<br>Voulez-vous l’archiver ?</p>
+								<div class="col-md-9">
+									<p>Le compte de ce client est actif. Voulez-vous l’archiver ?</p>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-3">
 									<div class="d-grid">
 										<a href="FournisseursList?id=<%=fb.getId() %>&archived=isNotArchived" class="btn btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
 									</div>
@@ -113,10 +113,10 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 					<%
 					} else {
 					%>
-								<div class="col-md-6">
-									<p>Le compte de ce client est archivé.<br>Voulez-vous le réactiver ?</p>
+								<div class="col-md-9">
+									<p>Le compte de ce client est archivé. Voulez-vous le réactiver ?</p>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-3">
 									<div class="d-grid">
 										<a href="FournisseursList?id=<%=fb.getId() %>&archived=isArchived" class="btn btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
 									</div>

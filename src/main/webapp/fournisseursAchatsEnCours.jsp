@@ -44,7 +44,7 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
   <!-- FONTAWESOME -->
   <script src="https://kit.fontawesome.com/bff2375f4b.js" crossorigin="anonymous"></script>
 
-  <title>Historique</title>
+  <title>Achats</title>
 </head>
 
 <body>
@@ -91,7 +91,7 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 			</div> -->
 			<!--end breadcrumb-->
 			
-			<h6 class="mb-0 text-uppercase">Historique des achats</h6>
+			<h6 class="mb-0 text-uppercase">achats en cours</h6>
 			<hr/>
 			<div class="card">
 				<div class="card-body">
@@ -227,7 +227,7 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
                                     %>
                                     <td class="text-center"><%= d %></td>
                                     <td class="text-center"><%= e.getQte() %></td>
-                                    <td><a href="#" class="btn btn-primary px-2">Réceptionner</a></td>
+                                    <td><a href="FournisseursAchatsEnCours?receptionner=ok&idEntreeStock=<%= e.getId() %>&orderQty=<%= e.getQte() %>&idProduit=<%= e.getP().getId() %>" class="btn btn-primary px-2">Réceptionner</a></td>
                                 </tr>
                             <%
                             }

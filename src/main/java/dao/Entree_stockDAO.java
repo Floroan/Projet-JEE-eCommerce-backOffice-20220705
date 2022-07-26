@@ -28,7 +28,7 @@ public class Entree_stockDAO {
 			if (obj.getId() != 0) {
 				System.out.println("le commentaire existe déjà: UPDATE");
 				PreparedStatement preparedStatement = Database.connexion.prepareStatement(
-						"UPDATE entree_stock set id=?, fk_fournisseur=?, fk_produit=?, date=?, qte=?, archiver=? WHERE id=?");
+						"UPDATE entree_stock SET fk_fournisseur=?, fk_produit=?, date=?, qte=?, archiver=? WHERE id=?");
 				preparedStatement.setInt(1, obj.getFk_fournisseur());
 				preparedStatement.setInt(2, obj.getFk_produit());
 				preparedStatement.setDate(3, obj.getDate());
@@ -59,24 +59,26 @@ public class Entree_stockDAO {
 
 	}
 
-	public Entree_stock getById(int idProd, int idCli) {
+	public Entree_stock getById(int id) {
 		try {
 
-			PreparedStatement preparedStatement = Database.connexion
-					.prepareStatement("SELECT * FROM entree_stock WHERE fk_prod=? AND fk_user=?");
-			preparedStatement.setInt(1, idProd);
-			preparedStatement.setInt(2, idCli);
-			ResultSet resultat = preparedStatement.executeQuery();
+			PreparedStatement ps = Database.connexion
+					.prepareStatement("SELECT * FROM entree_stock WHERE id=?");
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
 
 			Entree_stock u = new Entree_stock();
-			while (resultat.next()) {
-				u.setId(resultat.getInt("id"));
-				u.setFk_fournisseur(resultat.getInt("fk_fournisseur"));
-				u.setFk_produit(resultat.getInt("fk_produit"));
-				u.setDate(resultat.getDate("date"));
-				u.setQte(resultat.getInt("qte"));
-				u.setArchiver(resultat.getInt("archiver"));
-			}
+			
+			rs.next();
+				
+			u.setId(rs.getInt("id"));
+			u.setFk_fournisseur(rs.getInt("fk_fournisseur"));
+			u.setFk_produit(rs.getInt("fk_produit"));
+			u.setDate(rs.getDate("date"));
+			u.setQte(rs.getInt("qte"));
+			u.setArchiver(rs.getInt("archiver"));
+			
 			return u;
 
 		} catch (Exception ex) {

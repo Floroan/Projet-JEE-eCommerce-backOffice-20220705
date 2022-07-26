@@ -39,12 +39,15 @@ public class FournisseursList extends HttpServlet {
 		FournisseurDao fd = new FournisseurDao();
 		
 		// DELETE FOURNISSEUR
-		if ( request.getParameter("delete") != null ) {
-			
-			int idFournisseur = Integer.parseInt( request.getParameter("idFournisseur") );
-			fd.deleteById(idFournisseur);
-			
-		}
+		// FAUX !!! 
+		// - Et si il y a des achats en cours ?
+		// - Comment se rappeler que ce fournisseur est bidon ?
+//		if ( request.getParameter("delete") != null ) {
+//			
+//			int idFournisseur = Integer.parseInt( request.getParameter("idFournisseur") );
+//			fd.deleteById(idFournisseur);
+//			
+//		}
 		
 		// BOUTON ARCHIVER FOURNISSEUR
 		if ( request.getParameter("archived") != null ) {

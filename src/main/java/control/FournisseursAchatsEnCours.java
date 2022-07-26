@@ -1,7 +1,6 @@
 package control;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import dao.Entree_stockDAO;
 import dao.FournisseurDao;
@@ -11,7 +10,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Entree_stock;
-import model.Fournisseur;
 import model.Produit;
 import tools.Database;
 
@@ -42,10 +40,6 @@ public class FournisseursAchatsEnCours extends HttpServlet {
 		ProduitDAO pd = new ProduitDAO();
 		Entree_stockDAO ed = new Entree_stockDAO();
 		FournisseurDao fd = new FournisseurDao();
-		
-		ArrayList<Produit> pbCol = pd.getAllProductToOrder();
-		ArrayList<Entree_stock> ebCol = ed.getAllToReceive();
-		ArrayList<Fournisseur> fbCol = fd.getAllNonArchiver();
 		
 		/*
 		 *  COMMANDER VIA MODAL
@@ -94,6 +88,7 @@ public class FournisseursAchatsEnCours extends HttpServlet {
 		 * FIN COMMANDE VIA MODAL
 		 */
 		
+		// SEND FROM SERVLET FournisseurCommandeForm
 		if ( request.getParameter( "orderValidated" ) != null ) {
 			
 			String orderValidated = "Votre commande est passée au statut « Réceptionner ».";
@@ -101,9 +96,34 @@ public class FournisseursAchatsEnCours extends HttpServlet {
 			
 		}
 		
-		request.setAttribute("pbCol", pbCol);
-		request.setAttribute("ebCol", ebCol);
-		request.setAttribute("fbCol", fbCol);
+		// BOUTON RÉCEPTIONNER
+		if ( request.getParameter( "receptionner" ) != null ) {
+			
+			int idEntreeStock = Integer.parseInt( request.getParameter( "idEntreeStock" ) );
+			int orderQty = Integer.parseInt( request.getParameter( "orderQty" ) );
+			int idProduit = Integer.parseInt( request.getParameter( "idProduit" ) );
+			
+			Produit pb = pd.getById(idProduit);
+			int newQty = pb.getStock() + orderQty;
+			pb.setStock(newQty);
+			//pd.save(pb);
+			
+			Entree_stock eb = ed.getById(idEntreeStock);
+			eb.setArchiver(1);
+			ed.save(eb);
+			
+			String orderValidated = "Votre commande a bien été archivée.<br>"
+					+ "Vous pouvez la retrouver dans l’ « Historique »";
+			request.setAttribute("orderValidated", orderValidated);
+			
+		}
+
+//		ArrayList<Produit> pbCol = pd.getAllProductToOrder();
+//		ArrayList<Entree_stock> ebCol = ed.getAllToReceive();
+//		ArrayList<Fournisseur> fbCol = fd.getAllNonArchiver();
+		request.setAttribute("pbCol", pd.getAllProductToOrder());
+		request.setAttribute("ebCol", ed.getAllToReceive());
+		request.setAttribute("fbCol", fd.getAllNonArchiver());
 		request.getRequestDispatcher("fournisseursAchatsEnCours.jsp").forward(request, response);
 		
 	}
