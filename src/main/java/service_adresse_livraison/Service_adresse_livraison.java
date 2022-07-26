@@ -10,20 +10,20 @@ import tools.Fields;
 
 public class Service_adresse_livraison {
 
-	private static Adresse_livraisonDAO adressDAO;
+	private  Adresse_livraisonDAO adressDAO;
 	
 	public Service_adresse_livraison() {
 		Database.Connect();	
 	}
 	
-	public static void save_une_adresse(HttpServletRequest r){
+	public void save_une_adresse(HttpServletRequest r){
 		Adresse_livraison add = new Adresse_livraison();
 		r.getParameter(null);
 		adressDAO = new Adresse_livraisonDAO();
 		adressDAO.save(add);
 	}
 	
-	public static void form_nouvelle_adresse(HttpServletRequest r, Utilisateur ut) throws NullPointerException{
+	public void form_nouvelle_adresse(HttpServletRequest r, Utilisateur ut) throws NullPointerException{
 		
 		Adresse_livraison add = new Adresse_livraison();
 		add.setAdresse(r.getParameter(Constantes.newAdresse));

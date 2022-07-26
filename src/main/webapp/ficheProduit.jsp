@@ -1,3 +1,5 @@
+<%@page import="model.Commentaire"%>
+<%@page import="tools.Constantes"%>
 <%@page import="model.Image"%>
 <%@page import="model.Sous_categorie"%>
 <%@page import="model.Produit"%>
@@ -8,9 +10,8 @@
 <html>
 
 <% Produit p = (Produit)request.getAttribute("prod"); %>
-<% ArrayList<Sous_categorie> ss_cats = (ArrayList<Sous_categorie>) request.getAttribute("ss_cats"); %>
-<% ArrayList<Image> images = (ArrayList<Image>) request.getAttribute("images"); %>
-<% Sous_categorie ss_cat_prod = (Sous_categorie)request.getAttribute("ss_cat_produit"); %>
+<% ArrayList<Commentaire> comms = (ArrayList<Commentaire>) request.getAttribute("commentaires"); %>
+
 
 <head>
 
@@ -45,7 +46,6 @@
 
 <body>
 
-
   <!--start wrapper-->
   <div class="wrapper">
   
@@ -74,119 +74,128 @@
 				<!--end breadcrumb-->
 				
 				<div class="row">
+				
 					<div class="col-xl-9 mx-auto">
 						<h6 class="mb-0 text-uppercase">Fiche du produit</h6>
 						<hr/>
 						<div class="card">
 							<div class="card-body">
 								<div class="p-4 border rounded">
-									<form class="row g-3 needs-validation" method="post">
+									<div class="row g-3" >
 										<div class="col-md-4">
-											<label for="validationCustom01" class="form-label">Produit ID</label>
-											<input type="text" class="form-control" id="validationCustom01" name="idProd" value="<%= p.getId() %>" readonly="readonly" required>	
+											<label class="form-label">Produit ID</label>
+											<p type="text"><%= p.getId() %></p>
 										</div>
-										<div class="col-md-4">
-											<label for="validationCustom02" class="form-label">Titre</label>
-											<input type="text" class="form-control" id="validationCustom02" name="titreProd" value="<%= p.getTitre() %> €" required>
-											<div class="invalid-feedback">Saisir un titre</div>
+										<div class="col-md-8">
+											<label class="form-label">Titre</label>
+											<p type="text"><%= p.getTitre() %></p>
 										</div>
-										<div class="col-md-12">
-											<label for="validationCustomUsername" class="form-label">Description</label>
-											<div class="input-group has-validation"> <span class="input-group-text" id="inputGroupPrepend"></span>
-												<textarea type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" value="" name="descripProd" required><%= p.getDescription()%></textarea>
-												<div class="invalid-feedback">Saisir une description</div>
+									</div>
+									<div class="row g-3" >
+											
+											<div class="col-md-12">
+											<label for="validationCustom03" class="form-label">Détails du produit</label>
 											</div>
-										</div>
-										<div class="col-md-12">
-										<label for="validationCustom03" class="form-label">Détails du produit</label>
-										</div>
-										<div class="col-md-12">
-											<label for="validationCustom04" class="form-label">Associer à une sous-catégorie</label>
-											<select class="form-select" id="validationCustom04" name="ssCatProd" required>
-												<option selected disabled value="">Choisir une sous-catégorie existante, actuellement: <%= ss_cat_prod.getTitre()%> </option>
-												
-												<% for(Sous_categorie sc : ss_cats ) { %>
-												<option value=<%= sc.getId() %>> <%= sc.getTitre() %></option>
-												<%}%>
-											</select>
-											<div class="invalid-feedback">Sélectionner une sous catégorie</div>
-										</div>
-
-										<div class="col-md-6">
-											<label for="validationCustom05" class="form-label">Stock</label>
-											<input type="text" class="form-control" id="validationCustom05"name="stockProd" value="<%= p.getStock() %>" required>
-										</div>
-										<div class="col-md-6">
-											<label for="validationCustom05" class="form-label">Fixer le stock minimal</label>
-											<input type="text" class="form-control" id="validationCustom05" name="stockMinProd" value="<%= p.getStock_min() %>" required>
-										</div>
-										<div class="col-md-6">
-											<label for="validationCustom05" class="form-label">Prix Unitaire</label>
-											<input type="text" class="form-control" id="validationCustom05"  name="PUProd" value="<%= p.getPrix() %>" required>
-										</div>
-							<% String archive= " "; %>
-                            <% if(p.getArchiver()==0){ archive= "non"; }else{ archive="oui";} %>
-										<div class="col-md-6">
-											<label for="validationCustom05" class="form-label">archivé ?</label>
-											<input type="text" class="form-control" id="validationCustom05"  name="archiveProd" readonly="readonly" value="<%= archive %>" required>
+											<div class="col-md-4">
+												<label for="validationCustom05" class="form-label">Stock</label>
+												<p><%= p.getStock() %></p>
+											</div>
+											<div class="col-md-4">
+												<label for="validationCustom05" class="form-label">Stock minimal</label>
+												<p><%= p.getStock_min() %></p>
+											</div>
+											<div class="col-md-4">
+												<label for="validationCustom05" class="form-label">Prix Unitaire</label>
+												<p><%= p.getPrix() %>€</p>
+											</div>
+											
 										</div>
 										
-						<div class="dropdown">
-                          <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="tooltip" data-bs-original-title="Modifier les changements apportés" >Modifier</a>
-                            </li>
-
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="tooltip" data-bs-original-title="Voulez-vous archiver ce produit ? Statut actuel <%= archive %>">Archiver</a>
-                          </ul>
-                        </div>
-						</form>
-										
-						<div class="card">
-						<label for="validationCustom03" class="form-label">Images associées</label>
-			                <div class="card-body">
-			                  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-
-			
-			                    <div class="carousel-inner">
-			                    <%int i = 0; %>
-			                    <%for( i = 0; i < p.getImages().size(); i++ ){ %>
-			                 	<% Image im = p.getImages().get(i); %> 
-			                      <div class="carousel-item <% if(i == 1){%>active<%}%>" id="slide <%=i%>">
-			                        <img src="<%= im.getUrl() %>" class="d-block w-100" alt="...">
-			                        <div class="carousel-caption d-none d-md-block">
-<!-- 												<a href="javascript:;" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit"><i class="bi bi-pencil-fill"></i></a> -->
-			                                    <a href="javascript:;" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Archiver" aria-label="Delete"><i class="lni lni-trash"></i></a>
-			                        </div>
-			                      </div>
-			                       <%} %>
-			                    </div>
-			                    
-			                    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-bs-slide="prev">	
-			                      <span class="visually-hidden">Previous</span>
-			                    </a>
-			                    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-bs-slide="next">	<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			                      <span class="visually-hidden">Next</span>
-			                    </a>
-			                  </div>
-			                </div>
-			              </div>
-
-									<label for="validationCustom03" class="form-label">Intégrer de nouvelles images</label>
-									<form method="post">
-									
-										<div class="col-md-6">
-											<input type="text" class="form-control" id="validationCustom05"name="newImage" placeholder="Coller le lien ici" >
+										<div class="col-md-12">
+											<label class="form-label">Image Principale</label>
+											<img src="<%= p.getImage() %>" class="d-block w-100" alt="...">
 										</div>
-										<div class="d-grid"><input name="recImg" class="btn btn-primary" type="submit" value="Enregistrer"></div>
-									</form>
-								</div>
-							</div>
 						</div>	
-						
-							</div>
-						</div>		
-				<!--end row-->
+						</div>
+						</div>
+					</div>	
+				</div><!--end row-->	
+				
+				
+				<div class="row">
+				 <a href="DetailProduit?id=<%= p.getId() %>" type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Modifier ce produit ?"><i class="bi bi-pencil-fill"></i></a>
+<!-- 				<button class="btn btn-primary" type="submit" name="newMainImg" >Enregistrer</button> -->
+				</div>
+				
+				<div class="row">
+				<div class="card">
+                 <div class="card-body">
+                   <div class="d-flex align-items-center">
+                   
+                      <h5 class="mb-0">Commentaires</h5>
+                       <form class="ms-auto position-relative">
+                         <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-search"></i></div>
+                         <input class="form-control ps-5" type="text" placeholder="search">
+                       </form>
+                   </div>
+                   <div class="table-responsive mt-3">
+                     <table id="example" class="table align-middle">
+                     <%if(comms.size() > 0){ %>
+                       <thead class="table-secondary">
+                         <tr>
+                          <th>ID</th>
+                          <th>Commentaire</th>
+                          <th>Nom, prénom</th>
+                          <th>Note</th>
+                          <th>Date</th>
+                          <th>Archiver</th>
+                          <th>Actions</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                       <% for (Commentaire cm : comms){ %>
+                       	<form method="post">
+                         <tr>
+                         
+                          <td><%=cm.getId() %></td>
+                          
+                           <td>
+                             <div class="d-flex align-items-center gap-3 cursor-pointer">
+                                <textarea name="areaComm" class="rounded-circle"  ><%= cm.getCommentaire() %></textarea>
+                             </div>
+                           </td>
+                           
+                           <td><%= cm.getUtilisateur().getNom() + " " + cm.getUtilisateur().getPrenom() %></td>
+                           
+                           <td><%= cm.getNote() %></td>
+                           
+                           <td><%= cm.getDate() %></td>
+                         
+                           <td><%= cm.getArchiver() %></td>
+                           
+                           <td>
+                           
+                           <input type="hidden" name="<%= Constantes.commentaireId %>" value="<%= cm.getId() %>" />
+                             <div class="table-actions d-flex align-items-center gap-3 fs-6">
+<!--                                <a href="Toto" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Voir informations & statistiques"><i class="bi bi-eye-fill"></i></a> -->
+                               <button type="submit" name="<%= Constantes.modifier %>" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editer/Corriger"><i class="bi bi-pencil-fill"></i></button>
+                               <button type="submit" name="<%= Constantes.archiver %>" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Archiver"><i class="lni lni-archive"></i></button>
+                             </div>
+                            
+                           </td>
+                         </tr>
+                          </form>
+                         <% } %>
+                         
+                       </tbody>
+                       <%}else{ %>
+                       	<tr><h3>${message }</h3></tr>
+                       <%} %>
+                     </table>
+                   </div>
+                 </div>
+               </div>
+				</div>
 			</main>
        <!--end page main-->
 
@@ -275,6 +284,9 @@
   <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
   <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   <script src="assets/js/pace.min.js"></script>
+    <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+  <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+  <script src="assets/js/table-datatable.js"></script>
   <!--app-->
   <script src="assets/js/app.js"></script>
   

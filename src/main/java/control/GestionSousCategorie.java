@@ -52,13 +52,12 @@ public class GestionSousCategorie extends HttpServlet {
 			ss_cat = new Sous_categorie();
 			ss_cat.setId(Integer.parseInt(request.getParameter("sscatId")));
 			ss_cat.setTitre(request.getParameter("sscatTitre"));
-//			ss_cat.setArchiver(Integer.parseInt(request.getParameter("ajoutArchive")));
+
 			ss_cat.setFk_categorie(Integer.parseInt(request.getParameter("changerCat")));
 			scatDao.save(ss_cat);
 		}
 		
 		if(request.getParameter("archiveSscat") != null) {
-			ss_cat = new Sous_categorie();
 			ss_cat = scatDao.getById(Integer.parseInt(request.getParameter("sscatId")));
 
 			if(ss_cat.getArchiver() == 0) {
@@ -67,7 +66,7 @@ public class GestionSousCategorie extends HttpServlet {
 			else if(ss_cat.getArchiver() == 1) {
 				ss_cat.setArchiver(0);
 			}
-			scatDao.save(ss_cat);
+			scatDao.archiverById(ss_cat);
 		}
 		
 		request.setAttribute("ss_cats", scatDao.getAll());

@@ -1,7 +1,11 @@
+<%@page import="java.util.Map"%>
+<%@page import="model.Recherche"%>
+<%@page import="model.Sous_categorie"%>
 <%@page import="model.Contact"%>
 <%@page import="model.Visite"%>
 <%@page import="model.Commande"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!doctype html>
@@ -36,11 +40,36 @@
   <link href="assets/css/header-colors.css" rel="stylesheet" />
 
   <title>Hytek Dashboard</title>
+  
+<style type="text/css">
+		body {
+		font-family: Roboto, sans-serif;
+			}
+		
+		#chart89 {
+		max-width: 800px;
+		margin: 20px auto;
+		}
+		
+		#chart88 {
+		max-width: 800px;
+		margin: 20px auto;
+		}
+		
+		#chart90 {
+		  max-width: 650px;
+		  margin: 35px auto;
+		}
+</style>
+
 </head>
 
 <body>
+<% ArrayList<Commande> commandes = (ArrayList<Commande>) request.getAttribute("commandes"); %>
 <% ArrayList<Visite> visites = (ArrayList<Visite>) request.getAttribute("totalVisites"); %>
 <% ArrayList<Contact> messagesNonLus = (ArrayList<Contact>) request.getAttribute("messagesNonLus"); %>
+<% ArrayList<Sous_categorie> sscats = (ArrayList<Sous_categorie>) request.getAttribute("sscats"); %>
+<% HashMap<Recherche, Integer> top = (HashMap<Recherche, Integer>) request.getAttribute("topRecherches"); %>
 <% double ca = (Double) request.getAttribute("total_CA"); %>
   <!--start wrapper-->
   <div class="wrapper">
@@ -157,66 +186,188 @@
 <!--               </div> -->
 
 
-              <div class="col-12 col-lg-6 d-flex">
-                <div class="card radius-10 w-100">
-                  <div class="card-body">
-                    <div class="d-flex align-items-center">
-                       <h6 class="mb-0">Produits par catégorie</h6>
-                       <div class="fs-5 ms-auto dropdown">
-                          <div class="dropdown-toggle dropdown-toggle-nocaret cursor-pointer" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></div>
-                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">Action</a></li>
-                              <li><a class="dropdown-item" href="#">Another action</a></li>
-                              <li><hr class="dropdown-divider"></li>
-                              <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row row-cols-1 row-cols-md-2 g-3 mt-2 align-items-center">
-                      <div class="col-lg-7 col-xl-7 col-xxl-8">
-                        <div class="by-device-container">
-                           <div class="piechart-legend">
-                              <h2 class="mb-1">${totalProduits }</h2>
-                              <h6 class="mb-0">Total des produits</h6>
-                           </div>
-                          <canvas id="chart6"></canvas>
-                        </div>
-                      </div>
-                      <div class="col-lg-5 col-xl-5 col-xxl-4">
-                        <div class="">
-                          <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                              <i class="bi bi-display-fill me-2 text-primary"></i> <span>Desktop - </span> <span>15.2%</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                              <i class="bi bi-phone-fill me-2 text-success"></i> <span>Mobile - </span> <span>62.3%</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                              <i class="bi bi-tablet-landscape-fill me-2 text-orange"></i> <span>Tablet - </span> <span>22.5%</span>
-                            </li>
-                          </ul>
-                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<!--               <div class="col-12 col-lg-6 d-flex"> -->
+<!--                 <div class="card radius-10 w-100"> -->
+<!--                   <div class="card-body"> -->
+<!--                     <div class="d-flex align-items-center"> -->
+<!--                        <h6 class="mb-0">Produits par catégorie</h6> -->
+<!--                        <div class="fs-5 ms-auto dropdown"> -->
+<!--                           <div class="dropdown-toggle dropdown-toggle-nocaret cursor-pointer" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></div> -->
+<!--                             <ul class="dropdown-menu"> -->
+<!--                               <li><a class="dropdown-item" href="#">Action</a></li> -->
+<!--                               <li><a class="dropdown-item" href="#">Another action</a></li> -->
+<!--                               <li><hr class="dropdown-divider"></li> -->
+<!--                               <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+<!--                             </ul> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     <div class="row row-cols-1 row-cols-md-2 g-3 mt-2 align-items-center"> -->
+<!--                       <div class="col-lg-7 col-xl-7 col-xxl-8"> -->
+<!--                         <div class="by-device-container"> -->
+<!--                            <div class="piechart-legend"> -->
+<%--                               <h2 class="mb-1">${totalProduits}</h2> --%>
+<!--                               <h6 class="mb-0">Total des produits</h6> -->
+<!--                            </div> -->
+<!--                           <canvas id="chart6"></canvas> -->
+<!--                         </div> -->
+<!--                       </div> -->
+<!--                       <div class="col-lg-5 col-xl-5 col-xxl-4"> -->
+<!--                         <div class=""> -->
+<!--                           <ul class="list-group list-group-flush"> -->
+<%--                           	<%for(Sous_categorie ss: sscats ) {%> --%>
+<!--                             <li class="list-group-item d-flex align-items-center justify-content-between border-0"> -->
+<%--                               <i class="bi me-2 text-primary"></i> <span><%= ss.getTitre() %></span> <span>15.2%</span> --%>
+<!--                             </li> -->
+<%-- 							<%} %> --%>
+<!--                           </ul> -->
+<!--                          </div> -->
+<!--                       </div> -->
+<!--                     </div> -->
+<!--                   </div> -->
+<!--                 </div> -->
+<!--               </div> -->
 
+
+
+<div id="chart90">
+<label for="validationCustom01" class="form-label">Dernières commandes sur les <select><form method="post" onchange="Dashboard"><option>7</option><option>15</option><option>30</option></form></select> derniers jours</label>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>  
+	<script>
+	var options = {
+			  chart: {
+			    height: 380,
+			    width: "100%",
+			    type: "area",
+			    animations: {
+			      initialAnimation: {
+			        enabled: false
+			      }
+			    }
+			  },
+			  series: [
+			    {
+			      name: "Series 1",
+			      data: [
+			        {
+			          x: "02-10-2017 GMT",
+			          y: 34
+			        },
+			        {
+			          x: "02-11-2017 GMT",
+			          y: 43
+			        },
+			        {
+			          x: "02-12-2017 GMT",
+			          y: 31
+			        },
+			        {
+			          x: "02-13-2017 GMT",
+			          y: 43
+			        },
+			        {
+			          x: "02-14-2017 GMT",
+			          y: 33
+			        },
+			        {
+			          x: "02-15-2017 GMT",
+			          y: 52
+			        }
+			      ]
+			    }
+			  ],
+			  xaxis: {
+			    type: "time"
+			  }
+			};
+
+			var chart = new ApexCharts(document.querySelector("#chart90"), options);
+
+			chart.render();
+
+	</script>
+
+</div>
+
+              
+	<div class="col">
+
+			<div id="chart88" class="col">
+			<label for="validationCustom01" class="form-label">Produits par catégorie</label>
+					<script>
+					var options = {
+					  series: [${char_sscats_nbr}],
+					  chart: {
+					  width: 380,
+					  type: 'pie',
+					},
+					labels: [${char_sscats_titre}],
+					responsive: [{
+					  breakpoint: 480,
+					  options: {
+					    chart: {
+					      width: 200
+					    },
+					    legend: {
+					      position: 'bottom'
+					    }
+					  }
+					}]
+					};
+					
+					var chart = new ApexCharts(document.querySelector("#chart88"), options);
+					chart.render()
+					</script>
+				</div>
+		</div>
+
+			<div id="chart89" class="col">
+			<label for="validationCustom01" class="form-label">Top 5 des mots-clés recherchés</label>
+					<script>
+					var options = {
+					  series: [${topRecherches_NBR}],
+					  chart: {
+					  width: 380,
+					  type: 'pie',
+					},
+					labels: [${topRecherches_MOTS}],
+					responsive: [{
+					  breakpoint: 480,
+					  options: {
+					    chart: {
+					      width: 200
+					    },
+					    legend: {
+					      position: 'bottom'
+					    }
+					  }
+					}]
+					};
+
+					var chart = new ApexCharts(document.querySelector("#chart89"), options);
+					chart.render()
+					</script>
+					<div class="row g-2">
+						<div class="col-md-6">
+							<form method="post" action="TopRecherches" ><button class="btn btn-primary" type="submit">Voir le tableau</button></form>
+						</div>
+					</div>
+				</div>
+
+
+        
+        
+<!--         <div class="row"> -->
+<%--         ${testChart } --%>
+<!--         </div> -->
 
               <div class="col-12 col-lg-6 d-flex">
                 <div class="card radius-10 w-100">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
                        <h6 class="mb-0">Visites par produit</h6>
-                       <div class="fs-5 ms-auto dropdown">
-                          <div class="dropdown-toggle dropdown-toggle-nocaret cursor-pointer" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></div>
-                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">Action</a></li>
-                              <li><a class="dropdown-item" href="#">Another action</a></li>
-                              <li><hr class="dropdown-divider"></li>
-                              <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </div>
+
                     </div>
                     <div class="row row-cols-1 row-cols-md-2 g-3 mt-2 align-items-center">
                       <div class="col-lg-7 col-xl-7 col-xxl-8">
@@ -247,6 +398,8 @@
                   </div>
                 </div>
               </div>
+              
+              
             </div><!--end row-->
 
             <div class="row">
@@ -410,7 +563,7 @@
 
          </div><!--end row-->
 
-<% ArrayList<Commande> commandes = (ArrayList<Commande>) request.getAttribute("commandes"); %>
+
          <div class="row">
             <div class="col-12 col-lg-12 col-xl-12 d-flex">
               <div class="card radius-10 w-100">
@@ -432,6 +585,7 @@
                       <thead class="table-light">
                         <tr>
                           <th>#ID</th>
+                          <th>Client</th>
                           <th>Total</th>
                           <th>Date</th>
                           <th>Etat</th>
@@ -446,6 +600,7 @@
 <%--                       	<% Commande cmd = commandes.get(i); %> --%>
                         <tr>
                           <td><%= cmd.getId() %></td>
+                          <td><%= cmd.getU().getNom() + " " + cmd.getU().getPrenom() %></td>
                           <td>
                             <div class="d-flex align-items-center gap-3">
                               <div class="product-info">
@@ -565,9 +720,13 @@
   <script src="assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
   <script src="assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
   <script src="assets/js/pace.min.js"></script>
+  
   <script src="assets/plugins/chartjs/js/Chart.min.js"></script>
   <script src="assets/plugins/chartjs/js/Chart.extension.js"></script>
+  
   <script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+
+  
   <!--app-->
   <script src="assets/js/app.js"></script>
   <script src="assets/js/index2.js"></script>

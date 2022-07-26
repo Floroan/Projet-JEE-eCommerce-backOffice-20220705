@@ -1,3 +1,4 @@
+<%@page import="tools.Constantes"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -81,9 +82,15 @@
                 <div class="menu-title">Commandes</div>
               </a>
               <ul>
-                <li> <a href="TableCommandes?"><i class="bi bi-circle"></i>Les commandes</a>
+                <li> <a href="TableCommandes?"><i class="bi bi-circle"></i>Toutes les commandes</a>
                 </li>
-                <li> <a href="DetailCommande?id=0"><i class="bi bi-circle"></i>Détails commande</a>
+                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdEnCours%>"><i class="bi bi-circle"></i>Les commandes en cours</a>
+                </li>
+                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdValidees%>"><i class="bi bi-circle"></i>Les commandes validées</a>
+                </li>
+                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdLivrees%>"><i class="bi bi-circle"></i>Les commandes livrées</a>
+                </li>
+                <li> <a href="DetailCommande?id=0"><i class="bi bi-circle"></i>Détails/recherche d'une commande</a>
                 </li>
               </ul>
             </li>
@@ -104,14 +111,14 @@
               <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class="bi bi-cloud-arrow-down-fill"></i>
                 </div>
-                <div class="menu-title">Icons</div>
+                <div class="menu-title">Marketing</div>
               </a>
               <ul>
-                <li> <a href="icons-line-icons.html"><i class="bi bi-circle"></i>Line Icons</a>
+                <li> <a href="TopRecherches?"><i class="bi bi-circle"></i>Top recherches</a>
                 </li>
-                <li> <a href="icons-boxicons.html"><i class="bi bi-circle"></i>Boxicons</a>
+                <li> <a href="icons-boxicons.html"><i class="bi bi-circle"></i>??</a>
                 </li>
-                <li> <a href="icons-feather-icons.html"><i class="bi bi-circle"></i>Feather Icons</a>
+                <li> <a href="icons-feather-icons.html"><i class="bi bi-circle"></i>??</a>
                 </li>
               </ul>
             </li>

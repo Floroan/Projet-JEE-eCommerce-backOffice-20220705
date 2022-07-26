@@ -17,19 +17,22 @@ public class CommentaireDAO {
 	public void save(Commentaire obj) {
 		
 		Commentaire old = new Commentaire();
-		old = this.getById(obj.getFk_prod(), obj.getFk_user());
+		old = this.getByIdProdAndClient(obj.getFk_prod(), obj.getFk_user());
 		
 		try {
 		
 			if(obj.getFk_user() == old.getFk_user() && obj.getFk_prod() == old.getFk_prod()) {
-				System.out.println("le commentaire existe d�j�: UPDATE");
-				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("UPDATE commentaires set commentaire=?, note=? , date=?, archiver=? WHERE fk_prod=? AND fk_user=?");
+				System.out.println("le commentaire existe déjà: UPDATE");
+				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("UPDATE commentaires set commentaire=?, note=? , date=?, archiver=? WHERE fk_prod=? AND fk_user=? AND id=?");
 				preparedStatement.setString(1,obj.getCommentaire());
 				preparedStatement.setInt(2,obj.getNote());
-				preparedStatement.setInt(3,obj.getArchiver());
+				preparedStatement.setDate(3,obj.getDate());
+				preparedStatement.setInt(4,obj.getArchiver());
 				
-				preparedStatement.setInt(4,obj.getFk_prod());
-				preparedStatement.setInt(5,obj.getFk_user());
+				
+				preparedStatement.setInt(5,obj.getFk_prod());
+				preparedStatement.setInt(6,obj.getFk_user());
+				preparedStatement.setInt(7,obj.getId());
 				
 	            preparedStatement.executeUpdate();
 			}else {
@@ -53,9 +56,32 @@ public class CommentaireDAO {
 	
 }
 
+	public Commentaire getById(int id) {
+		try {
+		
+				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM commentaires WHERE id=?");
+				preparedStatement.setInt(1,id);
+				ResultSet resultat=preparedStatement.executeQuery();
+				
+				Commentaire u = new Commentaire();
+				while(resultat.next()) {
+					u.setId(resultat.getInt( "id" ));
+					u.setCommentaire(resultat.getString("commentaire"));
+					u.setNote(resultat.getInt("note"));
+					u.setDate(resultat.getDate("date"));
+					u.setFk_prod(resultat.getInt( "fk_prod" ));
+					u.setFk_user(resultat.getInt( "fk_user" ));
+					u.setArchiver(resultat.getInt( "archiver" ));
+				}
+				return u;
+			
+		} catch (Exception ex) {
+	    	ex.printStackTrace();
+	    	return null;
+	    }
+	}
 
-
-public Commentaire getById(int idProd, int idCli) {
+public Commentaire getByIdProdAndClient(int idProd, int idCli) {
 	try {
 	
 			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM commentaires WHERE fk_prod=? AND fk_user=?");

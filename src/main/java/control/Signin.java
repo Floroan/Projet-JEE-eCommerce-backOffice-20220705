@@ -98,6 +98,7 @@ public class Signin extends HttpServlet {
 		boolean conn = false;
 		
 		if(request.getParameter("auth") != null) {
+			System.out.println("passe ici signin");
 		Database.Connect();
 		String user = request.getParameter("nom");
 		String userMail = request.getParameter("mail");

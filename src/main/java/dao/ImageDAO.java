@@ -19,7 +19,7 @@ public class ImageDAO {
 				
 
 				preparedStatement.setInt(1,c.getFk_produit());
-				preparedStatement.setString(1,c.getUrl());
+				preparedStatement.setString(2,c.getUrl());
 				preparedStatement.setInt(3,c.getArchiver());
 				
 				preparedStatement.setInt(4,c.getId());
@@ -29,7 +29,7 @@ public class ImageDAO {
 			}else {
 				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("INSERT INTO images (fk_produit, url, archiver) VALUES(?,?,?)");
 				preparedStatement.setInt(1,c.getFk_produit());
-				preparedStatement.setString(1,c.getUrl());
+				preparedStatement.setString(2,c.getUrl());
 				preparedStatement.setInt(3,c.getArchiver());
 			
 				

@@ -1,17 +1,17 @@
+<%@page import="tools.Constantes"%>
 <%@page import="model.Image"%>
 <%@page import="model.Sous_categorie"%>
 <%@page import="model.Produit"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="tools.Constantes"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
+<% Produit p = (Produit)request.getAttribute("prod"); %>
 <% ArrayList<Sous_categorie> ss_cats = (ArrayList<Sous_categorie>) request.getAttribute("ss_cats"); %>
-<% ArrayList<Produit> last5 = (ArrayList<Produit>) request.getAttribute("last5"); %>
-<%-- <% ArrayList<Image> images = (ArrayList<Image>) request.getAttribute("images"); %> --%>
-
+<% ArrayList<Image> images = (ArrayList<Image>) request.getAttribute("images"); %>
+<% Sous_categorie ss_cat_prod = (Sous_categorie)request.getAttribute("ss_cat_produit"); %>
 
 <head>
 
@@ -41,7 +41,7 @@
   <link href="assets/css/light-theme.css" rel="stylesheet" />
   <link href="assets/css/semi-dark.css" rel="stylesheet" />
   <link href="assets/css/header-colors.css" rel="stylesheet" />
-<title>Hytek - ajouter un produit</title>
+<title>Produit numéro <%= p.getId() %></title>
 </head>
 
 <body>
@@ -67,125 +67,191 @@
 				
 				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
 					<div class="breadcrumb-title pe-3">
-							
+							Numéro de produit: <%= p.getId() %>
 							
 					</div>
-					<div class="breadcrumb-item active ps-3"></div>
+					<div class="breadcrumb-item active ps-3"> Titre: <%= p.getTitre() %></div>
 				</div>
 				<!--end breadcrumb-->
 				
 				<div class="row">
+				
 					<div class="col-xl-9 mx-auto">
-						<h6 class="mb-0 text-uppercase">Ajout produit</h6>
+						<h6 class="mb-0 text-uppercase">Fiche du produit</h6>
 						<hr/>
 						<div class="card">
 							<div class="card-body">
 								<div class="p-4 border rounded">
 									<form class="row g-3 needs-validation" method="post">
-<!-- 										<div class="col-md-4"> -->
-<!-- 											<label for="validationCustom01" class="form-label">Produit ID</label> -->
-<%-- 											<input type="text" class="form-control" id="validationCustom01" name="idProd" value="<%= p.getId() %>" readonly="readonly" required>	 --%>
-<!-- 										</div> -->
-										<div class="col-md-12">
+										<div class="col-md-4">
+											<label for="validationCustom01" class="form-label">Produit ID</label>
+											<input type="text" class="form-control" id="validationCustom01" name="<%= Constantes.idProd %>" value="<%= p.getId() %>" readonly="readonly" required>	
+										</div>
+										<div class="col-md-8">
 											<label for="validationCustom02" class="form-label">Titre</label>
-											<input type="text" class="form-control" id="validationCustom02" name="<%= Constantes.prodTitre %>" placeholder="Saisir un titre" required>
+											<input type="text" class="form-control" id="validationCustom02" name="<%= Constantes.prodTitre %>" value="<%= p.getTitre() %> €" required>
 											<div class="invalid-feedback">Saisir un titre</div>
 										</div>
 										<div class="col-md-12">
 											<label for="validationCustomUsername" class="form-label">Description</label>
-											<div class="input-group has-validation"> 
-												<textarea type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" name="<%= Constantes.descripProd %>" placeholder="Saisir une description" required></textarea>
+											<div class="input-group has-validation"> <span class="input-group-text" id="inputGroupPrepend"></span>
+												<textarea type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" value="" name="<%= Constantes.descripProd %>" required><%= p.getDescription()%></textarea>
 												<div class="invalid-feedback">Saisir une description</div>
 											</div>
 										</div>
 										<div class="col-md-12">
-											<label for="validationCustomUsername" class="form-label">Image principale</label>
-											<div class="input-group has-validation"> 
-												<textarea type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" name="<%= Constantes.mainImgProd %>" placeholder="copier le lien de l'image" required></textarea>
-												<div class="invalid-feedback">sélectionner une image</div>
-											</div>
+											<label for="validationCustom05" class="form-label">Image Principale</label>
+											<img src="<%= p.getImage() %>" class="d-block w-100" alt="...">
+										<div class="col-12">
+											<a  href="#newAddress" class="btn btn-primary" type="submit">Nouvelle image principale ?</a>
 										</div>
+										
+										
+<%-- 											<input type="text" class="form-control" id="validationCustom05" id="<%= Constantes.mainImgProd %>" name="<%= Constantes.mainImgProd %>" placeholder="Nouveau lien pour l'image principale" > --%>
+<%-- 											<a href="DetailProduit?id=<%= p.getId()%>&del " class="btn btn-primary" >change</a> --%>
+<!-- 											<input name="change2" class="btn btn-primary" type="submit" value="Change2"> -->
+<!-- 										</div> -->
+										
 										<div class="col-md-12">
 										<label for="validationCustom03" class="form-label">Détails du produit</label>
 										</div>
-										
 										<div class="col-md-12">
 											<label for="validationCustom04" class="form-label">Associer à une sous-catégorie</label>
 											<select class="form-select" id="validationCustom04" name="<%= Constantes.ssCatProd %>" required>
-												<option selected disabled value="">Choisir une sous-catégorie existante</option>
+												<option selected disabled value="">Choisir une sous-catégorie existante, actuellement: <%= ss_cat_prod.getTitre()%> </option>
 												
 												<% for(Sous_categorie sc : ss_cats ) { %>
-												<option value="<%= sc.getId() %>" > <%= sc.getTitre() %></option>
+												<option value=<%= sc.getId() %>> <%= sc.getTitre() %></option>
 												<%}%>
 											</select>
-											<div class="invalid-feedback">Sélectionner une sous-catégorie</div>
+											<div class="invalid-feedback">Sélectionner une sous catégorie</div>
 										</div>
 
 										<div class="col-md-6">
 											<label for="validationCustom05" class="form-label">Stock</label>
-											<input type="text" class="form-control" id="validationCustom05" name="<%= Constantes.stockProd %>" placeholder="Renseigner le stock" required>
+											<input type="text" class="form-control" id="validationCustom05"name="<%= Constantes.stockProd %>" value="<%= p.getStock() %>" required>
 										</div>
 										<div class="col-md-6">
 											<label for="validationCustom05" class="form-label">Fixer le stock minimal</label>
-											<input type="text" class="form-control" id="validationCustom05" name="<%= Constantes.stockMinProd %>" placeholder="Renseigner le stock minimal" required>
+											<input type="text" class="form-control" id="validationCustom05" name="<%= Constantes.stockMinProd %>" value="<%= p.getStock_min() %>" required>
 										</div>
 										<div class="col-md-6">
 											<label for="validationCustom05" class="form-label">Prix Unitaire</label>
-											<input type="text" class="form-control" id="validationCustom05"  name="<%= Constantes.PUProd %>" placeholder="Renseigner le prix unitaire" required>
+											<input type="text" class="form-control" id="validationCustom05"  name="<%= Constantes.PUProd %>" value="<%= p.getPrix() %>" required>
 										</div>
+							<% String archive= " "; %>
+                            <% if(p.getArchiver()==0){ archive= "non"; }else{ archive="oui";} %>
 										<div class="col-md-6">
-											<label for="validationCustom05" class="form-label">archivage</label>
-											<input type="number" class="form-control" id="validationCustom05" min="0" max="1" name="<%= Constantes.archiveProd %>" placeholder="0" required>
+											<label for="validationCustom05" class="form-label">archivé ?</label>
+											<input type="text" class="form-control" id="validationCustom05"  name="<%= Constantes.archiveProd %>" readonly="readonly" value="<%= archive %>" required>
 										</div>
 										
 						<div class="dropdown">
                           <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                           <ul class="dropdown-menu">
-                          
-                            <li>
-                            	<button class="dropdown-item" name="ajouter" type="submit" data-bs-toggle="tooltip" data-bs-original-title="Ajouter le produit" >Ajouter</button>
+                            <li><button class="dropdown-item" name="modifier" data-bs-toggle="tooltip" data-bs-original-title="Modifier les changements apportés" >Modifier</button>
                             </li>
-                            
-                            <li>
-                            	<button class="dropdown-item" name="annuleDernierAjout" type="submit" data-bs-toggle="tooltip" data-bs-original-title="Annuler le précédent ajout" >Annuler</button>
-                            </li>
+
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="tooltip" data-bs-original-title="Voulez-vous archiver ce produit ? Statut actuel <%= archive %>">Archiver</a>
                           </ul>
                         </div>
 						</form>
 						
-						<div class="col-md-12">
-						</br>
+										
+						<div class="card">
+						<label for="validationCustom03" class="form-label">Images associées</label>
+			                <div class="card-body">
+			                  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+
+			
+			                    <div class="carousel-inner">
+			                    <%int i = 0; %>
+			                    <%for( i = 0; i < p.getImages().size(); i++ ){ %>  
+			                    
+			                 	<% Image im = p.getImages().get(i); %> 
+			                 	
+			                      <div class="carousel-item <% if(i == 1){%>active<%}%>" id="slide <%=i%>">
+			                        <img src="<%= im.getUrl() %>" class="d-block w-100" alt="...">
+				                        <form method="post">
+					                        <input type="hidden" name="imgToDelete" value="<%= im.getId() %>" />
+					                      	<div class="carousel-caption d-none d-md-block">
+					                             <button name="deleteImg"  type="submit" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Supp" aria-label="Delete"><i class="lni lni-trash"></i></button>
+					                        </div>
+				                         </form>
+			                      </div>
+			                      
+			                       <%} %>
+			                    </div>
+			                    
+			                    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-bs-slide="prev">	
+			                      <span class="visually-hidden">Previous</span>
+			                    </a>
+			                    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-bs-slide="next">	<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			                      <span class="visually-hidden">Next</span>
+			                    </a>
+			                  </div>
+			                </div>
+			              </div>
+
+							<label for="validationCustom03" class="form-label">Intégrer de nouvelles images</label>
+									<form method="post">
+										<input type="hidden" name="idProd4AddImg" value="<%= p.getId() %>" />
+										<div class="col-md-12">
+											<input type="text" class="form-control" id="validationCustom05" name="newImage" placeholder="Coller le lien ici" >
+											<label for="validationCustom05" class="form-label"></label>
+										</div>
+										<div class="col-md-6"><input name="recImg" class="btn btn-primary" type="submit" value="Enregistrer"></div>
+									</form>
+									
+						<h6 class="mb-0 text-uppercase">Supported elements</h6>
+						<hr/>
+						<div class="card">
+							<div class="card-body">
+								<div class="p-4 border rounded">
+									<form class="was-validated">
+
+										<div class="mb-3">
+											<input type="file" class="form-control" aria-label="file example" required>
+											<div class="invalid-feedback">Example invalid form file feedback</div>
+										</div>
+										<div class="mb-3">
+											<button class="btn btn-primary" type="submit" disabled>Submit form</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						
+												<div id="newAddress"></div>
+						<h6 class="mb-0 text-uppercase">Nouvelle image principale</h6>
+						<hr/>
+						<div class="card">
+							<div class="card-body">
+								<div class="p-4 border rounded">
+								
+									<form class="row g-3" method="post">
+									<input type="hidden" name="<%= Constantes.idProd %>" value="<%= p.getId()%>">
+										<div class="col-md-12">
+											<label for="validationDefault01" class="form-label">Collez le lien ici</label>
+											<input name="<%= Constantes.mainImgProd %>" type="text" class="form-control" id="validationDefault01" placeholder="Exemple: http://../../monImage.jpg..." required>
+										</div>
+										<div class="col-12">
+											<button class="btn btn-primary" type="submit" name="newMainImg" >Enregistrer</button>
+											<p>${message }</p>
+										</div>
+									</form>
+								</div>
+							</div>
 						</div>
 									
-									<form class="row g-3 needs-validation" method="post">
-										<div class="col-md-12">
-										<label for="validationCustom03" class="form-label">Intégrer des images</label>
-											<select class="form-select" id="validationCustom04" name="selectProd" required>
-												<option selected disabled value="">Sélectionner le produit</option>
-												<% for(Produit p : last5 ) { %>
-												<option value="<%= p.getId() %>" > <%=p.getId() + ", " + p.getTitre() %></option>
-												<%}%>
-											</select>											
-											<div class="invalid-feedback">Confirmer le produit</div>
-										</div>
 									
-										<div class="col-md-12">
-												<label for="validationCustom04" class="form-label">Image</label>
-												<input type="text" class="form-control" id="validationCustom05" name="newImage" placeholder="Coller le lien image par image" required >
-										</div>
-										<div class="col-md-6">
-												<label for="validationCustom04" class="form-label"></label>
-												<input name="recImg" class="btn btn-primary" type="submit" value="Enregistrer l'image">											
-										</div>
-										</form>
-											
 								</div>
 							</div>
 						</div>	
 						
-							</div>
-						</div>		
-				<!--end row-->
+					</div>	
+				</div><!--end row-->	
+				
 			</main>
        <!--end page main-->
 

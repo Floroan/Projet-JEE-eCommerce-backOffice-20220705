@@ -99,7 +99,7 @@
                       <div class="card border shadow-none w-100">
                         <div class="card-body">
                           <div class="table-responsive">
-                             <table class="table align-middle">
+                             <table id="example" class="table align-middle">
                                <thead class="table-light">
                                  <tr>
 
@@ -113,7 +113,7 @@
                               
                                <% for(Categorie cat : cats){ %>
                                  <tr>
-                                  <form method="get">
+                                  <form method="post">
 <!--                                    <td><input class="form-check-input" type="checkbox"></td> -->
 									<input type="hidden" name="catId" value="<%= cat.getId()%>"/>
                                    <td ><%= cat.getId() %></td>
@@ -237,6 +237,9 @@
   <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
   <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   <script src="assets/js/pace.min.js"></script>
+  <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+  <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+  <script src="assets/js/table-datatable.js"></script>
   <!--app-->
   <script src="assets/js/app.js"></script>
   

@@ -1,0 +1,116 @@
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" -->
+<!--     pageEncoding="UTF-8"%> -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/datetime/1.1.2/css/dataTables.dateTime.min.css" rel="stylesheet" />
+<link href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.min.css" rel="stylesheet" />
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-1.12.1/b-2.2.3/sl-1.4.0/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="Editor-2.0.8/css/editor.dataTables.css">
+ 
+
+
+</head>
+<body>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+    <script type="text/javascript" src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
+
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-1.12.1/b-2.2.3/sl-1.4.0/datatables.min.js"></script>
+<script type="text/javascript" src="Editor-2.0.8/js/dataTables.editor.js"></script>
+
+			<script>
+			
+			var editor; // use a global for the submit and return data rendering in the examples
+			
+			$(document).ready(function() {
+			    editor = new $.fn.dataTable.Editor( {
+			        ajax: "../webapp/datas.json",
+			        table: "#example",
+			        fields: [ {
+			                label: "First name:",
+			                name: "first_name"
+			            }, {
+			                label: "Last name:",
+			                name: "last_name"
+			            }, {
+			                label: "Position:",
+			                name: "position"
+			            }, {
+			                label: "Office:",
+			                name: "office"
+			            }, {
+			                label: "Extension:",
+			                name: "extn"
+			            }, {
+			                label: "Start date:",
+			                name: "start_date",
+			                type: "datetime"
+			            }, {
+			                label: "Salary:",
+			                name: "salary"
+			            }
+			        ]
+			    } );
+			 
+			    $('#example').DataTable( {
+			        dom: "Bfrtip",
+			        ajax: "../webapp/datas.json",
+			        columns: [
+			            { data: null, render: function ( data, type, row ) {
+			                // Combine the first and last names into a single table field
+			                return data.first_name+' '+data.last_name;
+			            } },
+			            { data: "position" },
+			            { data: "office" },
+			            { data: "extn" },
+			            { data: "start_date" },
+			            { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
+			        ],
+			        select: true,
+			        buttons: [
+			            { extend: "create", editor: editor },
+			            { extend: "edit",   editor: editor },
+			            { extend: "remove", editor: editor }
+			        ]
+			    } );
+			} );
+			
+			</script>
+
+<table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Extn.</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Extn.</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>

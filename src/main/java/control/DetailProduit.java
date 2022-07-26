@@ -5,12 +5,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Image;
 import model.Produit;
+import tools.Constantes;
 import tools.Database;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import dao.CategorieDAO;
+import dao.ImageDAO;
 import dao.ProduitDAO;
 import dao.Sous_categorieDAO;
 
@@ -24,6 +29,7 @@ public class DetailProduit extends HttpServlet {
 	private Sous_categorieDAO scatDao;
 	private ProduitDAO prodDao;
 	private Produit prod;
+	private ImageDAO imgDao;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -37,31 +43,75 @@ public class DetailProduit extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		HttpSession session = request.getSession(true);
+		session.setMaxInactiveInterval(0);
 		Database.Connect();
+		
 		catDao = new CategorieDAO();
 		prodDao = new ProduitDAO();
-		request.setAttribute("cats", catDao.getAll());
+		
 		scatDao = new Sous_categorieDAO();
-		request.setAttribute("ss_cats", scatDao.getAll());
-		prod =  prodDao.getById(Integer.parseInt(request.getParameter("id")));
-		request.setAttribute("prod", prod);
-		request.setAttribute("ss_cat_produit", scatDao.getById(prod.getFk_sous_categorie()));
+		
+		
 		
 		if(request.getParameter("modifier") != null) {
 			System.out.println("go");
 		}
 		
-		if(request.getParameter("archiver") != null) {
-			System.out.println("go");
+		if(request.getParameter("deleteImg") != null) {
+			// imgToDelet
+			imgDao = new ImageDAO();
+			imgDao.deleteById(Integer.parseInt(request.getParameter("imgToDelete")));
+			System.out.println("go delete img");
+		}
+		
+		if(request.getParameter("del") != null ) {
+			// imgToChange
+			System.out.println("go change, " + "lien: " + request.getParameter(Constantes.mainImgProd));
+		}
+		
+		if(request.getParameter("change2") != null ) {
+			// imgToChange
+			System.out.println("go change, " + request.getParameter("id") + ", lien: " + request.getParameter(Constantes.mainImgProd));
 		}
 		
 		if(request.getParameter("recImg") != null) {
-			System.out.println("go");
+			 
+			imgDao = new ImageDAO();
+			//ArrayList<Image> imgs = imgDao.getAllByProduit(Integer.parseInt(request.getParameter("selectProd")));
+			Image img = new Image();
+			img.setFk_produit(Integer.parseInt(request.getParameter("idProd4AddImg")));
+			img.setUrl(request.getParameter("newImage"));
+			img.setArchiver(0);
+			imgDao.save(img);
+		}
+		
+		if(request.getParameter("newMainImg") != null ) {
+
+				if(request.getParameter(Constantes.mainImgProd).contains(".jpg") 
+						&& request.getParameter(Constantes.mainImgProd).contains("http")
+						|| request.getParameter(Constantes.mainImgProd).contains(".png") 
+						&& request.getParameter(Constantes.mainImgProd).contains("http")){
+						System.out.println("go change, " + "lien: " + request.getParameter(Constantes.mainImgProd));
+						Produit p = prodDao.getById(Integer.parseInt(request.getParameter(Constantes.idProd)));
+						p.setImage(request.getParameter(Constantes.mainImgProd));
+						prodDao.save(p);
+					
+				}else {
+						request.setAttribute("message", "Merci de vérifier votre lien, il doit commencer par http.. et contenir une image jpg ou png");
+				}
+		
 		}
 		
 		
-		request.getRequestDispatcher("/ficheProduit.jsp").forward(request, response);
+		request.setAttribute("cats", catDao.getAll());
+		request.setAttribute("ss_cats", scatDao.getAll());
+		prod =  prodDao.getById(Integer.parseInt(request.getParameter("id")));
+		request.setAttribute("prod", prod);
+		request.setAttribute("ss_cat_produit", scatDao.getById(prod.getFk_sous_categorie()));
+		
+		
+		request.getRequestDispatcher("/detailProduit.jsp").forward(request, response);
 	}
 
 	/**

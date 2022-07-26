@@ -5,27 +5,28 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.Produit;
+import model.Commentaire;
 import tools.Constantes;
 import tools.Database;
-import tools.RedirectError500;
 
 import java.io.IOException;
 
+import dao.CommentaireDAO;
 import dao.ProduitDAO;
 
 /**
- * Servlet implementation class TableProduits
+ * Servlet implementation class FicheProduit
  */
-public class TableProduits extends HttpServlet {
+public class FicheProduit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	
 	private ProduitDAO prodDao;
+	private CommentaireDAO commDao;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TableProduits() {
+    public FicheProduit() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,37 +36,34 @@ public class TableProduits extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession(true);
-		
 		Database.Connect();
+		
 		prodDao = new ProduitDAO();
+		commDao = new CommentaireDAO();		
 		
 		if(request.getParameter(Constantes.archiver) != null) {
-			System.out.println("go archiver produit");
-			Produit p = prodDao.getById(Integer.parseInt(request.getParameter(Constantes.idProd)));
+
+			Commentaire comm = commDao.getById(Integer.parseInt(request.getParameter(Constantes.commentaireId)));
 			
-			if(p.getArchiver() == 0) {
-				p.setArchiver(1);
-			}else if(p.getArchiver() == 1) {
-				p.setArchiver(0);
-			}			
-			prodDao.archiverById(p);
+			if(comm.getArchiver() == 0) {
+				comm.setArchiver(1);
+			}
+			else if(comm.getArchiver() == 1) {
+				comm.setArchiver(0);
+			}
+			commDao.archiverById(comm);
 		}
 		
-		///RedirectError500.redirect500(session, response);
-		
-
-		
-		request.setAttribute("prods", prodDao.getAll());
-		//request.getRequestDispatcher("/table_produits_body.jsp").forward(request, response);
-		
-		if(session.getAttribute("isConnected") == null) {
-			request.getRequestDispatcher("/error500.jsp").forward(request, response);
-			
-		}else {
-			request.getRequestDispatcher("/table_produits_body.jsp").forward(request, response);
+		if(request.getParameter(Constantes.modifier) != null) {
+			System.out.println(request.getParameter("areaComm"));
+			Commentaire comm = commDao.getById(Integer.parseInt(request.getParameter(Constantes.commentaireId)));
+			comm.setCommentaire(request.getParameter("areaComm"));
+			commDao.save(comm);
 		}
-
+		request.setAttribute("message", "Actuellement, il n'y a pas encore de  commentaires pour ce produit");
+		request.setAttribute("prod", prodDao.getById(Integer.parseInt(request.getParameter("id"))));
+		request.setAttribute("commentaires", commDao.getAllByProduit(Integer.parseInt(request.getParameter("id"))));
+		request.getRequestDispatcher("/ficheProduit.jsp").forward(request, response);
 	}
 
 	/**

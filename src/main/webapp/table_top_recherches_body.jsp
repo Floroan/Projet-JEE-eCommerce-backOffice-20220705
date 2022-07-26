@@ -32,7 +32,7 @@
   <link href="assets/css/semi-dark.css" rel="stylesheet" />
   <link href="assets/css/header-colors.css" rel="stylesheet" />
 
-  <title>Onedash - Bootstrap 5 Admin Template</title>
+  <title>Hytek - gestion des commandes</title>
 </head>
 
 <body>
@@ -51,7 +51,7 @@
 
 		<main class="page-content">
        <!--start content-->
-       <jsp:include page="/table_produits.jsp"></jsp:include>
+       <jsp:include page="/table_top_recherches.jsp"></jsp:include>
        <!--end page main-->
 		</main>
 		

@@ -53,6 +53,8 @@
 									<tr>
 										<th>ID</th>
 										<th>Date</th>
+										<th>Client</th>
+										<th>Email</th>
 										<th>Total</th>
 										<th>Etat</th>
 										<th>Statut Archiver</th>
@@ -63,17 +65,21 @@
 								
 								<% for(Commande cmd: commandes){ %>
 									<tr>
-									<form method="get">
-										<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/>
+<!-- 									<form method="form" action="TableCommandes"> -->
+<%-- 										<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/> --%>
 										<td><%= cmd.getId() %></td>
 										<td><%= cmd.getDate() %></td>
+										<td><%= cmd.getU().getNom() + " " + cmd.getU().getPrenom() %></td>
+										<td><%= cmd.getU().getEmail() %></td>
 										<td><%= cmd.getTotal() %></td>
 										<td><%= cmd.getEtat() %></td>
 										<td><%= cmd.getArchiver() %></td>
 										<td>
+										<form method="post" action="TableCommandes">
+										<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/>
 	                                    <div class="d-flex align-items-center gap-3 fs-6">
 	                                      	<a href="DetailCommande?id=<%=cmd.getId() %>" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit" type="submit"><i class="bi bi-pencil-fill"></i></a>
-	                                      	<button name="archiveCommande" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Archiver" aria-label="Delete"><i class="lni lni-archive"></i></button>                                 
+	                                      	<button name="archiveCommande" type="submit" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Archiver" aria-label="Delete"><i class="lni lni-archive"></i></button>                                 
 	                                     </form>
 	                                    </div>
 	                                   </td>
