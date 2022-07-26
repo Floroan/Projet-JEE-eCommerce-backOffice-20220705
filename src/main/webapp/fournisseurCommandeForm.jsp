@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="utf-8"%>
+<%@ page import="model.Produit"%>
+<%@ page import="model.Fournisseur"%>
 <%@ page import="model.Entree_stock"%>
 <%@ page import="java.util.ArrayList"%>
 <%@page import="tools.DateManipulator"%>
-<% 
-ArrayList<Entree_stock> dcList = (ArrayList) request.getAttribute("ebCol");
+<%
+Produit p = (Produit) request.getAttribute("pb");
+ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 %>
 <!doctype html>
 <html lang="fr">
@@ -40,13 +43,10 @@ ArrayList<Entree_stock> dcList = (ArrayList) request.getAttribute("ebCol");
   <!-- FONTAWESOME -->
   <script src="https://kit.fontawesome.com/bff2375f4b.js" crossorigin="anonymous"></script>
 
-  <title>Historique</title>
+  <title>Fournisseurs</title>
 </head>
 
-<body>
-
-
-  <!--start wrapper-->
+<!--start wrapper-->
   <div class="wrapper">
     
 		<!--start top header-->
@@ -59,88 +59,108 @@ ArrayList<Entree_stock> dcList = (ArrayList) request.getAttribute("ebCol");
 
 
        <!--start content-->
-       <main class="page-content">
-			<!--breadcrumb-->
-			<!-- <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-				<div class="breadcrumb-title pe-3">Tables</div>
-				<div class="ps-3">
-					<nav aria-label="breadcrumb">
-						<ol class="breadcrumb mb-0 p-0">
-							<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-							</li>
-							<li class="breadcrumb-item active" aria-current="page">Data Table</li>
-						</ol>
-					</nav>
-				</div>
-				<div class="ms-auto">
-					<div class="btn-group">
-						<button type="button" class="btn btn-primary">Settings</button>
-						<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-						</button>
-						<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-							<a class="dropdown-item" href="javascript:;">Another action</a>
-							<a class="dropdown-item" href="javascript:;">Something else here</a>
-							<div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+		<main class="page-content">
+		
+			<h6 class="mb-0 text-uppercase">Commande fournisseur</h6>
+			<hr/>
+			<div class="row">
+				<div class="col-xl-6 mx-auto">
+					<div class="card">
+						<div class="card-body">
+						<%
+						if (request.getAttribute("invalidProvider") != null) {
+						%>
+							<div>
+								<div class="alert alert-danger text-center" role="alert">
+									<%=request.getAttribute("invalidProvider")%>
+								</div>
+							</div>
+						<%
+						}
+						%>
+							<h6 class="mb-0 text-uppercase"><img alt="produit" src="<%= p.getImage() %>" style="height: 50px; width: 50px">   <%= p.getTitre() %></h6>
+							<!-- <div class="table-responsive"> -->
+							<p></p>
+							<div class="table-responsive mt-3">
+								<!-- <table id="example"> class="table table-striped table-bordered" style="width:100%"> -->
+			                    <table class="table align-middle mb-0">
+									<!-- <thead> -->
+									<thead class="table-light">
+										<tr>
+											<!-- <th>Id</th>
+											<th>Produit</th>
+											<th>Titre</th> -->
+											<th class="text-center">Stock</th>
+											<th class="text-center">Stock Min</th>
+											<th class="text-center">Qté à commander</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+		                                	<%-- <td><%= p.getId() %></td>
+		                                    <td><img alt="produit" src="<%= p.getImage() %>" style="height: 50px; width: 50px"></td>
+		                                    <td><%= p.getTitre().substring(0, 15) %>...</td> --%>
+		                                    
+		                                    <td class="text-center"><%= p.getStock() %></td>
+		                                    <td class="text-center"><%= p.getStock_min() %></td>
+		                                    <%
+		                                    int s = p.getStock_min() - p.getStock();
+		                                    %>
+		                                    <td class="text-center"><%= s %></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- <form class="row g-2" method="post">
+								<div class="col-md-6">
+									<input type="text" name="nom" class="form-control" placeholder="Nom du fournisseur" aria-label="First name">
+								</div>
+								<div class="col-md-6">
+									<div class="d-grid">
+										<button type="submit" class="btn btn-primary" name="addFournisseurForm">Ajouter</button>
+									</div>
+								</div>
+							</form> -->
+							<p><br><br></p>
+							<form class="row g-3" method="get">
+			                	<div class="col-12">
+			                		<input type="hidden" name="fk_produit" value=<%= p.getId() %>>
+			                		<label for="exampleDataList" class="form-label">Fournisseurs</label>
+									<!-- <input  class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..."> -->
+									<select class="form-select mb-3" aria-label="Default select example" name="fk_fournisseur">
+										<option selected>Choisir un fournisseur</option>
+									<%
+									for ( Fournisseur f : fbCol ) {
+									%>
+										<option value="<%= f.getId() %>"><%= f.getNom() %></option>
+									<%
+									}
+									%>
+									</select>
+								</div>
+			                  	<div class="col-12">
+			                    	<label class="form-label">Quantité</label>
+			                    	<input type="text" class="form-control" name="quantity">
+			                  	</div>
+			                  	<p></p>
+			                  	<div class="col-12">
+			                    	<div class="d-grid">
+			                      		<button type="submit" class="btn btn-warning" name="orderToValidate">Commander</button>
+			                    	</div>
+			                  	</div>
+			                </form>
 						</div>
 					</div>
-				</div>
-			</div> -->
-			<!--end breadcrumb-->
-			
-			<h6 class="mb-0 text-uppercase">Historique des achats</h6>
-			<hr/>
-			<div class="card">
-				<div class="card-body">
-					<div class="table-responsive">
-						<table id="example" class="table table-striped table-bordered" style="width:100%">
-							<thead>
-							<tr>
-								<th>Produit</th>
-								<th>Titre</th>
-								<th>Fournisseur</th>
-								<th>Date</th>
-								<th class="text-center">Qté</th>
-							</tr>
-						</thead>
-							<tbody>
-							<%
-                            for ( Entree_stock e : dcList) {
-                            %>
-                                <tr>
-                                    <td><img alt="produit" src="<%= e.getP().getImage() %>" style="height: 50px; width: 50px"></td>
-                                    <td><%= e.getP().getTitre() %></td>
-                                    <td><%= e.getF().getNom() %></td>
-                                    <%
-                                    String d = DateManipulator.dateConvertToDDmmYYYY(e.getDate());
-                                    %>
-                                    <td><%= d %></td>
-                                    <td class="text-center"><%= e.getQte() %></td>
-                                </tr>
-                            <%
-                            }
-                            %>
-							</tbody>
-							<!-- <tfoot>
-								<tr>
-									<th>Name</th>
-									<th>Position</th>
-									<th>Office</th>
-									<th>Age</th>
-									<th>Start date</th>
-									<th>Salary</th>
-								</tr>
-							</tfoot> -->
-						</table>
-					</div>
+					
+					
 				</div>
 			</div>
 		</main>
-       	<!--end page main-->
-
-
-       	<!--start overlay-->
+		<!--end page main-->
+		
+<!--start overlay-->
         <div class="overlay nav-toggle-icon"></div>
-       	<!--end overlay-->
+       <!--end overlay-->
 
         <!--Start Back To Top Button-->
         <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
@@ -221,7 +241,26 @@ ArrayList<Entree_stock> dcList = (ArrayList) request.getAttribute("ebCol");
   <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
   <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
   <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+  
+  <!-- CARTE GRAPHIQUE -->
+  <!-- <script src="assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+  <script src="assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script> -->
+  
   <script src="assets/js/pace.min.js"></script>
+  
+  <!-- GRAPHIQUE -->
+  	<!--
+  	ChartJS : https://www.chartjs.org/
+  	-->
+  <script src="assets/plugins/chartjs/js/Chart.min.js"></script>
+  <script src="assets/plugins/chartjs/js/Chart.extension.js"></script>
+  	<!-- 
+  		Apex Charts : https://apexcharts.com/docs/options/plotoptions/pie/#labels 
+  	-->
+  <script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+  <!-- AFFICHER LES GRAPHIQUES AVEC APEXCHARTS -->
+  <!-- <script src="assets/plugins/apexcharts-bundle/js/apex-custom.js"></script> -->
+  
   <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
   <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
   <script src="assets/js/table-datatable.js"></script>

@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="utf-8"%>
 <%@ page import="model.Entree_stock"%>
+<%@ page import="model.Produit"%>
+<%@ page import="model.Fournisseur"%>
 <%@ page import="java.util.ArrayList"%>
 <%@page import="tools.DateManipulator"%>
 <% 
-ArrayList<Entree_stock> dcList = (ArrayList) request.getAttribute("ebCol");
+ArrayList<Produit> pbCol = (ArrayList) request.getAttribute("pbCol");
+ArrayList<Entree_stock> ebCol = (ArrayList) request.getAttribute("ebCol");
+ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 %>
 <!doctype html>
 <html lang="fr">
@@ -91,30 +95,139 @@ ArrayList<Entree_stock> dcList = (ArrayList) request.getAttribute("ebCol");
 			<hr/>
 			<div class="card">
 				<div class="card-body">
+				<%
+				if (request.getAttribute("orderValidated") != null) {
+				%>
+					<div>
+						<div class="alert alert-success text-center" role="alert">
+							<%=request.getAttribute("orderValidated")%>
+						</div>
+					</div>
+				<%
+				}
+				%>
+				<%
+				if (request.getAttribute("invalidProvider") != null) {
+				%>
+					<div>
+						<div class="alert alert-danger text-center" role="alert">
+							<%=request.getAttribute("invalidProvider")%>
+						</div>
+					</div>
+				<%
+				}
+				%>
 					<div class="table-responsive">
 						<table id="example" class="table table-striped table-bordered" style="width:100%">
 							<thead>
 							<tr>
+								<th>Id</th>
 								<th>Produit</th>
 								<th>Titre</th>
+								<th class="text-center">Stock</th>
+								<th class="text-center">Stock Min</th>
+								<th class="text-center">Qté à commander</th>
 								<th>Fournisseur</th>
-								<th>Date</th>
-								<th class="text-center">Qté</th>
+								<th class="text-center">Date</th>
+								<th class="text-center">Qté commandée</th>
+								<th>action</th>
 							</tr>
 						</thead>
 							<tbody>
 							<%
-                            for ( Entree_stock e : dcList) {
+                            for ( Produit p : pbCol) {
                             %>
                                 <tr>
+                                	<td><%= p.getId() %></td>
+                                    <td><img alt="produit" src="<%= p.getImage() %>" style="height: 50px; width: 50px"></td>
+                                    <td><%= p.getTitre().substring(0, 15) %>...</td>
+                                    
+                                    <td><%= p.getStock() %></td>
+                                    <td><%= p.getStock_min() %></td>
+                                    <%
+                                    int s = p.getStock_min() - p.getStock();
+                                    %>
+                                    <td><%= s %></td>
+                                    
+                                    <td class="text-center">-</td>
+                                    <td class="text-center">-</td>
+                                    <td class="text-center">-</td>
+                                    <td>
+                                    	<a href="FournisseurCommandeForm?commander=ok&idProduit=<%= p.getId() %>" class="btn btn-warning px-2.3">Commander</a>
+										
+										<!-- MODAL -->
+										<%-- <button type="button" class="btn btn-warning px-2.3" data-bs-toggle="modal" data-bs-target="#exampleVerticallycenteredModal">Commander</button>
+										
+										<div class="modal fade" id="exampleVerticallycenteredModal" tabindex="-1" aria-hidden="true">
+											<div class="modal-dialog modal-dialog-centered">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title"><img alt="produit" src="<%= p.getImage() %>" style="height: 50px; width: 50px"></h5>
+														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">
+										                <h6 class="mb-0 text-uppercase"><%= p.getTitre().substring(0, 15) %>...</h6>
+										                <p></p>
+										                <br/>
+										                <form class="row g-3" method="get">
+										                	<div class="col-12">
+										                		<input type="hidden" name="fk_produit" value=<%= p.getId() %>>
+										                		<label for="exampleDataList" class="form-label">Fournisseurs</label>
+																<input name="fournisseur" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+																<datalist id="datalistOptions">
+																<%
+																for ( Fournisseur f : fbCol ) {
+																%>
+																	<option value="<%= f.getId() %>-<%= f.getNom() %>">
+																<%
+																}
+																%>
+																</datalist>
+															</div>
+										                  	<div class="col-12">
+										                    	<label class="form-label">Quantité</label>
+										                    	<input type="text" class="form-control" name="quantity">
+										                  	</div>
+										                  	<p></p>
+										                  	<div class="col-12">
+										                    	<div class="d-grid">
+										                      		<button type="submit" class="btn btn-warning" name="commander">Commander</button>
+										                    	</div>
+										                  	</div>
+										                </form>
+													</div>
+												</div>
+											</div>
+										</div> --%>
+										<!-- END MODAL -->	
+										
+                                    </td>
+                                </tr>
+                            <%
+                            }
+                            %>
+							<%
+                            for ( Entree_stock e : ebCol) {
+                            %>
+                                <tr>
+                                	<td><%= e.getP().getId() %></td>
                                     <td><img alt="produit" src="<%= e.getP().getImage() %>" style="height: 50px; width: 50px"></td>
-                                    <td><%= e.getP().getTitre() %></td>
+                                    <td><%= e.getP().getTitre().substring(0, 15) %>...</td>
+                                    
+                                    <td><%= e.getP().getStock() %></td>
+                                    <td><%= e.getP().getStock_min() %></td>
+                                    <%
+                                    int s = e.getP().getStock_min() - e.getP().getStock();
+                                    %>
+                                    <td><%= s %></td>
+                                    
                                     <td><%= e.getF().getNom() %></td>
                                     <%
                                     String d = DateManipulator.dateConvertToDDmmYYYY(e.getDate());
                                     %>
-                                    <td><%= d %></td>
+                                    <td class="text-center"><%= d %></td>
                                     <td class="text-center"><%= e.getQte() %></td>
+                                    <td><a href="#" class="btn btn-primary px-2">Réceptionner</a></td>
                                 </tr>
                             <%
                             }

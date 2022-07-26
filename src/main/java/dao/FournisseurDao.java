@@ -90,6 +90,39 @@ public class FournisseurDao {
 			return null;
 		}
 	}
+	
+	public ArrayList<Fournisseur> getAllNonArchiver() {
+		
+		ArrayList<Fournisseur> list = new ArrayList<Fournisseur>();
+		
+		try {
+
+			PreparedStatement ps = Database.connexion
+					.prepareStatement("SELECT * FROM fournisseurs WHERE archiver=0");
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				
+				Fournisseur o = new Fournisseur();
+				
+				o.setId(rs.getInt("id"));
+				o.setNom(rs.getString("nom"));
+				o.setArchiver(rs.getInt("archiver"));
+				
+				list.add(o);
+				
+			}
+
+			return list;
+
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			return null;
+			
+		}
+	}
 
 	public void archiverById(Fournisseur c) {
 		try {

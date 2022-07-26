@@ -269,4 +269,24 @@
     <servlet-name>FournisseursHistoriqueAchat</servlet-name>
     <url-pattern>/FournisseursHistoriqueAchat</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FournisseursAchatsEnCours</display-name>
+    <servlet-name>FournisseursAchatsEnCours</servlet-name>
+    <servlet-class>control.FournisseursAchatsEnCours</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FournisseursAchatsEnCours</servlet-name>
+    <url-pattern>/FournisseursAchatsEnCours</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FournisseurCommandeForm</display-name>
+    <servlet-name>FournisseurCommandeForm</servlet-name>
+    <servlet-class>control.FournisseurCommandeForm</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FournisseurCommandeForm</servlet-name>
+    <url-pattern>/FournisseurCommandeForm</url-pattern>
+  </servlet-mapping>
 </web-app>

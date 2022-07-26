@@ -24,7 +24,8 @@ public class Entree_stock {
 	}
 
 	public Entree_stock() {
-		super();
+//		super();
+//		Si on laisse super alors un id est créé automatiquement !!!
 	}
 
 	public int getId() {

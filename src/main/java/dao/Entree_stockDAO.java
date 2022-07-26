@@ -166,6 +166,48 @@ public class Entree_stockDAO {
 		}
 	}
 
+public ArrayList<Entree_stock> getAllToReceive() {
+		
+		ArrayList<Entree_stock> list = new ArrayList<Entree_stock>();
+		
+		try {
+
+			ProduitDAO pd = new ProduitDAO();
+			FournisseurDao fd = new FournisseurDao();
+
+			PreparedStatement ps = Database.connexion
+					.prepareStatement("SELECT * FROM entree_stock WHERE archiver=0");
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				Entree_stock eb = new Entree_stock();
+
+				eb.setId(rs.getInt("id"));
+				eb.setFk_fournisseur(rs.getInt("fk_fournisseur"));
+				eb.setFk_produit(rs.getInt("fk_produit"));
+				eb.setDate(rs.getDate("date"));
+				eb.setQte(rs.getInt("qte"));
+				eb.setArchiver(rs.getInt("archiver"));
+
+				Produit pb = pd.getById(rs.getInt("fk_produit"));
+				eb.setP(pb);
+
+				Fournisseur fb = fd.getById(rs.getInt("fk_fournisseur"));
+				eb.setF(fb);
+
+				list.add(eb);
+			}
+
+			return list;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
 	public ArrayList<Entree_stock> getAllByProduit(int id) {
 		ArrayList<Entree_stock> list = new ArrayList<Entree_stock>();
 		try {
