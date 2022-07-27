@@ -157,7 +157,7 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 									
 										<td class="text-center">
 		                                    <%-- <a href="UserCard?id=<%=client.getId() %>" class="btn btn-warning btn-block"><i class="bi bi-pencil-fill"></i></a> --%>
-		                                    <a href="UserVisitorCard" class="btn btn-sm btn-primary px-5"><i class="fa-solid fa-eye"></i></a>
+		                                    <a href="UserVisitorList" class="btn btn-sm btn-primary px-5"><i class="fa-solid fa-eye"></i></a>
 	                                    </td>
 									</tr>
 								<% 
@@ -252,7 +252,17 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 									%>
 										<td class="text-center">
 		                                    <%-- <a href="UserCard?id=<%=prospect.getId() %>" class="btn btn-warning btn-block"><i class="bi bi-pencil-fill"></i></a> --%>
+		                                    <%
+		                                    if (prospect.getArchiver() == 0) {
+		                                    %>
 		                                    <a href="UserProspectCard?id=<%= prospect.getId() %>" class="btn btn-sm btn-primary px-5"><i class="fa-solid fa-eye"></i></a>
+		                                    <%
+		                                    } else {
+		                                    %>
+		                                    
+		                                    <%
+		                                    }
+		                                    %>
 	                                   </td>
 		                                   
 										</tr>

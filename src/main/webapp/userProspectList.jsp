@@ -125,7 +125,7 @@ ArrayList<DataTablesListeProspects> dcList = (ArrayList) request.getAttribute("d
 	                                    <td class="text-center"><%= client.getSumOfProductClicks() %></td>
 	                                    
 	                                    <td class="text-center">
-	                                    	<a href='ProspectCard?id=<%= client.getId() %>';" class="btn btn-sm btn-primary px-5"><i class="fa-solid fa-eye"></i></a>
+	                                    	<a href='UserProspectCard?id=<%= client.getId() %>';" class="btn btn-sm btn-primary px-5"><i class="fa-solid fa-eye"></i></a>
 	                                    </td>
 	                                </tr>
 	                            <%

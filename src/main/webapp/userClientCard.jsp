@@ -4,7 +4,7 @@
 <%@ page import="model.Utilisateur"%>
 <%@ page import="model.Adresse_livraison"%>
 <%@ page import="tools.DataTablesListeClients"%>
-<%@page import="tools.DateManipulator"%>
+<%@ page import="tools.DateManipulator"%>
 <%
 Utilisateur client = (Utilisateur) request.getAttribute("ub");
 DataTablesListeClients dc = (DataTablesListeClients) request.getAttribute("dc");
@@ -335,6 +335,17 @@ ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
 			
 			<h6 class="mb-0 text-uppercase">Adresses de livraison</h6>
 			<hr/>
+			<%
+			if (request.getAttribute("responseAddAddressForm") != null) {
+			%>
+			<div>
+				<div class="alert alert-danger text-center" role="alert">
+					<%=request.getAttribute("responseAddAddressForm")%>
+				</div>
+			</div>
+			<%
+			}
+			%>
 			<div class="card">
 				<div class="card-body">
 					<form class="row g-6" method="post">
@@ -358,6 +369,17 @@ ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
 			</div>
 			
 			<!-- boucle -->
+		<%
+		if (request.getAttribute("responseUpdateAddressForm") != null) {
+		%>
+			<div>
+				<div class="alert alert-danger text-center" role="alert">
+					<%=request.getAttribute("responseUpdateAddressForm")%>
+				</div>
+			</div>
+		<%
+		}
+		%>
 		<%
 		for ( Adresse_livraison ab : abCol ) {
 		%>

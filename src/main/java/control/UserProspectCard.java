@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import dao.Adresse_livraisonDAO;
-import dao.CommandeDAO;
 import dao.CommentaireDAO;
 import dao.ContactDAO;
 import dao.ProduitDAO;
@@ -18,19 +17,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Adresse_livraison;
 import model.Produit;
 import model.Utilisateur;
-import tools.DataTablesListeClients;
 import tools.Database;
 
 /**
- * Servlet implementation class UserClientCard
+ * Servlet implementation class UserProspectCard
  */
-public class UserClientCard extends HttpServlet {
+public class UserProspectCard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public UserClientCard() {
+	public UserProspectCard() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -55,7 +53,7 @@ public class UserClientCard extends HttpServlet {
 		 * HREF
 		 */
 		// from userList.jsp
-		// from POST from Servlet UserClientCard
+		// from POST from Servlet UserProspectCard
 		int id = Integer.parseInt(request.getParameter("id"));
 
 		Database.Connect();
@@ -66,10 +64,9 @@ public class UserClientCard extends HttpServlet {
 		RechercheDAO rd = new RechercheDAO();
 		ContactDAO cd = new ContactDAO(); // mails envoyés par User
 		CommentaireDAO comD = new CommentaireDAO();
-		CommandeDAO commandeD = new CommandeDAO();
 		Adresse_livraisonDAO ad = new Adresse_livraisonDAO();
 
-		// from POST from Servlet UserClientCard
+		// from POST from Servlet UserProspectCard
 		if (request.getParameter("msg") != null) {
 
 			if (request.getParameter("msg").equals("yes")) {
@@ -81,15 +78,6 @@ public class UserClientCard extends HttpServlet {
 			}
 
 		}
-
-		// STATISTIQUES DES COMMANDES
-		DataTablesListeClients dc = new DataTablesListeClients();
-		Utilisateur ub = ud.getById(id);
-
-		dc.setDateFirstOrder(commandeD.dateFirstOrder(ub.getId()));
-		dc.setDateLastOrder(commandeD.dateLastOrder(ub.getId()));
-		dc.setOrderAverage(commandeD.orderAverage(ub.getId()));
-		dc.setOrderSum(commandeD.ordersSum(ub.getId()));
 
 		/*
 		 * CAMEMBERT Cliques par article - id="chart9" : clique(s) par article
@@ -117,7 +105,7 @@ public class UserClientCard extends HttpServlet {
 
 				if (p.getTitre().length() > 20) {
 
-					titleLong += "'" + p.getTitre().substring(0, 20) + "...',";
+					titleLong += "'" + p.getTitre().substring(0, 20) + "',";
 					countsLong += vd.sumOfProductClicksByOneUserForOneProduct(id, p.getId()) + ",";
 
 				} else {
@@ -164,13 +152,6 @@ public class UserClientCard extends HttpServlet {
 		 */
 		String countCommentsPerMonth = comD.countAllCommentsByOneUserPerEachMonthOfTheCurrentYear(id);
 		int totalComments = comD.countAllCommentsByOneUser(id);
-
-		/*
-		 * GRAPHIQUE Nombre de commandes par mois - id="chart4" : total clique(s) par
-		 * mois
-		 */
-		String countOrdersPerMonth = commandeD.countAllOrdersByOneUserPerEachMonthOfTheCurrentYear(id);
-		int totalCommandes = commandeD.countAllOrdersByOneUser(id);
 
 		/*
 		 * FORMULAIRES
@@ -240,17 +221,16 @@ public class UserClientCard extends HttpServlet {
 				request.setAttribute("responseUpdateAddressForm", responseAddressForm);				
 			}
 		}
-		
+
 		// DELETE ADRESSE DE LIVRAISON
 		if (request.getParameter("delete") != null) {
 
 			int idAddress = Integer.parseInt(request.getParameter("idAddress"));
 			ad.deleteById(idAddress);
-
+			
 		}
 
 		request.setAttribute("ub", ud.getById(id));
-		request.setAttribute("dc", dc);
 		request.setAttribute("char_cats_titre", title);
 		request.setAttribute("char_cats_nbr", counts);
 		request.setAttribute("cliksPerProduct", productsClickedPerMonth);
@@ -260,12 +240,9 @@ public class UserClientCard extends HttpServlet {
 		request.setAttribute("totalMessages", totalMessages);
 		request.setAttribute("countCommentsPerMonth", countCommentsPerMonth);
 		request.setAttribute("totalComments", totalComments);
-		request.setAttribute("countOrdersPerMonth", countOrdersPerMonth);
-		request.setAttribute("totalCommandes", totalCommandes);
 		request.setAttribute("abCol", ad.getAllByClient(id)); // AFFICHER LES ADRESSE DE LIVRAISON
 
-		request.getRequestDispatcher("userClientCard.jsp").forward(request, response);
-
+		request.getRequestDispatcher("userProspectCard.jsp").forward(request, response);
 	}
 
 	/**
@@ -315,7 +292,7 @@ public class UserClientCard extends HttpServlet {
 
 			}
 
-			response.sendRedirect("UserClientCard?id=" + id + "&msg=" + msg);
+			response.sendRedirect("UserProspectCard?id=" + id + "&msg=" + msg);
 
 		}
 
@@ -390,6 +367,7 @@ public class UserClientCard extends HttpServlet {
 			if ( address.length() > 255 || address.isBlank() ) {
 				msgAddressForm = "ok";
 			}
+			
 			String msgCpForm = "no";
 			if ( cp.length() > 11 || cp.isBlank() ) {
 				msgCpForm = "ok";
@@ -421,7 +399,7 @@ public class UserClientCard extends HttpServlet {
 				
 			}
 
-			response.sendRedirect("UserClientCard?id=" + id
+			response.sendRedirect("UserProspectCard?id=" + id 
 					+ "&msgUpdateAddressForm=" + msgAddressForm 
 					+ "&msgCpForm=" + msgCpForm
 					+ "&msgVilleForm=" + msgVilleForm

@@ -299,4 +299,14 @@
     <servlet-name>SiteFrontOffice</servlet-name>
     <url-pattern>/SiteFrontOffice</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserProspectCard</display-name>
+    <servlet-name>UserProspectCard</servlet-name>
+    <servlet-class>control.UserProspectCard</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserProspectCard</servlet-name>
+    <url-pattern>/UserProspectCard</url-pattern>
+  </servlet-mapping>
 </web-app>

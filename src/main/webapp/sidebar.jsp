@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-
+<%@ page import="model.Coordonnee"%>
+<%
+Coordonnee cb = (Coordonnee) request.getAttribute("cb");
+%>
 <aside class="sidebar-wrapper" data-simplebar="true">
           <div class="sidebar-header">
             <div>
-              <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+              <img src="<%= cb.getLogo() %>" alt="logo icon" width="60px" height="40px"> <!-- class="logo-icon" -->
             </div>
             <div>
-              <h4 class="logo-text">HyTek</h4>
+              <h4 class="logo-text"><%= cb.getNom() %></h4>
             </div>
             <div class="toggle-icon ms-auto"> <i class="bi bi-list"></i>
             </div>
