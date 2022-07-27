@@ -289,4 +289,14 @@
     <servlet-name>FournisseurCommandeForm</servlet-name>
     <url-pattern>/FournisseurCommandeForm</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SiteFrontOffice</display-name>
+    <servlet-name>SiteFrontOffice</servlet-name>
+    <servlet-class>control.SiteFrontOffice</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SiteFrontOffice</servlet-name>
+    <url-pattern>/SiteFrontOffice</url-pattern>
+  </servlet-mapping>
 </web-app>

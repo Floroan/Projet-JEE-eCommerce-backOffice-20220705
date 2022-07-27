@@ -102,20 +102,20 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 				<%
 				if (request.getAttribute("msg") != null) {
 				%>
-				<div>
-					<div class="alert alert-danger text-center" role="alert">
-						<%=request.getAttribute("msg")%>
+					<div>
+						<div class="alert alert-danger text-center" role="alert">
+							<%=request.getAttribute("msg")%>
+						</div>
 					</div>
-				</div>
 				<%
 				}
 				%>
-					<!-- <div class="table-responsive">
-						-->
+					<!-- <div class="table-responsive"> -->
 						<form id="form-id" method="post" action="UserList"> 
 							<button type="submit" name="update" class="btn btn-primary btn-block">Mettre à jour</button>
 							<p></p>
 							<table id="userTable" class="display" style="width:100%">
+							<!-- <table id="example" class="table table-striped table-bordered" style="width:100%"> -->
 								<thead>
 								<tr>
 									<th>Inscrit(e) le</th>
@@ -272,8 +272,7 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 								</tfoot> -->
 							</table>
 						</form>
-						<!-- 
-					</div> -->
+					<!-- </div> --> <!-- table responsive -->
 				</div>
 			</div>
 		</main>

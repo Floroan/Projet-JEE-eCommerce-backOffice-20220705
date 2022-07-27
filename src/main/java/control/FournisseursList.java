@@ -32,8 +32,6 @@ public class FournisseursList extends HttpServlet {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		// int id = Integer.parseInt( request.getParameter("id") );
-		
 		Database.Connect();
 		
 		FournisseurDao fd = new FournisseurDao();
@@ -78,8 +76,6 @@ public class FournisseursList extends HttpServlet {
 				
 			}
 		}
-		
-		System.out.println(fd.getAll());
 		
 		request.setAttribute("fbCol", fd.getAll());
 		request.getRequestDispatcher("fournisseursList.jsp").forward(request, response);
