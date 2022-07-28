@@ -142,12 +142,12 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
                                     <td><img alt="produit" src="<%= p.getImage() %>" style="height: 50px; width: 50px"></td>
                                     <td><%= p.getTitre().substring(0, 15) %>...</td>
                                     
-                                    <td><%= p.getStock() %></td>
-                                    <td><%= p.getStock_min() %></td>
+                                    <td class="text-center"><%= p.getStock() %></td>
+                                    <td class="text-center"><%= p.getStock_min() %></td>
                                     <%
                                     int s = p.getStock_min() - p.getStock();
                                     %>
-                                    <td><%= s %></td>
+                                    <td class="text-center"><%= s %></td>
                                     
                                     <td class="text-center">-</td>
                                     <td class="text-center">-</td>
@@ -214,12 +214,12 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
                                     <td><img alt="produit" src="<%= e.getP().getImage() %>" style="height: 50px; width: 50px"></td>
                                     <td><%= e.getP().getTitre().substring(0, 15) %>...</td>
                                     
-                                    <td><%= e.getP().getStock() %></td>
-                                    <td><%= e.getP().getStock_min() %></td>
+                                    <td class="text-center"><%= e.getP().getStock() %></td>
+                                    <td class="text-center"><%= e.getP().getStock_min() %></td>
                                     <%
                                     int s = e.getP().getStock_min() - e.getP().getStock();
                                     %>
-                                    <td><%= s %></td>
+                                    <td class="text-center"><%= s %></td>
                                     
                                     <td><%= e.getF().getNom() %></td>
                                     <%

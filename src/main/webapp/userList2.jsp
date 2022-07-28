@@ -118,9 +118,10 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 							<!-- <table id="example" class="table table-striped table-bordered" style="width:100%"> -->
 								<thead>
 								<tr>
+									<th>Id</th>
+									<th>Nom</th>
 									<th>Inscrit(e) le</th>
 									<th>Catégorie</th>
-									<th>ID</th>
 									<th>Nom</th>
 									<th>Prénom</th>
 									<th>Mail</th>
@@ -131,6 +132,10 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 								<tbody>
 									<tr>
 										<td>
+											<input size="7" type="text" id="row-1-id" name="row-1-id" value="1" <%-- name="id"--%> class='form-control-plaintext' readonly>
+										</td>
+										<td><%= visiteurs.getNom() %></td>
+										<td>
 										<%
 										String d = DateManipulator.dateConvertToDDmmYYYY( visiteurs.getDate_inscription() );
 										
@@ -139,16 +144,13 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 										</td>
 										<td>Visiteurs</td>
 										<td>
-											<input type="text" id="row-1-id" name="row-1-id" value="1" <%-- name="id"--%> class='form-control-plaintext' readonly>
+											<input size="15" type="text" id="row-1-nom" name="row-1-nom" value="<%= visiteurs.getNom() %>" <%-- name="<%= client.getNom() %>" --%>>
 										</td>
 										<td>
-											<input type="text" id="row-1-nom" name="row-1-nom" value="<%= visiteurs.getNom() %>" <%-- name="<%= client.getNom() %>" --%>>
+											<input size="15" type="text" id="row-1-prenom" name="row-1-prenom" value="<%= visiteurs.getPrenom() %>" <%-- name="<%= client.getPrenom() %>" --%>>
 										</td>
 										<td>
-											<input type="text" id="row-1-prenom" name="row-1-prenom" value="<%= visiteurs.getPrenom() %>" <%-- name="<%= client.getPrenom() %>" --%>>
-										</td>
-										<td>
-											<input type="text" id="row-1-mail" name="row-1-mail" value="<%= visiteurs.getEmail() %>" <%-- name='<%= client.getEmail() %>' --%>>
+											<input size="30" type="text" id="row-1-mail" name="row-1-mail" value="<%= visiteurs.getEmail() %>" <%-- name='<%= client.getEmail() %>' --%>>
 										</td>
 									
 										<td class="text-center">
@@ -167,6 +169,10 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 								%>
 									<tr>
 										<td>
+											<input size="7" type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= client.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
+										</td>
+										<td><%= client.getNom() %></td>
+										<td>
 										<%
 										String dc = DateManipulator.dateConvertToDDmmYYYY( client.getDate_inscription() );
 										
@@ -175,16 +181,13 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 										</td>
 										<td>Client</td>
 										<td>
-											<input type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= client.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
+											<input size="15" type="text" id="row-<%= i %>-nom" name="row-<%= i %>-nom" value="<%= client.getNom() %>" <%-- name="<%= client.getNom() %>" --%>>
 										</td>
 										<td>
-											<input type="text" id="row-<%= i %>-nom" name="row-<%= i %>-nom" value="<%= client.getNom() %>" <%-- name="<%= client.getNom() %>" --%>>
+											<input size="15" type="text" id="row-<%= i %>-prenom" name="row-<%= i %>-prenom" value="<%= client.getPrenom() %>" <%-- name="<%= client.getPrenom() %>" --%>>
 										</td>
 										<td>
-											<input type="text" id="row-<%= i %>-prenom" name="row-<%= i %>-prenom" value="<%= client.getPrenom() %>" <%-- name="<%= client.getPrenom() %>" --%>>
-										</td>
-										<td>
-											<input type="text" id="row-<%= i %>-mail" name="row-<%= i %>-mail" value="<%= client.getEmail() %>" <%-- name='<%= client.getEmail() %>' --%>>
+											<input size="30" type="text" id="row-<%= i %>-mail" name="row-<%= i %>-mail" value="<%= client.getEmail() %>" <%-- name='<%= client.getEmail() %>' --%>>
 										</td>
 									<%
 									if ( client.getArchiver() == 0 ) {
@@ -216,6 +219,10 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 								%>
 									<tr>
 										<td>
+											<input size="7" type="text" id="row-<%= j %>-id" name="row-<%= j %>-id" value="<%= prospect.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
+										</td>
+										<td><%= prospect.getNom() %></td>
+										<td>
 										<%
 										String dp = DateManipulator.dateConvertToDDmmYYYY( prospect.getDate_inscription() );
 										
@@ -224,16 +231,13 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 										</td>
 										<td>Prospect</td>
 										<td>
-											<input type="text" id="row-<%= j %>-id" name="row-<%= j %>-id" value="<%= prospect.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
+											<input size="15" type="text" id="row-<%= j %>-nom" name="row-<%= j %>-nom" value="<%= prospect.getNom() %>" <%-- name="<%= prospect.getNom() %>" --%>>
 										</td>
 										<td>
-											<input type="text" id="row-<%= j %>-nom" name="row-<%= j %>-nom" value="<%= prospect.getNom() %>" <%-- name="<%= prospect.getNom() %>" --%>>
+											<input size="15" type="text" id="row-<%= j %>-prenom" name="row-<%= j %>-prenom" value="<%= prospect.getPrenom() %>" <%-- name="<%= prospect.getPrenom() %>" --%>>
 										</td>
 										<td>
-											<input type="text" id="row-<%= j %>-prenom" name="row-<%= j %>-prenom" value="<%= prospect.getPrenom() %>" <%-- name="<%= prospect.getPrenom() %>" --%>>
-										</td>
-										<td>
-											<input type="text" id="row-<%= j %>-mail" name="row-<%= j %>-mail" value="<%= prospect.getEmail() %>" <%-- name='<%= prospect.getEmail() %>' --%>>
+											<input size="30" type="text" id="row-<%= j %>-mail" name="row-<%= j %>-mail" value="<%= prospect.getEmail() %>" <%-- name='<%= prospect.getEmail() %>' --%>>
 										</td>
 									<%
 									if ( prospect.getArchiver() == 0 ) {

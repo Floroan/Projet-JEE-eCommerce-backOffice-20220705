@@ -62,10 +62,9 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
 			<h6 class="mb-0 text-uppercase">Modifier un élément du front</h6>
 			<hr/>
 			<div class="alert alert-danger text-center" role="alert">
-				45 minutes pour comprendre que les png/jpeg sont dans le projet front office : SAUCISSE !!!<br>
-				Du coup, ça ne peut pas être dynamique...<br>
-				Par contre, comment importe-t-on une image ?<br> 
-				Cf : <a href="https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Java-File-Upload-Servlet-Ajax-Example">Java file upload by example with Servlets & JSPs</a>
+				Il faut rafraîchir le serveur (F5 à la racine du projet) pour que le nouveau logo apparaisse !!?<br> 
+				La modification du slider ne peut être vue car ce sont 2 projets différents.<br>
+				Du coup, on fait quoi...<br>
 			</div>
 			<div class="row">
 				<div class="col-xl-12"> <!-- mx-auto -->
@@ -78,28 +77,29 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
 								</div>
 							<form class="row g-5" method="post" action="SiteFrontOffice" enctype="multipart/form-data">
 								<div class="col-md-2">
-									<label for="formFile" class="form-label">Choisir un nouveau logo</label>
-									<input class="form-control" type="file" name="logoFile"> <!-- id="formFile" --> 
+									<label for="logoFile" class="form-label">Choisir un nouveau logo</label>
+									<input class="form-control" type="file" name="logoFile" id="logoFile"/>
 								</div>
 								<div class="col-md-2">
 									<label class="form-label">Nom de l’entreprise</label>
-									<input type="text" name="name" class="form-control" value="<%= cb.getNom() %>">
+									<input type="text" name="name" class="form-control" value="<%= cb.getNom() %>"/>
 								</div>
 								<div class="col-md-3">
 									<label class="form-label">Adresse</label>
-									<input type="text" name="address" class="form-control" value="<%= cb.getAdresse() %>">
+									<input type="text" name="address" class="form-control" value="<%= cb.getAdresse() %>"/>
 								</div>
 								<div class="col-md-2">
 									<label class="form-label">Téléphone</label>
-									<input type="text" name="phone" class="form-control" value="<%= cb.getTelephone() %>">
+									<input type="text" name="phone" class="form-control" value="<%= cb.getTelephone() %>"/>
 								</div>
 								<div class="col-md-3">
 									<label class="form-label">Email</label>
-									<input type="text" name="mail" class="form-control" value="<%= cb.getEmail() %>">
+									<input type="text" name="mail" class="form-control" value="<%= cb.getEmail() %>"/>
 								</div>
 								<div class="col-md-3">
 									<div class="d-grid">
-										<button type="submit" class="btn btn-warning" name="updateCompany">Mettre à jour les coordonnées</button>
+										<!-- <button type="submit" class="btn btn-warning" name="updateCompany">Mettre à jour les coordonnées</button> -->
+										<input type="submit" class="btn btn-warning" name="updateCompany" value="Mettre à jour les coordonnées" />
 									</div>
 								</div>
 							</form>
@@ -112,31 +112,31 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
 						<div class="card-body">
 							<h6 class="mb-0 text-uppercase">Ajouter un slide au slider de la page d’accueil</h6>
                 			<hr/>
-							<form id="addSlide" class="row g-1" method="post">
+							<form id="addSlide" class="row g-1" method="post" action="SiteFrontOffice" enctype="multipart/form-data">
 								<div class="col-md-3">
-									<input class="form-control" type="file" id="formFile">
-									<label for="formFile" class="form-label">Choisir une image en 1760 x 703</label>
+									<input class="form-control" type="file" name="newSlideFile" id="newSlideFile"/>
+									<label for="newSlideFile" class="form-label">Choisir une image en 1760 x 703</label>
 									<br>
 								</div>
 								<div class="col-md-3">
-									<input type="text" name="nom" class="form-control" placeholder="Titre sur l’image">
+									<input type="text" name="title" class="form-control" placeholder="Titre sur l’image"/>
 									<br>
 								</div>
 								<div class="col-md-3">
-									<input type="text" name="nom" class="form-control" placeholder="Titre du bouton">
+									<input type="text" name="titleButton" class="form-control" placeholder="Titre du bouton"/>
 									<br>
 								</div>
 								<div class="col-md-3">
-									<input type="text" name="nom" class="form-control" placeholder="Destination du bouton (URL)">
+									<input type="text" name="urlButton" class="form-control" placeholder="Destination du bouton (URL)"/>
 									<br>
 								</div>
 								<div class="col-md-12">
-									<textarea name="nom" form="addSlide" class="form-control" rows="5">Écrivez ici vos phrases d’accroches, explications... qui apparaîtront sur l’image.</textarea>
+									<textarea name="text" form="addSlide" class="form-control" rows="5">Écrivez ici vos phrases d’accroches, explications... qui apparaîtront sur l’image.</textarea>
 									<br>
 								</div>
 								<div class="col-md-2">
 									<div class="d-grid">
-										<button type="submit" class="btn btn-primary" name="addFournisseurForm">Ajouter un slide</button>
+										<input type="submit" class="btn btn-primary" name="addNewSlide" value="Ajouter un slide" />
 									</div>
 								</div>
 							</form>
@@ -152,18 +152,18 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
                 			
 
 							<%
-							if (request.getAttribute("msg") != null) {
+							if (request.getAttribute("alertUpdateSlider") != null) {
 							%>
 							<div>
 								<div class="alert alert-danger text-center" role="alert">
-									<%=request.getAttribute("msg")%>
+									<%=request.getAttribute("alertUpdateSlider")%>
 								</div>
 							</div>
 							<%
 							}
 							%>
-							<form id="form-id" method="post" action="UserList"> 
-								<button type="submit" name="update" class="btn btn-warning">Mettre à jour le slider</button>
+							<form id="updateSlide" method="post" action="SiteFrontOffice" enctype="multipart/form-data"> 
+								<input type="submit" class="btn btn-warning" name="updateSlide" value="Mettre à jour le slider" />
 								<p></p>
 								<table id="example" class="table table-striped table-bordered dataTable" style="width:100%"
 									role="grid" aria-describedby="example_info">
@@ -176,6 +176,7 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
 										<th>Titre bouton</th>
 										<th>Url bouton</th>
 										<th>Texte</th>
+										<th>Actions</th>
 									</tr>
 								</thead>
 									<tbody>
@@ -185,30 +186,51 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
 										i++;
 									%>
 										<tr>
-											<td><%= sb.getId() %></td>
+											<td>
+												<input type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= sb.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
+											</td>
 											<td>
 												<img src="<%= sb.getImage() %>" alt="image" height="30px" width="100%">
 											</td>
 											<td>
-												<input class="form-control form-control-sm" type="file" id="row-<%= i %>-urlImg" name="row-<%= i %>-urlImg">
+												<input class="form-control form-control-sm" type="file" id="row-<%= i %>-urlImg" name="row-<%= i %>-urlImg"/>
+												<label for="row-<%= i %>-urlImg" class="form-label">Choisir une image en 1760 x 703</label>
 											</td>
 											<td>
-												<input type="text" id="row-<%= i %>-title" name="row-<%= i %>-title" value="<%= sb.getTitre() %>"">
+												<input type="text" id="row-<%= i %>-title" name="row-<%= i %>-title" value="<%= sb.getTitre() %>"/>
 											</td>
 											<td>
-												<input type="text" id="row-<%= i %>-titleButton" name="row-<%= i %>-titleButton" value="<%= sb.getTitreBouton() %>">
+												<input type="text" id="row-<%= i %>-titleButton" name="row-<%= i %>-titleButton" value="<%= sb.getTitreBouton() %>"/>
 											</td>
 											<td>
-												<input type="text" id="row-<%= i %>-urlButton" name="row-<%= i %>-urlButton" value="<%= sb.getTitreBouton() %>">
+												<input type="text" id="row-<%= i %>-urlButton" name="row-<%= i %>-urlButton" value="<%= sb.getUrl() %>"/>
 											</td>
 											<td>
-												<%-- <input type="text" id="row-<%= i %>-text" name="row-<%= i %>-text" value="<%= sb.getDescription() %>"> --%>
-												<textarea id="row-<%= i %>-text" name="row-<%= i %>-text" <%-- form="addSlide" class="form-control"--%> rows="5"><%= sb.getDescription() %></textarea>
+												<textarea id="row-<%= i %>-text" name="row-<%= i %>-text" form="updateSlide" class="form-control" rows="5"><%= sb.getDescription() %></textarea>
 											</td>
-										</tr>
-									<%
-									} 
-									%>
+										<%
+										if ( sb.getArchiver() == 0 ) {
+										%>
+											<td class="text-center">
+												<a href="SiteFrontOffice?id=<%= sb.getId() %>&archived=isNotArchived" class="btn btn-sm btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
+												<hr>
+												<a href="SiteFrontOffice?id=<%= sb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
+											</td>
+										<%
+										} else {
+										%>
+											<td class="text-center">
+												<a href="SiteFrontOffice?id=<%= sb.getId() %>&archived=isArchived" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
+												<hr>
+												<a href="SiteFrontOffice?id=<%= sb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
+											</td>
+										<%
+										}
+										%>
+											</tr>
+										<%
+										} 
+										%>
 									
 									</tbody>
 									<!-- <tfoot>
@@ -223,14 +245,13 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
 									</tfoot> -->
 								</table>
 							</form>
-					
-                			
-                			
-                			
-                			
                 		</div>
                 	</div>
-				</div>
+				</div> 
+				
+				
+				
+				
 			</div>
 		</main>
 		<!--end page main-->
