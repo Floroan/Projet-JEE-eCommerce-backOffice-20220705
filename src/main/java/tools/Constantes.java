@@ -26,7 +26,10 @@ public final class Constantes {
 	idContact = "idContact",
 	
 	//database
-	databaseName = "projetdeux_tangflo";
+	databaseName = "projetdeux_tangflo",
+	
+	// messages
+	messageNumberFormat = "Une plusieurs saisies sont invalides, vérifiez les champs";
 	
 	public final static int 
 	//message

@@ -76,7 +76,9 @@
                          
                            <td>
                              <div class="d-flex align-items-center gap-3 cursor-pointer">
+                             	<a href="FicheProduit?id=<%= p.getId()%>" title="Voir informations & statistiques">
                                 <img src="<%= p.getImage() %>" class="rounded-circle" width="44" height="44" alt="">
+                                </a>
                              </div>
                            </td>
                            

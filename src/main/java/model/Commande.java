@@ -117,6 +117,16 @@ public class Commande {
 	public void setAdresse(Adresse_livraison adresse) {
 		this.adresse = adresse;
 	}
+	
+
+	@Override
+	public String toString() {
+		return "Commande [id=" + id + ", fk_utilisateur=" + fk_utilisateur + ", fk_adresse=" + fk_adresse + ", etat="
+				+ etat + ", archiver=" + archiver + ", total=" + total + ", " + (date != null ? "date=" + date : "")
+				+ "]";
+	}
+
+
 
 	public String toStringFull() {
 		return "Commande [id=" + id + ", fk_utilisateur=" + fk_utilisateur + ", fk_adresse=" + fk_adresse + ", etat="

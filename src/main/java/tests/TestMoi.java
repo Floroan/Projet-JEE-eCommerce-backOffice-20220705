@@ -63,6 +63,8 @@ public class TestMoi {
 			 System.out.println(cmd.toStringFull());
 		 }
 		 
+		 System.out.println("commandes sur 7 jours: " + comDao.getWithInterval(7));
+		 System.out.println("commandes sur 30 jours: " + comDao.getWithInterval(30));
 		 
 		 RechercheDAO recDao = new RechercheDAO();
 		 

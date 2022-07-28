@@ -46,12 +46,22 @@
 		font-family: Roboto, sans-serif;
 			}
 		
+		#chart91 {
+		max-width: 800px;
+		margin: 20px auto;
+		}
+		
 		#chart89 {
 		max-width: 800px;
 		margin: 20px auto;
 		}
 		
 		#chart88 {
+		max-width: 800px;
+		margin: 20px auto;
+		}
+		
+		#chart2 {
 		max-width: 800px;
 		margin: 20px auto;
 		}
@@ -65,7 +75,7 @@
 </head>
 
 <body>
-<% ArrayList<Commande> commandes = (ArrayList<Commande>) request.getAttribute("commandes"); %>
+<% ArrayList<Commande> cmdsLast20 = (ArrayList<Commande>) request.getAttribute("cmdsLast20"); %>
 <% ArrayList<Visite> visites = (ArrayList<Visite>) request.getAttribute("totalVisites"); %>
 <% ArrayList<Contact> messagesNonLus = (ArrayList<Contact>) request.getAttribute("messagesNonLus"); %>
 <% ArrayList<Sous_categorie> sscats = (ArrayList<Sous_categorie>) request.getAttribute("sscats"); %>
@@ -93,12 +103,17 @@
                     <div class="card-body">
                      <div class="d-flex align-items-stretch justify-content-between overflow-hidden">
                       <div class="w-50">
-                        <p>Nouvelles commandes</p>
-                        <h4 class="">8,542</h4>
+                        <p>Commandes à 24h</p>
+                        <h4 class="">${cmdsAll }</h4>
                       </div>
                       <div class="w-50">
-                         <p class="mb-3 float-end text-success">+ 16% <i class="bi bi-arrow-up"></i></p>
-                         <div id="chart1"></div>
+                      <% Integer cc = (Integer)request.getAttribute("cmdsA24h"); %>
+                      <%if((Integer)request.getAttribute("cmdsA24h") <= 0){ %>
+                         <p class="mb-3 float-end text-warning">+ ${cmdsA24h }%<i class="bi bi-arrow-down"></i></p>
+                         <%}else{ %>
+                         <p class="mb-3 float-end text-success">+ ${cmdsA24h }%<i class="bi bi-arrow-up"></i></p>
+                         <%} %>
+                         <div id="chart91"></div>
                       </div>
                     </div>
                   </div>
@@ -111,11 +126,13 @@
                     <div class="card-body">
                      <div class="d-flex align-items-stretch justify-content-between overflow-hidden">
                       <div class="w-50">
-                        <p>Total des visites</p>
+                        <p>Progression des visites à 7 jours</p>
                         <h4 class=""><%= visites.size() %></h4>
                       </div>
                       <div class="w-50">
-                         <p class="mb-3 float-end text-danger">- 3.4% <i class="bi bi-arrow-down"></i></p>
+                      <% Integer mod = (Integer) request.getAttribute("visitotalA7jours") * 100 / visites.size(); %>
+                      
+                         <p class="mb-3 float-end text-danger" ><%= mod %>%<i class="bi bi-arrow-down"></i></p>
                          <div id="chart2"></div>
                       </div>
                     </div>
@@ -162,7 +179,7 @@
                </div>
             </div><!--end row-->
 
-            <div class="row">
+<div class="row">
             
             
 <!--               <div class="col-12 col-lg-6 d-flex"> -->
@@ -230,8 +247,17 @@
 
 
 <div id="chart90">
-<label for="validationCustom01" class="form-label">Dernières commandes sur les <select><form method="post" onchange="Dashboard"><option>7</option><option>15</option><option>30</option></form></select> derniers jours</label>
 
+					<form method="post">
+						<label for="validationCustom01" class="form-label">Toutes
+							les commandes sur les <select name="lastCmdsInterval">
+								<option>7</option>
+								<option>15</option>
+								<option>30</option>
+						</select> derniers jours
+						</label>
+						<button type="submit" name="lastCmds">Voir</button>
+					</form>
 
 	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>  
 	<script>
@@ -248,37 +274,14 @@
 			  },
 			  series: [
 			    {
-			      name: "Series 1",
+			      name: "Commandes",
 			      data: [
-			        {
-			          x: "02-10-2017 GMT",
-			          y: 34
-			        },
-			        {
-			          x: "02-11-2017 GMT",
-			          y: 43
-			        },
-			        {
-			          x: "02-12-2017 GMT",
-			          y: 31
-			        },
-			        {
-			          x: "02-13-2017 GMT",
-			          y: 43
-			        },
-			        {
-			          x: "02-14-2017 GMT",
-			          y: 33
-			        },
-			        {
-			          x: "02-15-2017 GMT",
-			          y: 52
-			        }
+					${lastcmds}
 			      ]
 			    }
 			  ],
 			  xaxis: {
-			    type: "time"
+			    type: "datetime"
 			  }
 			};
 
@@ -498,6 +501,7 @@
                         <div id="chart9"></div>
                       </div>
                     </div>
+                    
                     <div class="card radius-10 border shadow-none mb-0">
                       <div class="card-body">
                         <div class="d-flex align-items-center">
@@ -527,6 +531,180 @@
                   </div>
                 </div>
              </div>
+             
+             
+
+             <script>
+             
+             var options = {
+            			series: [{
+            				name: "Total Orders",
+            				data: [${cmdsA24h}]
+            			}],
+            			chart: {
+            				type: "line",
+            				//width: 100%,
+            				height: 40,
+            				toolbar: {
+            					show: !1
+            				},
+            				zoom: {
+            					enabled: !1
+            				},
+            				dropShadow: {
+            					enabled: 0,
+            					top: 3,
+            					left: 14,
+            					blur: 4,
+            					opacity: .12,
+            					color: "#e72e7a"
+            				},
+            				sparkline: {
+            					enabled: !0
+            				}
+            			},
+            			markers: {
+            				size: 0,
+            				colors: ["#e72e7a"],
+            				strokeColors: "#fff",
+            				strokeWidth: 2,
+            				hover: {
+            					size: 7
+            				}
+            			},
+            			plotOptions: {
+            				bar: {
+            					horizontal: !1,
+            					columnWidth: "35%",
+            					endingShape: "rounded"
+            				}
+            			},
+            			dataLabels: {
+            				enabled: !1
+            			},
+            			stroke: {
+            				show: !0,
+            				width: 2.5,
+            				curve: "smooth"
+            			},
+            			colors: ["#e72e7a"],
+
+            			fill: {
+            				opacity: 1
+            			},
+            			tooltip: {
+            				theme: "dark",
+            				fixed: {
+            					enabled: !1
+            				},
+            				x: {
+            					show: !1
+            				},
+            				y: {
+            					title: {
+            						formatter: function(e) {
+            							return ""
+            						}
+            					}
+            				},
+            				marker: {
+            					show: !1
+            				}
+            			}
+            		  };
+
+            		  var chart = new ApexCharts(document.querySelector("#chart91"), options);
+            		  chart.render();
+            		  
+             </script>
+             
+             
+             <script>
+             
+             var options = {
+            			series: [{
+            				name: "Total Views",
+            				data: [${visiA7jours}]
+            			}],
+            			chart: {
+            				type: "bar",
+            				//width: 100%,
+            				height: 40,
+            				toolbar: {
+            					show: !1
+            				},
+            				zoom: {
+            					enabled: !1
+            				},
+            				dropShadow: {
+            					enabled: 0,
+            					top: 3,
+            					left: 14,
+            					blur: 4,
+            					opacity: .12,
+            					color: "#3461ff"
+            				},
+            				sparkline: {
+            					enabled: !0
+            				}
+            			},
+            			markers: {
+            				size: 0,
+            				colors: ["#3461ff"],
+            				strokeColors: "#fff",
+            				strokeWidth: 2,
+            				hover: {
+            					size: 7
+            				}
+            			},
+            			plotOptions: {
+            				bar: {
+            					horizontal: !1,
+            					columnWidth: "35%",
+            					endingShape: "rounded"
+            				}
+            			},
+            			dataLabels: {
+            				enabled: !1
+            			},
+            			stroke: {
+            				show: !0,
+            				width: 2.5,
+            				curve: "smooth"
+            			},
+            			colors: ["#3461ff"],
+            			xaxis: {
+            				categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            			},
+            			fill: {
+            				opacity: 1
+            			},
+            			tooltip: {
+            				theme: "dark",
+            				fixed: {
+            					enabled: !1
+            				},
+            				x: {
+            					show: !1
+            				},
+            				y: {
+            					title: {
+            						formatter: function(e) {
+            							return ""
+            						}
+            					}
+            				},
+            				marker: {
+            					show: !1
+            				}
+            			}
+            		  };
+
+            		  var chart = new ApexCharts(document.querySelector("#chart2"), options);
+            		  chart.render();
+             
+             </script>
+
              
              
 <!--              <div class="col-12 col-lg-12 col-xl-4 d-flex"> -->
@@ -595,7 +773,7 @@
                       </thead>
                       <tbody>
                       
-                      <% for(Commande cmd : commandes){ %>
+                      <% for(Commande cmd : cmdsLast20){ %>
 <%--                       <% for(int i = 0; i < 20; i++){ %> --%>
 <%--                       	<% Commande cmd = commandes.get(i); %> --%>
                         <tr>

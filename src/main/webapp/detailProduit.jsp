@@ -5,6 +5,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <jsp:useBean id="handler" class="tools.ValideForm" />
 <!DOCTYPE html>
 <html>
 
@@ -79,6 +81,23 @@
 					<div class="col-xl-9 mx-auto">
 						<h6 class="mb-0 text-uppercase">Fiche du produit</h6>
 						<hr/>
+						
+						
+						  <% if(request.getAttribute("message") != null){ %>
+		                    <div class="alert border-0 bg-light-danger alert-dismissible fade show py-2">
+		                    <div class="d-flex align-items-center">
+		                      <div class="fs-3 text-danger"><i class="bi bi-x-circle-fill"></i>
+		                      </div>
+		                      <div class="ms-3">
+		                        <div class="text-danger">${message}</div>
+		                      </div>
+		                    </div>
+		                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		                  </div>
+                        
+                        <%} %>
+                        
+                        
 						<div class="card">
 							<div class="card-body">
 								<div class="p-4 border rounded">
@@ -101,25 +120,24 @@
 										</div>
 										<div class="col-md-12">
 											<label for="validationCustom05" class="form-label">Image Principale</label>
+											<input type="hidden" name="<%= Constantes.mainImgProd %>" value="<%= p.getImage()%>"/>
 											<img src="<%= p.getImage() %>" class="d-block w-100" alt="...">
 										<div class="col-12">
-											<a  href="#newAddress" class="btn btn-primary" type="submit">Nouvelle image principale ?</a>
+											<a  href="#newImage" class="btn btn-primary" type="submit">Nouvelle image principale ?</a>
 										</div>
-										
-										
 <%-- 											<input type="text" class="form-control" id="validationCustom05" id="<%= Constantes.mainImgProd %>" name="<%= Constantes.mainImgProd %>" placeholder="Nouveau lien pour l'image principale" > --%>
 <%-- 											<a href="DetailProduit?id=<%= p.getId()%>&del " class="btn btn-primary" >change</a> --%>
 <!-- 											<input name="change2" class="btn btn-primary" type="submit" value="Change2"> -->
 <!-- 										</div> -->
+										</div>
 										
 										<div class="col-md-12">
 										<label for="validationCustom03" class="form-label">Détails du produit</label>
 										</div>
 										<div class="col-md-12">
-											<label for="validationCustom04" class="form-label">Associer à une sous-catégorie</label>
+											<label for="validationCustom04" class="form-label">Associer à une sous-catégorie:</label>
 											<select class="form-select" id="validationCustom04" name="<%= Constantes.ssCatProd %>" required>
-												<option selected disabled value="">Choisir une sous-catégorie existante, actuellement: <%= ss_cat_prod.getTitre()%> </option>
-												
+												<option value="<%= ss_cat_prod.getId() %>">Choisir une sous-catégorie existante, actuellement: <%= ss_cat_prod.getTitre()%> </option>
 												<% for(Sous_categorie sc : ss_cats ) { %>
 												<option value=<%= sc.getId() %>> <%= sc.getTitre() %></option>
 												<%}%>
@@ -143,16 +161,20 @@
                             <% if(p.getArchiver()==0){ archive= "non"; }else{ archive="oui";} %>
 										<div class="col-md-6">
 											<label for="validationCustom05" class="form-label">archivé ?</label>
-											<input type="text" class="form-control" id="validationCustom05"  name="<%= Constantes.archiveProd %>" readonly="readonly" value="<%= archive %>" required>
+											<input type="text" class="form-control" id="validationCustom05"  name="<%= Constantes.archiveProd %>" readonly="readonly" value="<%= archive %>" title="Non éditable, voir le bouton 'actions' pour archiver le produit" required>
+<%-- 											<select  class="form-select" name="<%= Constantes.archiveProd %>" required> --%>
+<!-- 												<option>Non</option> -->
+<!-- 												<option>Oui</option> -->
+<!-- 											</select> -->
 										</div>
 										
 						<div class="dropdown">
                           <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                           <ul class="dropdown-menu">
-                            <li><button class="dropdown-item" name="modifier" data-bs-toggle="tooltip" data-bs-original-title="Modifier les changements apportés" >Modifier</button>
+                            <li><button class="dropdown-item" name="<%= Constantes.modifier %>" type="submit" data-bs-toggle="tooltip" data-bs-original-title="Modifier les changements apportés" >Modifier</button>
                             </li>
 
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="tooltip" data-bs-original-title="Voulez-vous archiver ce produit ? Statut actuel <%= archive %>">Archiver</a>
+                            <li><button class="dropdown-item" name="<%= Constantes.archiver %>" data-bs-toggle="tooltip" data-bs-original-title="Voulez-vous archiver ce produit ? Statut actuel <%= archive %>">Archiver</a>
                           </ul>
                         </div>
 						</form>
@@ -197,32 +219,14 @@
 									<form method="post">
 										<input type="hidden" name="idProd4AddImg" value="<%= p.getId() %>" />
 										<div class="col-md-12">
-											<input type="text" class="form-control" id="validationCustom05" name="newImage" placeholder="Coller le lien ici" >
+											<input type="text" class="form-control" id="validationCustom05" name="newImage" placeholder="Coller le lien ici" required >
 											<label for="validationCustom05" class="form-label"></label>
 										</div>
 										<div class="col-md-6"><input name="recImg" class="btn btn-primary" type="submit" value="Enregistrer"></div>
 									</form>
 									
-						<h6 class="mb-0 text-uppercase">Supported elements</h6>
-						<hr/>
-						<div class="card">
-							<div class="card-body">
-								<div class="p-4 border rounded">
-									<form class="was-validated">
-
-										<div class="mb-3">
-											<input type="file" class="form-control" aria-label="file example" required>
-											<div class="invalid-feedback">Example invalid form file feedback</div>
-										</div>
-										<div class="mb-3">
-											<button class="btn btn-primary" type="submit" disabled>Submit form</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-						
-												<div id="newAddress"></div>
+									
+						<div id="newImage"></div>
 						<h6 class="mb-0 text-uppercase">Nouvelle image principale</h6>
 						<hr/>
 						<div class="card">
@@ -244,7 +248,25 @@
 							</div>
 						</div>
 									
-									
+						<h6 class="mb-0 text-uppercase">Supported elements</h6>
+						<hr/>
+						<div class="card">
+							<div class="card-body">
+								<div class="p-4 border rounded">
+									<form class="was-validated">
+
+										<div class="mb-3">
+											<input type="file" class="form-control" aria-label="file example" required>
+											<div class="invalid-feedback">Example invalid form file feedback</div>
+										</div>
+										<div class="mb-3">
+											<button class="btn btn-primary" type="submit" disabled>Submit form</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+							
 								</div>
 							</div>
 						</div>	

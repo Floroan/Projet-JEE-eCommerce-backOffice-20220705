@@ -123,8 +123,9 @@
 				
 				
 				<div class="row">
+				<div class="d-flex align-items-center">
 				 <a href="DetailProduit?id=<%= p.getId() %>" type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Modifier ce produit ?"><i class="bi bi-pencil-fill"></i></a>
-<!-- 				<button class="btn btn-primary" type="submit" name="newMainImg" >Enregistrer</button> -->
+				</div>
 				</div>
 				
 				<div class="row">
@@ -134,8 +135,8 @@
                    
                       <h5 class="mb-0">Commentaires</h5>
                        <form class="ms-auto position-relative">
-                         <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-search"></i></div>
-                         <input class="form-control ps-5" type="text" placeholder="search">
+<!--                          <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-search"></i></div> -->
+<!--                          <input class="form-control ps-5" type="text" placeholder="search"> -->
                        </form>
                    </div>
                    <div class="table-responsive mt-3">
@@ -154,9 +155,9 @@
                        </thead>
                        <tbody>
                        <% for (Commentaire cm : comms){ %>
-                       	<form method="post">
+                       	
                          <tr>
-                         
+                         <form method="post">
                           <td><%=cm.getId() %></td>
                           
                            <td>
@@ -181,10 +182,10 @@
                                <button type="submit" name="<%= Constantes.modifier %>" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editer/Corriger"><i class="bi bi-pencil-fill"></i></button>
                                <button type="submit" name="<%= Constantes.archiver %>" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Archiver"><i class="lni lni-archive"></i></button>
                              </div>
-                            
+                            </form>
                            </td>
                          </tr>
-                          </form>
+                          
                          <% } %>
                          
                        </tbody>

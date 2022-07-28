@@ -97,27 +97,26 @@
 							<div class="email-toggle-btn"><i class='bx bx-menu'></i>
 							</div>
 							<div class="btn btn-white">
-								<input class="form-check-input" type="checkbox">
+								<input class="form-check-input" type="checkbox" selected="del">
 							</div>
 							<div class="">
-								<button type="button" class="btn btn-white ms-2"><i class="bi bi-arrow-repeat me-0"></i>
-								</button>
+								<a href="GestionMessagerie" type="button" class="btn btn-white ms-2" title="rafraichir"><i class="bi bi-arrow-repeat me-0"></i></a>
 							</div>
+<!-- 							<div class=""> -->
+<!-- 								<button type="button" class="btn btn-white ms-2"><i class="bi bi-cloud-download-fill me-0"></i> -->
+<!-- 								</button> -->
+<!-- 							</div> -->
+<!-- 							<div class="d-none d-md-flex"> -->
+<!-- 								<button type="button" class="btn btn-white ms-2"><i class="bi bi-file-earmark-bar-graph-fill me-0"></i> -->
+<!-- 								</button> -->
+<!-- 							</div> -->
 							<div class="">
-								<button type="button" class="btn btn-white ms-2"><i class="bi bi-cloud-download-fill me-0"></i>
-								</button>
-							</div>
-							<div class="d-none d-md-flex">
-								<button type="button" class="btn btn-white ms-2"><i class="bi bi-file-earmark-bar-graph-fill me-0"></i>
-								</button>
-							</div>
-							<div class="">
-								<button type="button" class="btn btn-white ms-2"><i class="bi bi-trash-fill me-0"></i>
-								</button>
+								<a type="button" class="btn btn-white ms-2"><i class="bi bi-trash-fill me-0"></i></a>
 							</div>
 						</div>
 						<div class="flex-grow-1 mx-xl-2 my-2 my-xl-0">
-							<div class="input-group">	<span class="input-group-text bg-transparent"><i class="bi bi-search"></i></span>
+							<div class="input-group">	
+								<span class="input-group-text bg-transparent"><i class="bi bi-search"></i></span>
 								<input type="text" class="form-control" placeholder="Search mail">
 							</div>
 						</div>

@@ -76,9 +76,8 @@
                   </div>
                   </form>
                   
-                    <div class="list-group list-group-flush"> <a href="app-emailbox.html" class="list-group-item active d-flex align-items-center"><i class='bx bxs-inbox me-3 font-20'></i><span>Inbox</span><span class="badge bg-primary rounded-pill ms-auto">7,513</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-star me-3 font-20'></i><span>Starred</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-envelope-open me-3 font-20'></i><span>Tous</span></a>
+                    <div class="list-group list-group-flush"> 
+                      <a href="GestionMessagerie?" class="list-group-item active d-flex align-items-center"><i class='bx bxs-envelope-open me-3 font-20'></i><span>Tous</span><span class="badge bg-primary rounded-pill ms-auto">${count }</span></a>
                       <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-trash-alt me-3 font-20'></i><span>Corbeille</span></a>
                     </div>
                   </div>
@@ -207,8 +206,7 @@
                             </button>
                           </div>
                           <div class="ms-auto">
-                            <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-trash"></i>
-                            </button>
+                            <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-trash"></i></button>
                           </div>
                         </div>
                       </div>

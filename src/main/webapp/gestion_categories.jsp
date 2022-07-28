@@ -79,7 +79,7 @@
                            <form class="row g-3" method="post">
                              <div class="col-12">
                                <label class="form-label">Titre</label>
-                               <input name="ajoutTitre" type="text" class="form-control" placeholder="Titre">
+                               <input name="ajoutTitre" type="text" class="form-control" placeholder="Titre" required>
                              </div>
                              <div class="col-12">
                               <label class="form-label">Archiver</label>

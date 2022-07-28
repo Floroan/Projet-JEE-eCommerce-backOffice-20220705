@@ -16,8 +16,11 @@ import tools.Constantes;
 import tools.Database;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import dao.CategorieDAO;
@@ -71,6 +74,34 @@ public class Dashboard extends HttpServlet {
 		prodDao = new ProduitDAO();
 		rechDao = new RechercheDAO(); 
 		
+		
+		if(request.getParameter("lastCmds") != null) {
+			LinkedHashMap<Date, Integer> cmds = new LinkedHashMap<>();
+			cmds = cmdDao.getWithInterval(Integer.parseInt(request.getParameter("lastCmdsInterval")));
+			String lastcmds = "";
+			
+			for(Map.Entry<Date, Integer> entry : cmds.entrySet()){ 
+				// Date dt = entry.getKey();
+				 //System.out.println("date:" +  dt);
+				 SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+				 String dt = df.format(entry.getKey());
+				 System.out.println("date:" +  dt);
+				 lastcmds += "{ x: "+ "\"" + dt + " GMT" + "\"" + ", y: " + entry.getValue() + "},"; 
+				}
+			System.out.println(lastcmds);
+				request.setAttribute("lastcmds", lastcmds);
+		}else { // par defaut sur 7 jours
+			LinkedHashMap<Date, Integer> cmds = new LinkedHashMap<>();
+			cmds = cmdDao.getWithInterval(7);
+			String lastcmds = "";
+			
+			for(Map.Entry<Date, Integer> entry : cmds.entrySet()){ 
+				 Date dt = entry.getKey();
+				 lastcmds += "{ x:" + dt.toGMTString() + ", y: " + entry.getValue() + "},"; 
+				}
+				request.setAttribute("lastcmds", lastcmds);
+		}
+		
 		ArrayList<Commande> commandes = cmdDao.getLimit(20);
 		
 		
@@ -105,8 +136,25 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("char_sscats_titre", char_sscats_titre);
 		request.setAttribute("char_sscats_nbr", char_sscats_nbr);
 		
-		request.setAttribute("commandes", commandes);
+		
+		// visites à 7 jours
+		String visiA7jours = "";
+		int visitotalA7jours = 0;
+		for(Map.Entry<Date, Integer> entry : visiDao.getWithInterval(7).entrySet()){ 
+
+			 SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+			 String dt = df.format(entry.getKey());
+			 visiA7jours +=  entry.getValue() + ", "; 
+			 visitotalA7jours += entry.getValue();
+			
+			} System.out.println("visite 7 jours: " + visiA7jours); System.out.println("visite 7 jours: " + visitotalA7jours);
+		
+		request.setAttribute("cmdsAll", genDao.countRows("commandes"));
+		request.setAttribute("cmdsLast20", commandes);
 		request.setAttribute("total_CA", Service_commandes.chiffreAffaireTotal(commandes));
+		request.setAttribute("cmdsA24h", Service_commandes.last_commandes_With24hInterval());
+		request.setAttribute("visiA7jours", visiA7jours);
+		request.setAttribute("visitotalA7jours", visitotalA7jours);
 		request.setAttribute("totalVisites", visiDao.getAll());
 		request.setAttribute("totalProduits", genDao.countRows("produits"));
 		request.setAttribute("messagesNonLus", contDao.getAllByEtat(Constantes.nonlu));
@@ -136,3 +184,6 @@ public class Dashboard extends HttpServlet {
 	}
 
 }
+
+
+

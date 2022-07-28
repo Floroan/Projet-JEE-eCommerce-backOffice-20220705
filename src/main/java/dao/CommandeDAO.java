@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 import org.apache.naming.factory.TransactionFactory;
 
@@ -273,6 +274,30 @@ public ArrayList<Commande> getLimit(int limit) {
     	return null;
     }
 }
+
+public LinkedHashMap<Date, Integer> getWithInterval(int interval) {
+	LinkedHashMap<Date, Integer> list = new LinkedHashMap<Date, Integer>();
+	try {
+		
+			PreparedStatement preparedStatement  =
+					Database.connexion.prepareStatement("SELECT commandes.date,COUNT(*) as cnt FROM commandes WHERE commandes.date >= (NOW() - INTERVAL ? DAY) GROUP by commandes.date;");
+			preparedStatement.setInt(1, interval);
+			ResultSet resultat=preparedStatement.executeQuery();
+
+			while(resultat.next()) {
+
+				list.put(resultat.getDate( "date" ), resultat.getInt( "cnt" ));
+
+			}
+			return list;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
+//SELECT * from "+ tableName + " WHERE " + tableName + ".date >= (NOW() - INTERVAL "+ interval +" DAY);
+
 
 public ArrayList<Commande> getAllByEtat(int etat) {
 	ArrayList<Commande> list = new ArrayList<Commande>();

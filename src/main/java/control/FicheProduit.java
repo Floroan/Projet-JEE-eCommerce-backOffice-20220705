@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Commentaire;
 import tools.Constantes;
 import tools.Database;
@@ -36,6 +37,7 @@ public class FicheProduit extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession(true);
 		Database.Connect();
 		
 		prodDao = new ProduitDAO();
@@ -55,6 +57,8 @@ public class FicheProduit extends HttpServlet {
 		}
 		
 		if(request.getParameter(Constantes.modifier) != null) {
+			
+			
 			System.out.println(request.getParameter("areaComm"));
 			Commentaire comm = commDao.getById(Integer.parseInt(request.getParameter(Constantes.commentaireId)));
 			comm.setCommentaire(request.getParameter("areaComm"));
@@ -63,7 +67,16 @@ public class FicheProduit extends HttpServlet {
 		request.setAttribute("message", "Actuellement, il n'y a pas encore de  commentaires pour ce produit");
 		request.setAttribute("prod", prodDao.getById(Integer.parseInt(request.getParameter("id"))));
 		request.setAttribute("commentaires", commDao.getAllByProduit(Integer.parseInt(request.getParameter("id"))));
-		request.getRequestDispatcher("/ficheProduit.jsp").forward(request, response);
+		
+		if(session.getAttribute("isConnected") == null) {
+			request.getRequestDispatcher("/error500.jsp").forward(request, response);
+			
+		}else {
+			request.getRequestDispatcher("/ficheProduit.jsp").forward(request, response);
+		}
+
+		
+		
 	}
 
 	/**

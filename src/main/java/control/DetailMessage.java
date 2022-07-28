@@ -12,6 +12,7 @@ import tools.Constantes;
 import java.io.IOException;
 
 import dao.ContactDAO;
+import dao.GenericDAO;
 
 /**
  * Servlet implementation class DetailMessage
@@ -21,6 +22,7 @@ public class DetailMessage extends HttpServlet {
        
 	private ContactDAO conDao;
 	private Contact contact;
+	private GenericDAO genDao;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -38,6 +40,10 @@ public class DetailMessage extends HttpServlet {
 		
 		conDao = new ContactDAO();
 		
+		genDao = new GenericDAO();
+		
+		request.setAttribute("count", genDao.countRows("contacts"));
+		
 		if(request.getParameter("editEtat") != null) {
 			System.out.println(request.getParameter("etatMessage") + " " + request.getParameter("idContact"));
 			Contact c = conDao.getById( Integer.parseInt(request.getParameter(Constantes.idContact)));
@@ -52,7 +58,7 @@ public class DetailMessage extends HttpServlet {
 						conDao.save(c);
 				break;
 			case "3":  System.out.println("noreso");
-						c.setEtat(Constantes.nonlu);
+						c.setEtat(Constantes.nonResolu);
 						conDao.save(c);
 				break;
 				default: System.out.println("probleme");
