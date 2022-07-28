@@ -186,23 +186,23 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
 										i++;
 									%>
 										<tr>
-											<td>
-												<input type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= sb.getId() %>" <%-- name="id"--%> class='form-control-plaintext' readonly>
+											<td class="align-middle">
+												<input size="1" type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= sb.getId() %>" <%-- name="id"--%> class='form-control-plaintext text-center' readonly>
 											</td>
-											<td>
+											<td class="align-middle">
 												<img src="<%= sb.getImage() %>" alt="image" height="30px" width="100%">
 											</td>
-											<td>
+											<td class="align-middle">
 												<input class="form-control form-control-sm" type="file" id="row-<%= i %>-urlImg" name="row-<%= i %>-urlImg"/>
 												<label for="row-<%= i %>-urlImg" class="form-label">Choisir une image en 1760 x 703</label>
 											</td>
-											<td>
+											<td class="align-middle">
 												<input type="text" id="row-<%= i %>-title" name="row-<%= i %>-title" value="<%= sb.getTitre() %>"/>
 											</td>
-											<td>
+											<td class="align-middle">
 												<input type="text" id="row-<%= i %>-titleButton" name="row-<%= i %>-titleButton" value="<%= sb.getTitreBouton() %>"/>
 											</td>
-											<td>
+											<td class="align-middle">
 												<input type="text" id="row-<%= i %>-urlButton" name="row-<%= i %>-urlButton" value="<%= sb.getUrl() %>"/>
 											</td>
 											<td>
@@ -211,7 +211,7 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
 										<%
 										if ( sb.getArchiver() == 0 ) {
 										%>
-											<td class="text-center">
+											<td class="text-center align-middle">
 												<a href="SiteFrontOffice?id=<%= sb.getId() %>&archived=isNotArchived" class="btn btn-sm btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
 												<hr>
 												<a href="SiteFrontOffice?id=<%= sb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
@@ -219,7 +219,7 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
 										<%
 										} else {
 										%>
-											<td class="text-center">
+											<td class="text-center align-middle">
 												<a href="SiteFrontOffice?id=<%= sb.getId() %>&archived=isArchived" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
 												<hr>
 												<a href="SiteFrontOffice?id=<%= sb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>

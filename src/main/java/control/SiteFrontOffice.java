@@ -78,6 +78,12 @@ public class SiteFrontOffice extends HttpServlet {
 				
 			}
 		}
+		
+		// DELETE A SLIDE
+		if ( request.getParameter("deleted") != null ) {
+			int id = Integer.parseInt( request.getParameter("id") );
+			sd.deleteById(id);
+		}
 
 		request.setAttribute("cb", cd.getById(1));
 		request.setAttribute("sbCol", sd.getAll());

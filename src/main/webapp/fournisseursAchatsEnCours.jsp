@@ -130,7 +130,7 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 								<th>Fournisseur</th>
 								<th class="text-center">Date</th>
 								<th class="text-center">Qté commandée</th>
-								<th>action</th>
+								<th class="text-center">Actions</th>
 							</tr>
 						</thead>
 							<tbody>
@@ -138,21 +138,21 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
                             for ( Produit p : pbCol) {
                             %>
                                 <tr>
-                                	<td><%= p.getId() %></td>
-                                    <td><img alt="produit" src="<%= p.getImage() %>" style="height: 50px; width: 50px"></td>
-                                    <td><%= p.getTitre().substring(0, 15) %>...</td>
+                                	<td class="text-center align-middle"><%= p.getId() %></td>
+                                    <td class="text-center align-middle"><img alt="produit" src="<%= p.getImage() %>" style="height: 50px; width: 50px"></td>
+                                    <td class="align-middle"><%= p.getTitre().substring(0, 15) %>...</td>
                                     
-                                    <td class="text-center"><%= p.getStock() %></td>
-                                    <td class="text-center"><%= p.getStock_min() %></td>
+                                    <td class="text-center align-middle"><%= p.getStock() %></td>
+                                    <td class="text-center align-middle"><%= p.getStock_min() %></td>
                                     <%
                                     int s = p.getStock_min() - p.getStock();
                                     %>
-                                    <td class="text-center"><%= s %></td>
+                                    <td class="text-center align-middle"><%= s %></td>
                                     
-                                    <td class="text-center">-</td>
-                                    <td class="text-center">-</td>
-                                    <td class="text-center">-</td>
-                                    <td>
+                                    <td class="text-center align-middle">-</td>
+                                    <td class="text-center align-middle">-</td>
+                                    <td class="text-center align-middle">-</td>
+                                    <td class="align-middle">
                                     	<a href="FournisseurCommandeForm?commander=ok&idProduit=<%= p.getId() %>" class="btn btn-warning px-2.3">Commander</a>
 										
 										<!-- MODAL -->
@@ -210,24 +210,24 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
                             for ( Entree_stock e : ebCol) {
                             %>
                                 <tr>
-                                	<td><%= e.getP().getId() %></td>
-                                    <td><img alt="produit" src="<%= e.getP().getImage() %>" style="height: 50px; width: 50px"></td>
-                                    <td><%= e.getP().getTitre().substring(0, 15) %>...</td>
+                                	<td class="text-center align-middle"><%= e.getP().getId() %></td>
+                                    <td style="width: 70px" class="text-center align-middle"><img alt="produit" src="<%= e.getP().getImage() %>" style="height: 50px; width: 50px"></td>
+                                    <td class="align-middle"><%= e.getP().getTitre().substring(0, 15) %>...</td>
                                     
-                                    <td class="text-center"><%= e.getP().getStock() %></td>
-                                    <td class="text-center"><%= e.getP().getStock_min() %></td>
+                                    <td class="text-center align-middle"><%= e.getP().getStock() %></td>
+                                    <td class="text-center align-middle"><%= e.getP().getStock_min() %></td>
                                     <%
                                     int s = e.getP().getStock_min() - e.getP().getStock();
                                     %>
-                                    <td class="text-center"><%= s %></td>
+                                    <td class="text-center align-middle"><%= s %></td>
                                     
-                                    <td><%= e.getF().getNom() %></td>
+                                    <td class="align-middle"><%= e.getF().getNom() %></td>
                                     <%
                                     String d = DateManipulator.dateConvertToDDmmYYYY(e.getDate());
                                     %>
-                                    <td class="text-center"><%= d %></td>
-                                    <td class="text-center"><%= e.getQte() %></td>
-                                    <td><a href="FournisseursAchatsEnCours?receptionner=ok&idEntreeStock=<%= e.getId() %>&orderQty=<%= e.getQte() %>&idProduit=<%= e.getP().getId() %>" class="btn btn-primary px-2">Réceptionner</a></td>
+                                    <td class="text-center align-middle"><%= d %></td>
+                                    <td class="text-center align-middle"><%= e.getQte() %></td>
+                                    <td class="align-middle"><a href="FournisseursAchatsEnCours?receptionner=ok&idEntreeStock=<%= e.getId() %>&orderQty=<%= e.getQte() %>&idProduit=<%= e.getP().getId() %>" class="btn btn-primary px-2">Réceptionner</a></td>
                                 </tr>
                             <%
                             }

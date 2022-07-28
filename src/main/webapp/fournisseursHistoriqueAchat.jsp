@@ -98,7 +98,7 @@ ArrayList<Entree_stock> dcList = (ArrayList) request.getAttribute("ebCol");
 								<th>Produit</th>
 								<th>Titre</th>
 								<th>Fournisseur</th>
-								<th>Date</th>
+								<th class="text-center">Date</th>
 								<th class="text-center">Qté</th>
 							</tr>
 						</thead>
@@ -107,14 +107,14 @@ ArrayList<Entree_stock> dcList = (ArrayList) request.getAttribute("ebCol");
                             for ( Entree_stock e : dcList) {
                             %>
                                 <tr>
-                                    <td><img alt="produit" src="<%= e.getP().getImage() %>" style="height: 50px; width: 50px"></td>
-                                    <td><%= e.getP().getTitre() %></td>
-                                    <td><%= e.getF().getNom() %></td>
+                                    <td style="width: 70px" class="text-center align-middle"><img alt="produit" src="<%= e.getP().getImage() %>" style="height: 50px; width: 50px"></td>
+                                    <td class="align-middle"><%= e.getP().getTitre() %></td>
+                                    <td class="align-middle"><%= e.getF().getNom() %></td>
                                     <%
                                     String d = DateManipulator.dateConvertToDDmmYYYY(e.getDate());
                                     %>
-                                    <td><%= d %></td>
-                                    <td class="text-center"><%= e.getQte() %></td>
+                                    <td class="text-center align-middle"><%= d %></td>
+                                    <td class="text-center align-middle"><%= e.getQte() %></td>
                                 </tr>
                             <%
                             }
