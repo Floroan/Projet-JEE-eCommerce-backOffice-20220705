@@ -138,7 +138,7 @@ Coordonnee cb = (Coordonnee) request.getAttribute("cb");
                		<div class="menu-title">Back Office</div>
                	</a>
              	<ul>
-               		<li> <a href="#"><i class="bi bi-circle"></i>Employés</a></li>
+               		<li> <a href="AdminList"><i class="bi bi-circle"></i>Employés</a></li>
              	</ul>
 			</li>
 			<li>
