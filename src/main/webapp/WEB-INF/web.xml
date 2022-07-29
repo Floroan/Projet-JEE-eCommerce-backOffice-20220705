@@ -189,4 +189,34 @@
     <servlet-name>AjoutProduit</servlet-name>
     <url-pattern>/AjoutProduit</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TableCommandesByEtat</display-name>
+    <servlet-name>TableCommandesByEtat</servlet-name>
+    <servlet-class>control.TableCommandesByEtat</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TableCommandesByEtat</servlet-name>
+    <url-pattern>/TableCommandesByEtat</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FicheProduit</display-name>
+    <servlet-name>FicheProduit</servlet-name>
+    <servlet-class>control.FicheProduit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FicheProduit</servlet-name>
+    <url-pattern>/FicheProduit</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TopRecherches</display-name>
+    <servlet-name>TopRecherches</servlet-name>
+    <servlet-class>control.TopRecherches</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TopRecherches</servlet-name>
+    <url-pattern>/TopRecherches</url-pattern>
+  </servlet-mapping>
 </web-app>

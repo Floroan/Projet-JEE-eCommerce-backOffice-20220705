@@ -75,6 +75,8 @@
                 </div>
                 <div class="card-body">
                    <div class="row">
+                   
+                   
                      <div class="col-12 col-lg-4 d-flex">
                        <div class="card border shadow-none w-100">
                          <div class="card-body">
@@ -111,7 +113,7 @@
                       <div class="card border shadow-none w-100">
                         <div class="card-body">
                           <div class="table-responsive">
-                             <table class="table align-middle">
+                             <table id="example" class="table align-middle">
                                <thead class="table-light">
                                  <tr>
                                    
@@ -126,7 +128,7 @@
                                
                                <%for( Sous_categorie sc : ss_cats){ %>
                                  <tr>
-                                 <form method="get">
+                                 <form method="post" action="GestionSousCategorie">
                                   
                                    <input type="hidden" name="sscatId" value="<%= sc.getId() %>" />
                                    <td><%= sc.getId() %></td>
@@ -142,12 +144,12 @@
                                    <td><%= sc.getArchiver() %></td>
                                    <td>
                                     <div class="d-flex align-items-center gap-3 fs-6">   
-                                      	<button name="editSscat" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit" type="submit"><i class="bi bi-pencil-fill"></i></button>
-                                      	<button name="archiveSscat" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Archiver" aria-label="Archiver"><i class="lni lni-archive"></i></button>  
-                                    </form>
+<!--                                       	<button name="editSscat" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit" type="submit"><i class="bi bi-pencil-fill"></i></button> -->
+                                      	<button type="submit" name="archiveSscat" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Archiver" aria-label="Archiver"><i class="lni lni-archive"></i></button>  
+                                   
                                     </div>
                                    </td>
-                                   
+                                    </form>
                                  </tr>
                                  <%} %>
                                  
@@ -258,6 +260,10 @@
   <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
   <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   <script src="assets/js/pace.min.js"></script>
+  <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+  <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+  <script src="assets/js/table-datatable.js"></script>
+  
   <!--app-->
   <script src="assets/js/app.js"></script>
   

@@ -1,4 +1,5 @@
 
+<%@page import="tools.Constantes"%>
 <%@page import="model.Produit"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -48,22 +49,22 @@
                    
                       <h5 class="mb-0">Customer Details</h5>
                        <form class="ms-auto position-relative">
-                         <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-search"></i></div>
-                         <input class="form-control ps-5" type="text" placeholder="search">
+<!--                          <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-search"></i></div> -->
+<!--                          <input class="form-control ps-5" type="text" placeholder="search"> -->
                        </form>
                    </div>
-                   <div class="table-responsive mt-3">
-                     <table class="table align-middle">
+                   <div class="table-responsive">
+                     <table id="example" class="table align-middle">
                        <thead class="table-secondary">
                          <tr>
                           <th>ID</th>
                           <th>Image principale</th>
                           <th>Titre</th>
-                          <th>Description</th>
+<!--                           <th>Description</th> -->
                           <th>PU</th>
                           <th>sous-catégorie</th>
                           <th>Stock</th>
-                          <th>Statut archive</th>
+                          <th>archivé ?</th>
                           <th>Actions</th>
                          </tr>
                        </thead>
@@ -72,19 +73,18 @@
                          <tr>
                          
                           <td><%=p.getId() %></td>
-                          
+                         
                            <td>
                              <div class="d-flex align-items-center gap-3 cursor-pointer">
+                             	<a href="FicheProduit?id=<%= p.getId()%>" title="Voir informations & statistiques">
                                 <img src="<%= p.getImage() %>" class="rounded-circle" width="44" height="44" alt="">
-<!--                                 <div class=""> -->
-<!--                                   <p class="mb-0">Thomas Hardy</p> -->
-<!--                                 </div> -->
+                                </a>
                              </div>
                            </td>
                            
                            <td><%= p.getTitre() %></td>
                            
-                           <td><%= p.getDescription().substring(0, 30) %></td>
+<%--                            <td><%= p.getDescription().substring(0, 30) %></td> --%>
                            
                            <td><%= p.getPrix() %></td>
                            
@@ -95,11 +95,14 @@
                            <td><%= p.getArchiver() %></td>
                            
                            <td>
+                           <form method="post" action="TableProduits">
+                            <input type="hidden" name="<%= Constantes.idProd%>" value="<%= p.getId() %>" />
                              <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                               <a href="#" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Views"><i class="bi bi-eye-fill"></i></a>
-                               <a href="DetailProduit?id=<%=p.getId() %>" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit"><i class="bi bi-pencil-fill"></i></a>
-                               <a href="javascript:;" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete"><i class="bi bi-trash-fill"></i></a>
+                               <a href="FicheProduit?id=<%=p.getId() %>" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Voir informations & statistiques"><i class="bi bi-eye-fill"></i></a>
+                               <a href="DetailProduit?id=<%=p.getId() %>" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editer"><i class="bi bi-pencil-fill"></i></a>
+                               <button type="submit" name="<%= Constantes.archiver %>" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Archiver"><i class="lni lni-archive"></i></button>
                              </div>
+                             </form>
                            </td>
                            
                          </tr>
@@ -155,7 +158,7 @@
 
   <!-- Bootstrap bundle JS -->
 <!--   <script src="assets/js/bootstrap.bundle.min.js"></script> -->
-<!--   <!--plugins--> -->
+<!--   <!--plugins-->
 <!--   <script src="assets/js/jquery.min.js"></script> -->
 <!--   <script src="assets/plugins/simplebar/js/simplebar.min.js"></script> -->
 <!--   <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script> -->
@@ -165,7 +168,7 @@
 <!--   <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script> -->
 <!--   <script src="assets/js/table-datatable.js"></script> -->
 	
-<!--   <!--app--> -->
+<!--   <!--app--> 
 <!--   <script src="assets/js/app.js"></script> -->
   
 <!-- </body> -->

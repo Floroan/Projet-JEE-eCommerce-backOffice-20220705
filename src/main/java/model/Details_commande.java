@@ -96,12 +96,14 @@ public class Details_commande {
 				+ qte + ", archiver=" + archiver + ", prix=" + prix + ", " + (c != null ? "c=" + c + ", " : "")
 				+ (p != null ? "p=" + p : "") + "]";
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Details_commandeDAO [id=" + id + ", fk_commande=" + fk_commande + ", fk_produit=" + fk_produit + ", qte="
-				+ qte + ", archiver=" + archiver + ", prix=" + prix + "]";
+		return "Details_commande [id=" + id + ", fk_commande=" + fk_commande + ", fk_produit=" + fk_produit + ", qte="
+				+ qte + ", archiver=" + archiver + ", prix=" + prix + ", " + (c != null ? "c=" + c + ", " : "")
+				+ (p != null ? "p=" + p : "") + "]";
 	}
+	
 	 
 	 
 	 

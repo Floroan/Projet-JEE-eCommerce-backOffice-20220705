@@ -139,7 +139,9 @@
   <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
   <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   <script src="assets/js/pace.min.js"></script>
-
+  <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+  <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+  <script src="assets/js/table-datatable.js"></script>
 	
   <!--app-->
   <script src="assets/js/app.js"></script>

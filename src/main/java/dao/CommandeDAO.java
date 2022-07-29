@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 import org.apache.naming.factory.TransactionFactory;
 
@@ -225,6 +226,110 @@ public ArrayList<Commande> getAll() {
 				u.setFk_adresse(resultat.getInt( "fk_adresse" ));
 				u.setEtat(resultat.getInt( "etat" ));
 				u.setArchiver(resultat.getInt( "archiver" ));
+				
+				UtilisateurDAO utDao = new UtilisateurDAO();
+				Utilisateur ut = utDao.getById(u.getFk_utilisateur());
+				
+				u.setU(ut);
+				
+				list.add(u);
+			}
+			return list;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
+
+public ArrayList<Commande> getLimit(int limit) {
+	ArrayList<Commande> list = new ArrayList<Commande>();
+	try {
+		
+			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM commandes ORDER BY commandes.date DESC LIMIT ? ");
+			preparedStatement.setInt(1, limit);
+			ResultSet resultat=preparedStatement.executeQuery();
+
+			while(resultat.next()) {
+				Commande u = new Commande();
+				u.setId(resultat.getInt( "id" ));
+				u.setFk_utilisateur(resultat.getInt( "fk_utilisateur" ));
+				u.setDate(resultat.getDate( "date" ));
+				u.setTotal(resultat.getDouble( "total" ));
+				u.setFk_adresse(resultat.getInt( "fk_adresse" ));
+				u.setEtat(resultat.getInt( "etat" ));
+				u.setArchiver(resultat.getInt( "archiver" ));
+				
+				UtilisateurDAO utDao = new UtilisateurDAO();
+				Utilisateur ut = utDao.getById(u.getFk_utilisateur());
+				
+				u.setU(ut);
+				
+				list.add(u);
+			}
+			return list;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
+
+public LinkedHashMap<Date, Integer> getWithInterval(int interval) {
+	LinkedHashMap<Date, Integer> list = new LinkedHashMap<Date, Integer>();
+	try {
+		
+			PreparedStatement preparedStatement  =
+					Database.connexion.prepareStatement("SELECT commandes.date,COUNT(*) as cnt FROM commandes WHERE commandes.date >= (NOW() - INTERVAL ? DAY) GROUP by commandes.date;");
+			preparedStatement.setInt(1, interval);
+			ResultSet resultat=preparedStatement.executeQuery();
+
+			while(resultat.next()) {
+
+				list.put(resultat.getDate( "date" ), resultat.getInt( "cnt" ));
+
+			}
+			return list;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
+//SELECT * from "+ tableName + " WHERE " + tableName + ".date >= (NOW() - INTERVAL "+ interval +" DAY);
+
+
+public ArrayList<Commande> getAllByEtat(int etat) {
+	ArrayList<Commande> list = new ArrayList<Commande>();
+	try {
+		
+			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM commandes WHERE etat=?;");
+			preparedStatement.setInt(1, etat);
+			ResultSet resultat=preparedStatement.executeQuery();
+
+			while(resultat.next()) {
+				Commande u = new Commande();
+				u.setId(resultat.getInt( "id" ));
+				u.setFk_utilisateur(resultat.getInt( "fk_utilisateur" ));
+				u.setDate(resultat.getDate( "date" ));
+				u.setTotal(resultat.getDouble( "total" ));
+				u.setFk_adresse(resultat.getInt( "fk_adresse" ));
+				u.setEtat(resultat.getInt( "etat" ));
+				u.setArchiver(resultat.getInt( "archiver" ));
+				
+				UtilisateurDAO utDao = new UtilisateurDAO();
+				Utilisateur ut = utDao.getById(u.getFk_utilisateur());
+				
+				u.setU(ut);
+				
+				Adresse_livraisonDAO adressDao = new Adresse_livraisonDAO();
+				u.setAdresse(adressDao.getByIdCommande(u.getFk_adresse()));
+				
+				Details_commandeDAO dcDao = new Details_commandeDAO();
+				Details_commande dc;
+				
+				ArrayList<Details_commande> details = dcDao.getAllByCommande(u.getId());
+				u.setDetails(details);
 				
 				list.add(u);
 			}

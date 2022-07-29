@@ -1,6 +1,7 @@
+<%@page import="tools.Constantes"%>
 <%@page import="model.Contact"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 
@@ -55,37 +56,34 @@
               <div class="email-sidebar">
               
                 <div class="email-sidebar-header d-grid"> 
-                <a href="javascript:;" class="btn btn-primary compose-mail-btn"><i class="bi bi-plus-lg me-2"></i>Répondre</a>
+                <a href="javascript:;" class="btn btn-primary compose-mail-btn"><i class="bi bi-plus-lg me-2"></i>RÃ©pondre</a>
                 </div>
                 
                 <div class="email-sidebar-content">
                   <div class="email-navigation">
                   <form method="post">
+                  <input type="hidden" name="<%= Constantes.idContact %>" value="<%= ct.getId()%>">
                   <p>Marquer comme</p>
-                  <select class="form-select">
-                  		<option>en cours</option>
-                  		<option>résolu</option>
-                  		<option>non résolu</option>
+                  <div class="mb-2">
+                  <select class="form-select" name="etatMessage">
+                  		<option value="<%= Constantes.enCours%>">en cours</option>
+                  		<option value="<%= Constantes.resolu%>"><p>rÃ©solu</p></option>
+                  		<option value="<%= Constantes.nonResolu%>">non rÃ©solu</option>
                   </select>
-                  <button class="btn btn-primary">Envoyer</button>
+                  </div>
+                  <div class="mb-3">
+                  	<button name="editEtat" class="btn btn-primary">Envoyer</button>
+                  </div>
                   </form>
                   
-                    <div class="list-group list-group-flush"> <a href="app-emailbox.html" class="list-group-item active d-flex align-items-center"><i class='bx bxs-inbox me-3 font-20'></i><span>Inbox</span><span class="badge bg-primary rounded-pill ms-auto">7,513</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-star me-3 font-20'></i><span>Starred</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-alarm-snooze me-3 font-20'></i><span>Snoozed</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-send me-3 font-20'></i><span>Sent</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-file-blank me-3 font-20'></i><span>Drafts</span><span class="badge bg-primary rounded-pill ms-auto">4</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-bookmark me-3 font-20'></i><span>Important</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-message-rounded-error me-3 font-20'></i><span>Chats</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bx-mail-send me-3 font-20'></i><span>Scheduled</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-envelope-open me-3 font-20'></i><span>All Mail</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-info-circle me-3 font-20'></i><span>Spam</span></a>
-                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-trash-alt me-3 font-20'></i><span>Trash</span></a>
+                    <div class="list-group list-group-flush"> 
+                      <a href="GestionMessagerie?" class="list-group-item active d-flex align-items-center"><i class='bx bxs-envelope-open me-3 font-20'></i><span>Tous</span><span class="badge bg-primary rounded-pill ms-auto">${count }</span></a>
+                      <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-trash-alt me-3 font-20'></i><span>Corbeille</span></a>
                     </div>
                   </div>
                   <div class="email-meeting">
                     <div class="list-group list-group-flush">
-                      <div class="list-group-item"><span>Meet</span>
+                      <div class="list-group-item"><span>Qui ?</span>
                       </div> <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-video me-3 font-20'></i><span>Start a meeting</span></a>
                       <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-group me-3 font-20'></i><span>Join a meeting</span></a>
                       <div class="list-group-item email-hangout cursor-pointer border-top">
@@ -149,6 +147,7 @@
                   </button>
                 </div>
               </div>
+              
               <div class="email-content">
                 <div class="email-read-box p-3">
                   <h4><%= ct.getSujet() %></h4>            
@@ -187,7 +186,7 @@
                         <input type="text" class="form-control" placeholder="Subject" value="<%= ct.getSujet()%>"/>
                       </div>
                       <div class="mb-3">
-                        <textarea class="form-control" placeholder="Message" value="<%= ct.getMessage() %> </br> réponse: " rows="10" cols="10"><%= ct.getMessage() %></textarea>
+                        <textarea class="form-control" placeholder="Message" value="<%= ct.getMessage() %> </br> rÃ©ponse: " rows="10" cols="10"><%= ct.getMessage() %></textarea>
                       </div>
                       <div class="mb-0">
                         <div class="d-flex align-items-center">
@@ -207,8 +206,7 @@
                             </button>
                           </div>
                           <div class="ms-auto">
-                            <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-trash"></i>
-                            </button>
+                            <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-trash"></i></button>
                           </div>
                         </div>
                       </div>

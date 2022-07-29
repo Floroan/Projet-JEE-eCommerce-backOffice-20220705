@@ -60,24 +60,29 @@ public class AjoutProduit extends HttpServlet {
 			System.out.println(added);
 		}
 		
-		if(request.getParameter("selectProd") != null) {
+		if(request.getParameter("recImg") != null) {
 			System.out.println("voir images");
 //			int added = Integer.parseInt((String) session.getAttribute("added"));
 //			int idProd = Integer.parseInt(request.getParameter("selectProd"));
-//			
-//			imgDao = new ImageDAO();
-//			ArrayList<Image> imgs = imgDao.getAllByProduit(added);
+		
+			imgDao = new ImageDAO();
+			ArrayList<Image> imgs = imgDao.getAllByProduit(Integer.parseInt(request.getParameter("selectProd")));
+			Image img = new Image();
+			img.setFk_produit(Integer.parseInt(request.getParameter("selectProd")));
+			img.setUrl(request.getParameter("newImage"));
+			img.setArchiver(0);
+			imgDao.save(img);
 			 
 		}
 		
-		if(request.getParameter("recImg") != null) {
-			int added = Integer.parseInt((String) session.getAttribute("added"));
-			int idProd = Integer.parseInt(request.getParameter("selectProd"));
-			
-			imgDao = new ImageDAO();
-			ArrayList<Image> imgs = imgDao.getAllByProduit(added);
-			 
-		}
+//		if(request.getParameter("selectProd") != null) {
+//			//int added = Integer.parseInt((String) session.getAttribute("added"));
+//			int idProd = Integer.parseInt(request.getParameter("selectProd"));
+//			
+//			imgDao = new ImageDAO();
+//			//ArrayList<Image> imgs = imgDao.getAllByProduit(idProd);
+//			 
+//		}
 			
 		request.setAttribute("last5", prodDao.getLast5());
 		request.setAttribute("ss_cats", ssDao.getAll());

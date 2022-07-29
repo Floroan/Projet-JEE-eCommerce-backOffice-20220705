@@ -210,6 +210,25 @@ public ArrayList<Produit> getAllByCat(int catid) {
     }
 }
 
+public int getCountBySsCat(int sscatid) {
+
+	try {
+		
+			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT count(*) FROM produits WHERE fk_sous_categorie=? AND archiver=0;");
+			preparedStatement.setInt(1, sscatid);
+			ResultSet resultat= preparedStatement.executeQuery();
+
+			resultat.next();
+			int c = resultat.getInt(1);
+			System.out.println(c);
+			return c;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return 0;
+    }
+}
+
 public ArrayList<Produit> getAllByCriteria(String crit) {
 	ArrayList<Produit> list = new ArrayList<Produit>();
 	try {

@@ -3,8 +3,11 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import model.Recherche;
+import model.Utilisateur;
 import tools.Database;
 
 public class RechercheDAO {
@@ -125,6 +128,68 @@ public ArrayList<Recherche> getAllByClient(int id) {
     	return null;
     }
 }
+
+public LinkedHashMap<Recherche, Integer> getmotsAndcount(int limit) {
+	LinkedHashMap<Recherche, Integer> list = new LinkedHashMap<>();
+	try {
+			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT *, COUNT(*) as count FROM recherches GROUP BY motcle ORDER BY count DESC LIMIT ?;");
+			preparedStatement.setInt(1, limit);
+			ResultSet resultat = preparedStatement.executeQuery();
+
+			while(resultat.next()) {
+				Recherche u = new Recherche();
+				u.setId(resultat.getInt( "id" ));
+				u.setFk_user(resultat.getInt( "fk_user" ));
+				u.setMotcle(resultat.getString("motcle"));
+				u.setDate(resultat.getDate("date"));
+				u.setArchiver(resultat.getInt( "archiver" ));		
+				
+				list.put(u, resultat.getInt( "count" ));
+			}
+			return list;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
+
+
+public HashMap<Recherche, Integer> getmotCountAndUser() {
+	HashMap<Recherche, Integer> list = new HashMap<>();
+	try {
+			PreparedStatement preparedStatement  = 
+					Database.connexion.prepareStatement("SELECT motcle, COUNT(*) as count FROM recherches LEFT JOIN utilisateurs ON recherches.fk_user = utilisateurs.id WHERE utilisateurs.id = recherches.fk_user GROUP BY motcle ORDER BY count DESC;");
+		
+			ResultSet resultat=preparedStatement.executeQuery();
+
+			while(resultat.next()) {
+				Recherche u = new Recherche();
+				u.setId(resultat.getInt( "id" ));
+				u.setFk_user(resultat.getInt( "fk_user" ));
+				u.setMotcle(resultat.getString("motcle"));
+				u.setDate(resultat.getDate("date"));
+				u.setArchiver(resultat.getInt( "archiver" ));		
+				
+				Utilisateur ut = new Utilisateur();
+				ut.setId(resultat.getInt("id"));
+				ut.setNom(resultat.getString("nom"));
+				
+				list.put(u, resultat.getInt( "count" ));
+			}
+			return list;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
+
+
+//SELECT motcle, COUNT(*) as count FROM recherches LEFT JOIN utilisateurs ON recherches.fk_user = utilisateurs.id WHERE utilisateurs.id = recherches.fk_user GROUP BY motcle ORDER BY count DESC; 
+
+//SELECT motcle,COUNT(*) as count FROM recherches GROUP BY motcle ORDER BY count DESC;
+//SELECT motcle,COUNT(*) as count FROM recherches GROUP BY motcle ORDER BY motcle ASC;
 
 public void archiverById(Recherche c) {
 	try {

@@ -8,6 +8,7 @@ import dao.CommentaireDAO;
 import dao.ContactDAO;
 import dao.Entree_stockDAO;
 import dao.GenericDAO;
+import dao.RechercheDAO;
 import dao.UtilisateurDAO;
 import model.Commande;
 import model.Commentaire;
@@ -56,26 +57,50 @@ public class TestMoi {
 		 //System.out.println(Service_produits_fournisseur.produitEntreeStockFournisseur(10));
 		 
 		 
-//		 CommandeDAO comDao = new CommandeDAO();
+		 CommandeDAO comDao = new CommandeDAO();
+		 ArrayList<Commande> comdsByEtat = comDao.getAllByEtat(0);
+		 for(Commande cmd : comdsByEtat) {
+			 System.out.println(cmd.toStringFull());
+		 }
+		 
+		 System.out.println("commandes sur 7 jours: " + comDao.getWithInterval(7));
+		 System.out.println("commandes sur 30 jours: " + comDao.getWithInterval(30));
+		 
+		 RechercheDAO recDao = new RechercheDAO();
+		 
+		 System.out.println(recDao.getmotsAndcount(2));
+		 
+		 System.out.println(recDao.getmotCountAndUser());
+		 
+		 
+		 
 //		 comDao.countCommande_a24h();
 //		 
-//		 GenericDAO gen = new GenericDAO();
+		 GenericDAO<Commande> gen = new GenericDAO<Commande>(new Commande());
+		 
+		 gen.resultObject_WithIntervalDays("Commandes", 30);
+		 
+		 
 //		 gen.countRows("commandes");
 //		 gen.countRows_WithInterval("commandes", 224);
 //		 
 //		 System.out.println("last24h commandes: " + Service_commandes.last_commandes_With24hInterval() + " %");
 		 
-			Class<?> cl = Commande.class;
-			System.out.println("ma classe: " +  cl.getSimpleName());
-			Method[] meths = cl.getMethods();
-			
-			for(Method m: meths) {
-				System.out.println(m.getName());
-			}
-			
-		 ContactDAO con = new ContactDAO();
-		 ArrayList<Contact> contacts = con.getAll();
-		 System.out.println(contacts);
+//			Class<?> cl = Commande.class;
+//			System.out.println("ma classe: " +  cl.getSimpleName());
+//			Method[] meths = cl.getMethods();
+//			
+//			for(Method m: meths) {
+//				System.out.println(m.getName());
+//			}
+//			
+//		 ContactDAO con = new ContactDAO();
+//		 ArrayList<Contact> contacts = con.getAll();
+//		 System.out.println(contacts);
+		 
+		
 	}
+	
+
 
 }

@@ -1,15 +1,33 @@
 package dao;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import org.eclipse.jdt.internal.compiler.lookup.MethodScope;
 
 import model.Commande;
+import tools.Constantes;
 import tools.Database;
 
-public class GenericDAO {
+public class GenericDAO<T> {
 
+	private T t;
+	
+	public GenericDAO() {
+
+	}
+	public GenericDAO(T t) {
+		super();
+		this.t = t;
+	}
 	
 	public void archiveById(int id, int statut, String tableName) {
 
@@ -48,10 +66,10 @@ public class GenericDAO {
 	    }
 	}
 	
-	public void countRows_WithInterval(String tableName, int interval) {
+	public void countObjectRows_WithInterval(String tableName, int interval) {
 		try {
 			
-				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT count(*) from commandes WHERE " + tableName + ".date > now() - INTERVAL "+ interval +" hour;");
+				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT count(*) from "+ tableName + " WHERE " + tableName + ".date > NOW() - INTERVAL "+ interval +" hour;");
 
 				
 				ResultSet resultat = preparedStatement.executeQuery();
@@ -69,9 +87,87 @@ public class GenericDAO {
 	    }
 	}
 	
+	public void resultObject_WithIntervalDays(String tableName, int interval) {
+		//Object o = new Object();
+		System.out.println(t.getClass().getSimpleName());
+		
+		Method[] mts = t.getClass().getMethods();
+		
+		TreeSet<String> attrs = new TreeSet<>();
+		TreeSet<String> orderedCols = new TreeSet<String>();
+		orderedCols = this.getColumnsByOrder("commandes");
+		System.out.println("ordered cols: " + orderedCols);
+		
+		for(Method m : mts) {
+			if(m.getName().startsWith("set")) {
+				//System.out.println(m.getName());
+				attrs.add(m.getName().substring(3));
+			}	
+		}
+		
+		Iterator<String> itAttrs = attrs.iterator();
+		Iterator<String> itCols = attrs.iterator();
+		TreeSet<String> lastRamparts = new TreeSet<>();
+		while(itAttrs.hasNext() && itCols.hasNext()) {
+			String a = itAttrs.next();
+			String c = itCols.next();
+			if(a.equalsIgnoreCase(c)){
+				lastRamparts.add(a);
+			}
+		}
+		System.out.println("last ramparts: " + lastRamparts);
+		
+//		try {
+//			
+//				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * from "+ tableName + " WHERE " + tableName + ".date >= (NOW() - INTERVAL "+ interval +" DAY);");
+//
+//				ResultSet resultat = preparedStatement.executeQuery();
+//				
+//				resultat.getObject("");
+//			
+//		} catch (Exception ex) {
+//	    	ex.printStackTrace();
+//	    	System.out.println("problème");
+//	    }
+		
+	}
+
+
+	public TreeSet<String> getColumnsByOrder(String tableName){
+		Database.Connect();
+		TreeSet<String> list = new TreeSet<String>();
+		
+		try {
+		
+			PreparedStatement preparedStatement = 
+					Database.connexion.prepareStatement("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" + Constantes.databaseName + "' AND TABLE_NAME = '" + tableName + "'; ");
+
+			ResultSet resultat = preparedStatement.executeQuery();
+			System.out.println("result: "  + resultat.toString());
+			while(resultat.next()) {
+			String col = resultat.getString("COLUMN_NAME");
+			// restrictions
+			if(!col.contains("MDP") || !col.contains("motdepasse")) {
+			list.add(col);
+			}
+			}
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	System.out.println("problème");
+    }
+		return list;
+	}
 	
 	
-	public void recherche() {
+	
+	public void moultiRecherche(String ...TableName) {
+		
+		// SELECT table_name FROM information_schema.tables WHERE table_type = 'base table' AND table_schema='projetdeux_tangflo';
+		
+		
+		//String q = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'"+ nomTable + "';";
+		
 		HashMap<String, ArrayList<String>> liste;
 	}
 }
