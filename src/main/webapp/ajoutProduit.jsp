@@ -160,7 +160,7 @@
 									<form class="row g-3 needs-validation" method="post">
 										<div class="col-md-12">
 										<label for="validationCustom03" class="form-label">Intégrer des images</label>
-											<select onClick="opener.location='https://www.google.com'" class="form-select" id="validationCustom04" name="selectProd" required>
+											<select class="form-select" id="validationCustom04" name="selectProd" required>
 												<option selected disabled value="">Sélectionner le produit</option>
 												<% for(Produit p : last5 ) { %>
 												<option value="<%= p.getId() %>" > <%=p.getId() + ", " + p.getTitre() %></option>

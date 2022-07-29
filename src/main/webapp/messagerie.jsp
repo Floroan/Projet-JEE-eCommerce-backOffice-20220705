@@ -1,7 +1,7 @@
 <%@page import="model.Contact"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 
@@ -63,8 +63,8 @@
 								<div class="list-group list-group-flush"> <a href="GestionMessagerie?" class="list-group-item active d-flex align-items-center"><i class='bx bxs-inbox me-3 font-20'></i><span>Tous</span><span class="badge bg-primary rounded-pill ms-auto">${count }</span></a>
 									<a href="GestionMessagerie?etat=0" class="list-group-item d-flex align-items-center"><i class='bx bxs-star me-3 font-20'></i><span>Non Lus</span></a>
 									<a href="GestionMessagerie?etat=1" class="list-group-item d-flex align-items-center"><i class='bx bxs-alarm-snooze me-3 font-20'></i><span>En cours</span></a>
-									<a href="GestionMessagerie?etat=2" class="list-group-item d-flex align-items-center"><i class='bx bxs-send me-3 font-20'></i><span>Résolus</span></a>
-									<a href="GestionMessagerie?etat=3" class="list-group-item d-flex align-items-center"><i class='bx bxs-file-blank me-3 font-20'></i><span>Non résolus</span><span class="badge bg-primary rounded-pill ms-auto"></span></a>
+									<a href="GestionMessagerie?etat=2" class="list-group-item d-flex align-items-center"><i class='bx bxs-send me-3 font-20'></i><span>RÃ©solus</span></a>
+									<a href="GestionMessagerie?etat=3" class="list-group-item d-flex align-items-center"><i class='bx bxs-file-blank me-3 font-20'></i><span>Non rÃ©solus</span><span class="badge bg-primary rounded-pill ms-auto"></span></a>
 <!-- 									<a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-bookmark me-3 font-20'></i><span>Important</span></a> -->
 <!-- 									<a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-message-rounded-error me-3 font-20'></i><span>Chats</span></a> -->
 <!-- 									<a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bx-mail-send me-3 font-20'></i><span>Scheduled</span></a> -->
@@ -84,7 +84,7 @@
 												<img src="assets/images/avatars/avatar-1.png" width="42" height="42" class="rounded-circle" alt="" />
 											</div>
 											<div class="flex-grow-1 ms-3">
-												<p class="mb-0">Vous êtes connecté en tant que: ${admin.nom }</p>
+												<p class="mb-0">Vous Ãªtes connectÃ© en tant que: ${admin.nom }</p>
 											</div>
 										</div>
 									</div>
@@ -97,27 +97,26 @@
 							<div class="email-toggle-btn"><i class='bx bx-menu'></i>
 							</div>
 							<div class="btn btn-white">
-								<input class="form-check-input" type="checkbox">
+								<input class="form-check-input" type="checkbox" selected="del">
 							</div>
 							<div class="">
-								<button type="button" class="btn btn-white ms-2"><i class="bi bi-arrow-repeat me-0"></i>
-								</button>
+								<a href="GestionMessagerie" type="button" class="btn btn-white ms-2" title="rafraichir"><i class="bi bi-arrow-repeat me-0"></i></a>
 							</div>
+<!-- 							<div class=""> -->
+<!-- 								<button type="button" class="btn btn-white ms-2"><i class="bi bi-cloud-download-fill me-0"></i> -->
+<!-- 								</button> -->
+<!-- 							</div> -->
+<!-- 							<div class="d-none d-md-flex"> -->
+<!-- 								<button type="button" class="btn btn-white ms-2"><i class="bi bi-file-earmark-bar-graph-fill me-0"></i> -->
+<!-- 								</button> -->
+<!-- 							</div> -->
 							<div class="">
-								<button type="button" class="btn btn-white ms-2"><i class="bi bi-cloud-download-fill me-0"></i>
-								</button>
-							</div>
-							<div class="d-none d-md-flex">
-								<button type="button" class="btn btn-white ms-2"><i class="bi bi-file-earmark-bar-graph-fill me-0"></i>
-								</button>
-							</div>
-							<div class="">
-								<button type="button" class="btn btn-white ms-2"><i class="bi bi-trash-fill me-0"></i>
-								</button>
+								<a type="button" class="btn btn-white ms-2"><i class="bi bi-trash-fill me-0"></i></a>
 							</div>
 						</div>
 						<div class="flex-grow-1 mx-xl-2 my-2 my-xl-0">
-							<div class="input-group">	<span class="input-group-text bg-transparent"><i class="bi bi-search"></i></span>
+							<div class="input-group">	
+								<span class="input-group-text bg-transparent"><i class="bi bi-search"></i></span>
 								<input type="text" class="form-control" placeholder="Search mail">
 							</div>
 						</div>
@@ -141,7 +140,13 @@
 											</p>
 										</div>
 										<div class="">
-											<p class="mb-0"><%= c.getMessage().substring(0, 50) %></p>
+										
+										<% if(c.getMessage().length() > 40){  %>
+											<p class="mb-0"><%= c.getMessage().substring(0, 40) %></p>
+										<%}else { %>
+											<p class="mb-0"><%= c.getMessage() %></p>
+										<%} %>
+											
 										</div>
 										<div class="ms-4">
 											<p class="mb-0 ms-4"><%= c.getU().getPrenom() + " " + c.getU().getNom() %></p>

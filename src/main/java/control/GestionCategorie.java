@@ -55,7 +55,7 @@ public class GestionCategorie extends HttpServlet {
 		if(request.getParameter("archivecat") != null) {
 			System.out.println(request.getParameter("catTitre"));
 			System.out.println(request.getParameter("idcat"));
-			cat = new Categorie();
+			
 			cat = catDao.getById(Integer.parseInt(request.getParameter("catId")));
 			
 			if(cat.getArchiver() == 0) {

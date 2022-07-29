@@ -191,6 +191,36 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>TableCommandesByEtat</display-name>
+    <servlet-name>TableCommandesByEtat</servlet-name>
+    <servlet-class>control.TableCommandesByEtat</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TableCommandesByEtat</servlet-name>
+    <url-pattern>/TableCommandesByEtat</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FicheProduit</display-name>
+    <servlet-name>FicheProduit</servlet-name>
+    <servlet-class>control.FicheProduit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FicheProduit</servlet-name>
+    <url-pattern>/FicheProduit</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TopRecherches</display-name>
+    <servlet-name>TopRecherches</servlet-name>
+    <servlet-class>control.TopRecherches</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TopRecherches</servlet-name>
+    <url-pattern>/TopRecherches</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>UserClientList</display-name>
     <servlet-name>UserClientList</servlet-name>
     <servlet-class>control.UserClientList</servlet-class>
@@ -295,11 +325,11 @@
     <servlet-name>SiteFrontOffice</servlet-name>
     <servlet-class>control.SiteFrontOffice</servlet-class>
     <multipart-config>
-		<location>/Users/tanguymanas/Documents/developpement/eclipse-202206-workspace-web/Projet-JEE-eCommerce-backOffice-20220705/src/main/webapp/assets/img/logotmp/</location> <!-- A adapter chez vous -->
-		<max-file-size>10485760</max-file-size> <!-- 10 Mo -->
-		<max-request-size>52428800</max-request-size> <!-- 5 x 10 Mo -->
-		<file-size-threshold>1048576</file-size-threshold> <!-- 1 Mo -->
-	</multipart-config>
+      <location>/Users/tanguymanas/Documents/developpement/eclipse-202206-workspace-web/Projet-JEE-eCommerce-backOffice-20220705/src/main/webapp/assets/img/logotmp/</location>
+      <max-file-size>10485760</max-file-size>
+      <max-request-size>52428800</max-request-size>
+      <file-size-threshold>1048576</file-size-threshold>
+    </multipart-config>
   </servlet>
   <servlet-mapping>
     <servlet-name>SiteFrontOffice</servlet-name>
@@ -324,5 +354,15 @@
   <servlet-mapping>
     <servlet-name>SiteFrontOfficeByMcKenzie</servlet-name>
     <url-pattern>/SiteFrontOfficeByMcKenzie</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AdminList</display-name>
+    <servlet-name>AdminList</servlet-name>
+    <servlet-class>control.AdminList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminList</servlet-name>
+    <url-pattern>/AdminList</url-pattern>
   </servlet-mapping>
 </web-app>

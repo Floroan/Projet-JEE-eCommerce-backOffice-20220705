@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import model.Produit;
 import model.Utilisateur;
@@ -225,6 +226,31 @@ public class VisiteDAO {
 		}
 	}
 	
+
+
+
+public LinkedHashMap<Date, Integer> getWithInterval(int interval) {
+	LinkedHashMap<Date, Integer> list = new LinkedHashMap<Date, Integer>();
+	try {
+		
+			PreparedStatement preparedStatement  =
+					Database.connexion.prepareStatement("SELECT visites.date,COUNT(*) as cnt FROM visites WHERE visites.date >= (NOW() - INTERVAL ? DAY) GROUP by visites.date;");
+			preparedStatement.setInt(1, interval);
+			ResultSet resultat=preparedStatement.executeQuery();
+
+			while(resultat.next()) {
+
+				list.put(resultat.getDate( "date" ), resultat.getInt( "cnt" ));
+
+			}
+			return list;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
+
 	// RETRIEVE THE NUMBER OF PRODUCT VIEWED BY A CLIENT, A LEAD OR A VISITOR
 	public Integer numberOfProductsViewedBy( int id ) {
 		
@@ -247,6 +273,7 @@ public class VisiteDAO {
 			return null;
 		}
 	}
+
 	
 	// RETRIEVE TOTAL CLICKS ON PRODUCT CARD BY A CLIENT, A LEAD OR A VISITOR
 	public Integer sumOfProductClicks( int id ) {

@@ -45,6 +45,7 @@ public class DetailCommande extends HttpServlet {
 		Database.Connect();
 		cmdDao = new CommandeDAO();
 		cmd = cmdDao.getByIdCommandeUserAdressAndDetails(id);
+		
 		request.setAttribute("commande", cmd);
 		
 		Adresse_livraisonDAO adressDao = new Adresse_livraisonDAO();
@@ -53,14 +54,12 @@ public class DetailCommande extends HttpServlet {
 		request.setAttribute("adresses", adresses);
 		
 		if(request.getParameter("modifier") != null) {
-			
-			
-			
+				
 		}
 		
 		if(request.getParameter("nouvelleAdresse") != null) {
 			System.out.println("nouvelle adresse");
-			Service_adresse_livraison.form_nouvelle_adresse(request, cmd.getU());	
+			//Service_adresse_livraison.form_nouvelle_adresse(request, cmd.getU());	
 		}
 		
 		}catch(NullPointerException ne) {
