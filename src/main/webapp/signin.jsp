@@ -58,7 +58,7 @@
                             <div class="ms-auto position-relative">
                               <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-person-circle"></i></div>
 
-                              <input value="toto" name="nom" type="text" class="form-control radius-30 ps-5" id="inputName" placeholder="Entrer votre nom">
+                              <input value="Manas" name="nom" type="text" class="form-control radius-30 ps-5" id="inputName" placeholder="Entrer votre nom">
 
                             </div>
                           </div>
@@ -67,7 +67,7 @@
                             <div class="ms-auto position-relative">
                               <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-envelope-fill"></i></div>
 
-                              <input value="toto@toto.fr" name="mail" type="email" class="form-control radius-30 ps-5" id="inputEmailAddress" placeholder="Entrer votre email">
+                              <input value="tanguy.manas@gmail.com" name="mail" type="email" class="form-control radius-30 ps-5" id="inputEmailAddress" placeholder="Entrer votre email">
 
                             </div>
                           </div>
