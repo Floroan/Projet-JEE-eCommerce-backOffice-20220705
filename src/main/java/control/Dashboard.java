@@ -1,20 +1,5 @@
 package control;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.Admin;
-import model.Commande;
-import model.Recherche;
-import model.Sous_categorie;
-import service_commande.Service_commandes;
-import tools.ChartsGenerator;
-import tools.Constantes;
-import tools.Database;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +16,18 @@ import dao.ProduitDAO;
 import dao.RechercheDAO;
 import dao.Sous_categorieDAO;
 import dao.VisiteDAO;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Commande;
+import model.Recherche;
+import model.Sous_categorie;
+import service_commande.Service_commandes;
+import tools.ChartsGenerator;
+import tools.Constantes;
+import tools.Database;
 
 /**
  * Servlet implementation class Dashboard
@@ -58,6 +55,7 @@ public class Dashboard extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
@@ -119,7 +117,11 @@ public class Dashboard extends HttpServlet {
 		String nbMot = "";
 		for(Map.Entry<Recherche, Integer> entry : mapMotsCle.entrySet()){ 
 		 Recherche r = entry.getKey();
-	
+		 /*
+		  * Problème avec Group by :
+		  * - https://stackoverflow.com/questions/23921117/disable-only-full-group-by
+		  * - ONLY_FULL_GROUP_BY, 
+		  */
 		 mots += "'" + entry.getKey().getMotcle() + "',"; 
 		 nbMot += entry.getValue() + ",";
 		} 
@@ -140,7 +142,7 @@ public class Dashboard extends HttpServlet {
 		// visites à 7 jours
 		String visiA7jours = "";
 		int visitotalA7jours = 0;
-		for(Map.Entry<Date, Integer> entry : visiDao.getWithInterval(7).entrySet()){ 
+		for(Map.Entry<java.sql.Date, Integer> entry : visiDao.getWithInterval(7).entrySet()){ 
 
 			 SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 			 String dt = df.format(entry.getKey());
@@ -178,6 +180,7 @@ public class Dashboard extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

@@ -1,15 +1,17 @@
 <%@page import="tools.Constantes"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-
+<%@ page import="model.Coordonnee"%>
+<%
+Coordonnee cb = (Coordonnee) request.getAttribute("cb");
+%>
 <aside class="sidebar-wrapper" data-simplebar="true">
           <div class="sidebar-header">
             <div>
-              <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+              <img src="<%= cb.getLogo() %>" alt="logo icon" width="60px" height="40px"> <!-- class="logo-icon" -->
             </div>
             <div>
-              <h4 class="logo-text">Onedash</h4>
+              <h4 class="logo-text"><%= cb.getNom() %></h4>
             </div>
             <div class="toggle-icon ms-auto"> <i class="bi bi-list"></i>
             </div>
@@ -21,7 +23,7 @@
                 </div>
                 <div class="menu-title">Dashboard</div>
               </a>
-            <li>
+            <!-- <li>
               <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bi bi-grid-fill"></i>
                 </div>
@@ -41,45 +43,68 @@
                 <li> <a href="app-fullcalender.html"><i class="bi bi-circle"></i>Calendar</a>
                 </li>
               </ul>
-            </li>
+            </li> -->
+            <li class="menu-label">Statistiques</li>
+            <li>
+           		<a class="has-arrow" href="javascript:;">
+               		<div class="parent-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
+               		<div class="menu-title">Back Office</div>
+               	</a>
+             	<ul>
+               		<li> <a href="#"><i class="bi bi-circle"></i>Employés</a></li>
+             	</ul>
+			</li>
+			<li>
+           		<a class="has-arrow" href="javascript:;">
+               		<div class="parent-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
+               		<div class="menu-title">Front office</div>
+               	</a>
+             	<ul>
+               		<li> <a href="UserClientList"><i class="bi bi-circle"></i>Clients</a></li>
+               		<li> <a href="UserProspectList"><i class="bi bi-circle"></i>Prospects</a></li>
+               		<li> <a href="UserVisitorList"><i class="bi bi-circle"></i>Visiteurs</a></li>
+             	</ul>
+			</li>
             <li class="menu-label">Gestion générale</li>
             <li>
               <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bi bi-droplet-fill"></i>
+                <div class="parent-icon"><i class="bi bi-grid-fill"></i>
                 </div>
-                <div class="menu-title">Widgets</div>
+                <div class="menu-title">Catégories</div>
               </a>
               <ul>
-                <li> <a href="widgets-static-widgets.html"><i class="bi bi-circle"></i>Static Widgets</a>
-                </li>
-                <li> <a href="widgets-data-widgets.html"><i class="bi bi-circle"></i>Data Widgets</a>
-                </li>
+                <li> <a href="GestionCategorie?"><i class="bi bi-circle"></i>Categories</a></li>
+                <li> <a href="GestionSousCategorie?"><i class="bi bi-circle"></i>Sous-categories</a></li>
               </ul>
             </li>
             <li>
               <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bi bi-basket2-fill"></i>
+                <div class="parent-icon"><i class="bi bi-grid-fill"></i>
                 </div>
-                <div class="menu-title">eCommerce</div>
+                <div class="menu-title">Produits</div>
               </a>
               <ul>
-                <li> <a href="TableProduits?"><i class="bi bi-circle"></i>Liste des produits</a>
-                </li>
-<!--                 <li> <a href="ecommerce-products-grid.html"><i class="bi bi-circle"></i>Products Grid</a> -->
-<!--                 </li> -->
-                <li> <a href="AjoutProduit?"><i class="bi bi-circle"></i>Ajouter un produit</a>
-                </li>
-                <li> <a href="GestionCategorie?"><i class="bi bi-circle"></i>Categories</a>
-                </li>
-                <li> <a href="GestionSousCategorie?"><i class="bi bi-circle"></i>Sous-categories</a>
-                </li>
+                <li> <a href="TableProduits?"><i class="bi bi-circle"></i>Liste des produits</a></li>
+<!--                 <li> <a href="ecommerce-products-grid.html"><i class="bi bi-circle"></i>Products Grid</a></li> -->
+                <li> <a href="AjoutProduit?"><i class="bi bi-circle"></i>Ajouter un produit</a></li>
               </ul>
             </li>
             <li>
-              <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class="bi bi-award-fill"></i>
+              <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bi bi-grid-fill"></i>
                 </div>
-                <div class="menu-title">Commandes</div>
+                <div class="menu-title">Site</div>
+              </a>
+              <ul>
+                <li> <a href="SiteFrontOffice"><i class="bi bi-circle"></i>Front office</a></li>
+              </ul>
+            </li>
+            <li class="menu-label">Gestion des commandes</li>
+            <li>
+              <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class="bi bi-basket2-fill"></i>
+                </div>
+                <div class="menu-title">Clients</div>
               </a>
               <ul>
                 <li> <a href="TableCommandes?"><i class="bi bi-circle"></i>Toutes les commandes</a>
@@ -96,18 +121,36 @@
             </li>
             <li>
               <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class="bi bi-award-fill"></i>
+                <div class="parent-icon"><i class="bi bi-basket2-fill"></i>
                 </div>
-                <div class="menu-title">Achats</div>
+                <div class="menu-title">Fournisseurs</div>
               </a>
               <ul>
-                <li> <a href="TableCommandes?"><i class="bi bi-circle"></i>Les achats</a>
-                </li>
-                <li> <a href="ecommerce-orders-detail.html"><i class="bi bi-circle"></i>Passer un achat</a>
-                </li>
+                <li> <a href="FournisseursAchatsEnCours"><i class="bi bi-circle"></i>Achats en cours</a></li>
+                <li> <a href="FournisseursHistoriqueAchat"><i class="bi bi-circle"></i>Historique</a></li>
+                <li> <a href="FournisseursList"><i class="bi bi-circle"></i>Fournisseurs</a></li>
               </ul>
             </li>
-            <li>
+            <li class="menu-label">Gestion des utilisateurs</li>
+           	<li>
+           		<a class="has-arrow" href="javascript:;">
+               		<div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
+               		<div class="menu-title">Back Office</div>
+               	</a>
+             	<ul>
+               		<li> <a href="#"><i class="bi bi-circle"></i>Employés</a></li>
+             	</ul>
+			</li>
+			<li>
+           		<a class="has-arrow" href="javascript:;">
+               		<div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
+               		<div class="menu-title">Front office</div>
+               	</a>
+             	<ul>
+             		<li> <a href="UserList"><i class="bi bi-circle"></i>Utilisateurs</a></li>
+             	</ul>
+			</li>
+            <!-- <li>
               <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class="bi bi-cloud-arrow-down-fill"></i>
                 </div>
@@ -290,7 +333,7 @@
                 </div>
                 <div class="menu-title">Support</div>
               </a>
-            </li>
+            </li> -->
           </ul>
           <!--end navigation-->
        </aside>

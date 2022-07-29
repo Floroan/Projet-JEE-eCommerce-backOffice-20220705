@@ -15,7 +15,8 @@ public class CoordonneesDAO {
           if (o.getId() != 0) {
               
               PreparedStatement ps = Database.connexion
-                      .prepareStatement("UPDATE coordonnees set nom=? adresse=? telephone=? email=? logo=? archiver=? WHERE id=?");
+                      .prepareStatement("UPDATE coordonnees SET nom=?, adresse=?, "
+                      		+ "telephone=?, email=?, logo=?, archiver=? WHERE id=?");
               ps.setString(1, o.getNom());
               ps.setString(2, o.getAdresse());
               ps.setString(3, o.getTelephone());
@@ -29,7 +30,8 @@ public class CoordonneesDAO {
           } else {
               
               PreparedStatement ps = Database.connexion
-                      .prepareStatement("INSERT INTO coordonnees (nom, adresse, telephone, email, logo, archiver) VALUES(?, ?, ?, ?, ?, ?)");
+                      .prepareStatement("INSERT INTO coordonnees (nom, adresse, "
+                      		+ "telephone, email, logo, archiver) VALUES(?, ?, ?, ?, ?, ?)");
               ps.setString(1, o.getNom());
               ps.setString(2, o.getAdresse());
               ps.setString(3, o.getTelephone());

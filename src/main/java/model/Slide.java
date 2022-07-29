@@ -4,13 +4,12 @@ public class Slide {
 
 	private int id, archiver;
 	private String titre, description, image, titreBouton, url;
-	
+
 	public Slide() {
-		super();
+
 	}
 
 	public Slide(int id, int archiver, String titre, String description, String image, String titreBouton, String url) {
-		super();
 		this.id = id;
 		this.archiver = archiver;
 		this.titre = titre;
@@ -81,6 +80,5 @@ public class Slide {
 		return "Slide [id=" + id + ", archiver=" + archiver + ", titre=" + titre + ", description=" + description
 				+ ", image=" + image + ", titreBouton=" + titreBouton + ", url=" + url + "]";
 	}
-	
-	
+
 }
