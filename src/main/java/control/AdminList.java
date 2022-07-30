@@ -37,6 +37,88 @@ public class AdminList extends HttpServlet {
 		
 		AdminDAO ad = new AdminDAO();
 		
+		// ADD EMPLOYEE FORM
+		if ( request.getParameter("addEmployeeForm") != null ) {
+			
+			if ( request.getParameter("name").isBlank() || request.getParameter("mail").isBlank()
+					|| !tools.RegexValidator.emailValidator( request.getParameter("mail") ) 
+//					|| !tools.RegexValidator.passwordValidator("password")
+					) {
+				
+				String invalidAdd = "Vérifier que les champs ne soient pas vide et que le mail soit au bon format.";
+				request.setAttribute("invalidAdd", invalidAdd);
+				
+			} else {
+				
+				String fn = request.getParameter("name");
+				String e = request.getParameter("mail");
+				String p = request.getParameter("password");
+				
+				String privileges = "";
+				if ( request.getParameter("employeeType") != null ) {
+					if ( request.getParameter("employeeType").isBlank() ) {
+						privileges = "non renseigné,";
+					} else {
+						privileges = request.getParameter("employeeType") + ",";
+					}
+				}
+				
+				// STATISTIQUES
+				if ( request.getParameter("stat") != null ) {
+					privileges += "stat,";
+					if ( request.getParameter("boStat") != null ) {
+						privileges += "boStat,";
+						if ( request.getParameter("boStatEmployees") != null ) {
+							privileges += "boStatEmployees,";	
+						}
+					}
+					if ( request.getParameter("foStat") != null ) {
+						privileges += "foStat,";
+						if ( request.getParameter("foStatClients") != null ) {
+							privileges += "foStatClients,";	
+						}
+						if ( request.getParameter("foStatProspects") != null ) {
+							privileges += "foStatProspects,";	
+						}
+						if ( request.getParameter("foStatVisiteurs") != null ) {
+							privileges += "foStatVisiteurs,";
+						}
+					}
+					
+				}
+				
+				// GESTION DU SITE
+				if ( request.getParameter("webSite") != null ) {
+					privileges += "webSite,";
+				}
+				
+				// GESTION COMMANDES
+				if ( request.getParameter("commandes") != null ) {
+					privileges += "commandes,";
+				}
+				
+				// GESTION DES UTILISATEURS
+				if ( request.getParameter("utilisateurs") != null ) {
+					privileges += "utilisateurs,";
+				}
+				
+				
+				Admin ab = new Admin();
+				ab.setNom(fn);
+				ab.setEmail(e);
+				ab.setPassword(p);
+				ab.setPrivileges(privileges);
+				
+//				System.out.println(ab);
+				ad.save(ab);
+				
+				String employeeAdded = "L’employé(e) a bien été enregistré(e).";
+				
+				request.setAttribute("employeeAdded", employeeAdded);
+				
+			}
+		}
+		
 		// BOUTON ARCHIVER
 		if ( request.getParameter("archived") != null ) {
 			

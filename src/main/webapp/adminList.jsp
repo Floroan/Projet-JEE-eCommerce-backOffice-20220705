@@ -86,14 +86,278 @@ ArrayList<Admin> staff = (ArrayList<Admin>) request.getAttribute("staff");
 				</div>
 			</div> -->
 			<!--end breadcrumb-->
-			<h6 class="mb-0 text-uppercase">Liste des utilisateurs</h6>
-			<hr/>
 			<div>
 				<div class="alert alert-danger text-center" role="alert">
 					Je souhaite utiliser <a href="https://editor.datatables.net/examples/simple/simple.html">EDITOR</a> mais je n’arrive pas à le faire fonctionner.<br>
 					Avec DATATABLE, seuls les td qui n’ont pas d’Input peuvent être triés !<br> 
 				</div>
 			</div>
+			<hr/>
+			<h6 class="mb-0 text-uppercase">Ajouter un(e) employé(e)</h6>
+			<br>
+			<%
+			if (request.getAttribute("invalidAdd") != null) {
+			%>
+			<div>
+				<div class="alert alert-danger text-center" role="alert">
+					<%=request.getAttribute("invalidAdd")%>
+				</div>
+			</div>
+			<%
+			}
+			%>
+			<%
+			if (request.getAttribute("employeeAdded") != null) {
+			%>
+			<div>
+				<div class="alert alert-success text-center" role="alert">
+					<%=request.getAttribute("employeeAdded")%>
+				</div>
+			</div>
+			<%
+			}
+			%>
+			<div class="card">
+				<div class="card-body">
+					<form class="row g-4" method="post" action="AdminList" >
+						<div class="col-md-4">
+							<label class="form-label">Nom de famille</label>
+							<input type="text" class="form-control" name="name" >
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Email</label>
+							<div class="input-group">
+								<div class="input-group-text">@</div>
+						    	<input type="email" class="form-control" name="mail" >
+						    </div>
+						</div>
+					    <div class="col-md-4">
+					    	<label class="form-label">Mot de passe</label>
+							<input type="text" class="form-control" name="password" >
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">Type d’employé</label>
+							<input type="text" class="form-control" name="employeeType" placeholder="Boss, directeur, responsable, agent..." >
+						</div>
+						<div class="col-md-9"></div>
+							
+						<div class="col-md-12">
+							<label class="form-label">Gérer les droits d’affichage depuis le menu jusqu’aux éléments d’une page : boutons, tableaux, graphiques...</label>
+							<ul style="list-style-type: none;">
+								<li>
+									<div class="form-check">
+										<label class="form-check-label" for="stat">STATISTIQUES</label>
+										<input class="form-check-input" type="checkbox" 
+											name="stat" 
+											value="stat" 
+											id="stat" 
+											onclick="statFunction()"
+										>
+									</div>
+								
+									<div id="divStat" style="display:none">
+										<ul style="list-style-type: none;">
+											<li>
+												<div class="form-check">
+													<label class="form-check-label" for="boStat">Back office</label>
+													<input class="form-check-input" type="checkbox" 
+														name="boStat" 
+														value="boStat" 
+														id="boStat" 
+														onclick="statBoFunction()"
+													>
+												</div>
+								
+												<div id="divBoStat" style="display:none">
+													<ul style="list-style-type: none;">
+														<li>
+															<div class="form-check">
+																<label class="form-check-label" for="boStatEmployees">Employés</label>
+																<input class="form-check-input" type="checkbox" 
+																	name="boStatEmployees" 
+																	value="boStatEmployees" 
+																	id="boStatEmployees"								
+																>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</li>
+											<li>
+												<div class="form-check">
+													<label class="form-check-label" for="foStat">Front office</label>
+													<input class="form-check-input" type="checkbox" 
+														name="foStat" 
+														value="foStat" 
+														id="foStat" 
+														onclick="statFoFunction()"	
+													>
+												</div>
+						
+												<div id="divFoStat" style="display:none">
+													<ul style="list-style-type: none;">
+														<li>
+															<div class="form-check">
+																<label class="form-check-label" for="foStatClients">Clients</label>
+																<input class="form-check-input" type="checkbox" 
+																	name="foStatClients" 
+																	value="foStatClients" 
+																	id="foStatClients"
+																>
+															</div>
+														</li>
+														<li>
+															<div class="form-check">
+																<label class="form-check-label" for="foStatProspects">Prospects</label>
+																<input class="form-check-input" type="checkbox" 
+																	name="foStatProspects" 
+																	value="foStatProspects" 
+																	id="foStatProspects"									
+																	>
+															</div>
+														</li>
+														<li>
+															<div class="form-check">
+																<label class="form-check-label" for="foStatVisiteurs">Visiteurs</label>
+																<input class="form-check-input" type="checkbox" 
+																	name="foStatVisiteurs" 
+																	value="foStatVisiteurs" 
+																	id="foStatVisiteurs"
+																	>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+							<ul style="list-style-type: none;">
+								<li>
+									<div class="form-check">
+										<label class="form-check-label" for="webSite">GESTION DU SITE</label>
+										<input class="form-check-input" type="checkbox" 
+											name="webSite" 
+											value="webSite" 
+											id="webSite" 
+											<%-- onclick="" --%>
+										>
+									</div>
+								</li>
+							</ul>
+							<ul style="list-style-type: none;">
+								<li>
+									<div class="form-check">
+										<label class="form-check-label" for="commandes">GESTION DES COMMANDES</label>
+										<input class="form-check-input" type="checkbox" 
+											name="commandes" 
+											value="commandes" 
+											id="commandes" 
+											<%-- onclick="" --%>
+										>
+									</div>
+								</li>
+							</ul>
+							<ul style="list-style-type: none;">
+								<li>
+									<div class="form-check">
+										<label class="form-check-label" for="utilisateurs">GESTION DES UTILISATEURS</label>
+										<input class="form-check-input" type="checkbox" 
+											name="utilisateurs" 
+											value="utilisateurs" 
+											id="utilisateurs" 
+											<%-- onclick="" --%>
+										>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="col-auto">
+							<button class="btn btn-primary" type="submit" name="addEmployeeForm">Ajouter</button>
+						</div>
+					</form>
+				</div>
+			</div>
+<script>
+  /**************************
+   *
+   *	   PRIVILÈGES
+   *
+   **************************/
+   
+   /* function myFunction() {
+	   var checkBox = document.getElementById("myCheck");
+	   var text = document.getElementById("text");
+	   if (checkBox.checked == true){
+	     text.style.display = "block";
+	   } else {
+	      text.style.display = "none";
+	   }
+	 } */
+   
+  /* STATISTIQUES */
+  	function statFunction() {
+  		var checkBox = document.getElementById("stat");
+  		var text = document.getElementById("divStat");
+  		if (checkBox.checked == true){
+  			text.style.display = "block";
+  		} else {
+  			text.style.display = "none";
+  		}
+	}
+  	
+  	function statBoFunction() {
+  		var checkBox = document.getElementById("boStat");
+  		var text = document.getElementById("divBoStat");
+  		if (checkBox.checked == true){
+  			text.style.display = "block";
+  		} else {
+  			text.style.display = "none";
+  		}
+	}
+  	
+  	function statFoFunction() {
+  		var checkBox = document.getElementById("foStat");
+  		var text = document.getElementById("divFoStat");
+  		if (checkBox.checked == true){
+  			text.style.display = "block";
+  		} else {
+  			text.style.display = "none";
+  		}
+	}
+  	/* GESTION GÉNÉRAL */
+  	/* function statFunction() {
+  		var checkBox = document.getElementById("stat");
+  		var text = document.getElementById("divStat");
+  		if (checkBox.checked == true){
+  			text.style.display = "block";
+  		} else {
+  			text.style.display = "none";
+  		}
+	}
+  	
+  	function statBoFunction() {
+  		var checkBox = document.getElementById("boStat");
+  		var text = document.getElementById("divBoStat");
+  		if (checkBox.checked == true){
+  			text.style.display = "block";
+  		} else {
+  			text.style.display = "none";
+  		}
+	}
+  	
+  	function statFoFunction() {
+  		var checkBox = document.getElementById("foStat");
+  		var text = document.getElementById("divFoStat");
+  		if (checkBox.checked == true){
+  			text.style.display = "block";
+  		} else {
+  			text.style.display = "none";
+  		}
+	} */
+  </script>
+			<h6 class="mb-0 text-uppercase">Liste des employé(e)s</h6>
 			<hr/>
 			<div class="card">
 				<div class="card-body">

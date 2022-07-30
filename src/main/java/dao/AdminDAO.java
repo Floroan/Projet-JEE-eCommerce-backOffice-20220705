@@ -25,7 +25,7 @@ public class AdminDAO {
 				preparedStatement.setInt(6,obj.getId());
 	            preparedStatement.executeUpdate();
 			}else {
-				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("INSERT INTO administrateurs (nom, email, password, privileges, archiver) VALUES(?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("INSERT INTO admin (nom, email, password, privileges, archiver) VALUES(?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
 				preparedStatement.setString(1,obj.getNom());
 				preparedStatement.setString(2,obj.getEmail());
 				preparedStatement.setString(3,obj.getPassword());
