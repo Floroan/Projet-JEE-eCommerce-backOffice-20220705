@@ -1,7 +1,10 @@
 package control;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import dao.ContactDAO;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,11 +12,6 @@ import jakarta.servlet.http.HttpSession;
 import model.Contact;
 import tools.Constantes;
 import tools.Database;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
-import dao.ContactDAO;
 
 /**
  * Servlet implementation class Header
@@ -33,9 +31,16 @@ public class Header extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(true);
+		
+		String names[] = session.getValueNames();
+		for ( int i = 0, n = names.length; i < n; i++ ) {
+			String key = names[i];
+			System.out.println("Session key (Header) : " + key + " -> Session value : " + session.getValue(key));
+		}
 		
 //		request.setAttribute("nom", "toto");
 //		request.setAttribute("mail", "toto@toto.fr");
@@ -51,6 +56,7 @@ public class Header extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

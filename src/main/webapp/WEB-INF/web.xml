@@ -365,4 +365,14 @@
     <servlet-name>AdminList</servlet-name>
     <url-pattern>/AdminList</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AdminCard</display-name>
+    <servlet-name>AdminCard</servlet-name>
+    <servlet-class>control.AdminCard</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminCard</servlet-name>
+    <url-pattern>/AdminCard</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -1,9 +1,10 @@
-<%@page import="tools.Constantes"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="model.Coordonnee"%>
+<%@ page import="tools.Constantes"%>
 <%
 Coordonnee cb = (Coordonnee) request.getAttribute("cb");
+String privileges = (String) request.getAttribute("privileges");
 %>
 <aside class="sidebar-wrapper" data-simplebar="true">
           <div class="sidebar-header">
@@ -44,28 +45,75 @@ Coordonnee cb = (Coordonnee) request.getAttribute("cb");
                 </li>
               </ul>
             </li> -->
+<%
+if ( privileges.contains("stat") ) {
+%>
             <li class="menu-label">Statistiques</li>
+	<%
+	if ( privileges.contains("boStat") ) {
+	%>            
             <li>
            		<a class="has-arrow" href="javascript:;">
                		<div class="parent-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
                		<div class="menu-title">Back Office</div>
                	</a>
+		<%
+		if ( privileges.contains("boStatEmployees") ) {
+		%>
              	<ul>
                		<li> <a href="#"><i class="bi bi-circle"></i>Employés</a></li>
              	</ul>
+		<%
+		}
+		%>
 			</li>
+	<%
+	}
+	if ( privileges.contains("foStat") ) {
+	%> 
 			<li>
            		<a class="has-arrow" href="javascript:;">
                		<div class="parent-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
                		<div class="menu-title">Front office</div>
                	</a>
              	<ul>
+		<%
+		if ( privileges.contains("foStatClients") ) {
+		%>
                		<li> <a href="UserClientList"><i class="bi bi-circle"></i>Clients</a></li>
+		<%
+		}
+		if ( privileges.contains("foStatProspects") ) {
+		%>
                		<li> <a href="UserProspectList"><i class="bi bi-circle"></i>Prospects</a></li>
+		<%
+		}
+		if ( privileges.contains("foStatVisiteurs") ) {
+		%>
                		<li> <a href="UserVisitorList"><i class="bi bi-circle"></i>Visiteurs</a></li>
+		<%
+		}
+		%>
              	</ul>
 			</li>
-            <li class="menu-label">Gestion générale</li>
+<%
+	}
+}
+%>
+<%
+if ( privileges.contains("webSite") ) {
+%>
+            <li class="menu-label">Gestion du site</li>
+            <li>
+              <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bi bi-grid-fill"></i>
+                </div>
+                <div class="menu-title">Composants</div>
+              </a>
+              <ul>
+                <li> <a href="SiteFrontOffice"><i class="bi bi-circle"></i>Adresse & Sider</a></li>
+              </ul>
+            </li>
             <li>
               <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bi bi-grid-fill"></i>
@@ -89,16 +137,12 @@ Coordonnee cb = (Coordonnee) request.getAttribute("cb");
                 <li> <a href="AjoutProduit?"><i class="bi bi-circle"></i>Ajouter un produit</a></li>
               </ul>
             </li>
-            <li>
-              <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bi bi-grid-fill"></i>
-                </div>
-                <div class="menu-title">Site</div>
-              </a>
-              <ul>
-                <li> <a href="SiteFrontOffice"><i class="bi bi-circle"></i>Front office</a></li>
-              </ul>
-            </li>
+<%
+}
+%>
+<%
+if ( privileges.contains("commandes") ) {
+%>
             <li class="menu-label">Gestion des commandes</li>
             <li>
               <a class="has-arrow" href="javascript:;">
@@ -131,6 +175,12 @@ Coordonnee cb = (Coordonnee) request.getAttribute("cb");
                 <li> <a href="FournisseursList"><i class="bi bi-circle"></i>Fournisseurs</a></li>
               </ul>
             </li>
+<%
+}
+%>
+<%
+if ( privileges.contains("utilisateurs") ) {
+%>
             <li class="menu-label">Gestion des utilisateurs</li>
            	<li>
            		<a class="has-arrow" href="javascript:;">
@@ -150,6 +200,9 @@ Coordonnee cb = (Coordonnee) request.getAttribute("cb");
              		<li> <a href="UserList"><i class="bi bi-circle"></i>Utilisateurs</a></li>
              	</ul>
 			</li>
+<%
+}
+%>
             <!-- <li>
               <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class="bi bi-cloud-arrow-down-fill"></i>
