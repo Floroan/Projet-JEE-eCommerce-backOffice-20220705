@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <!-- Required meta tags -->
@@ -19,7 +19,7 @@
   <!-- loader-->
 	<link href="assets/css/pace.min.css" rel="stylesheet" />
 
-  <title>Onedash - Bootstrap 5 Admin Template</title>
+  <title>Connexion</title>
   
 </head>
 
@@ -39,6 +39,17 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="card-body p-4 p-sm-5">
+                  <%
+                  if ( session.getAttribute("authError") != null ) {
+	                  if ( Integer.valueOf(session.getAttribute("tentatives").toString()) == 3 ) { 
+                  %>
+	                  <div class="alert alert-danger text-center" role="alert">
+						<h1>${authError }</h1>
+					  </div>
+				  <%
+	                  }
+                  }
+				  %>
                     <h5 class="card-title">Signin</h5>
                     <h5 class="card-text mb-5">Merci de vous authentifier</h5>
                     <form class="form-body">
@@ -49,9 +60,19 @@
 <!--                           </span> -->
 <!--                         </a> -->
 <!--                       </div> -->
-                      <div class="login-separater text-center mb-4"> <span><h6>Vos nom, email, mot de passe sont obligatoires</h6></span>
+                      	<div class="login-separater text-center mb-4"> <span><h6>Vos nom, email, mot de passe sont obligatoires</h6></span></div>
                         <hr>
-                      </div>
+                      	<div>
+                      	<%
+                      	if ( session.getAttribute("authError") != null ) {
+                      	%>
+							<div class="alert alert-danger text-center" role="alert">
+								${authError }
+							</div>
+						<%
+                      	}
+						%>
+						</div>
                         <div class="row g-3">
                           <div class="col-12 ">
                             <label for="inputName" class="form-label">Nom</label>
@@ -88,7 +109,6 @@
                           </div>
                           <div class="col-12">
                             <p class="mb-0">Mot de passe <a href="AccountRecovery?"> perdu?</a></p>
-                            <p class="mb-0"> ${authError }</p>
                           </div>
                         </div>
                     </form>

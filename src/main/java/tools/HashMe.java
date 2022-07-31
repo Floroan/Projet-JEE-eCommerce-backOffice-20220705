@@ -1,14 +1,11 @@
 package tools;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-import java.util.logging.*;
-
-import javax.swing.JFrame;
-//import javax.xml.bind.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HashMe {
 
@@ -31,7 +28,7 @@ public class HashMe {
 	        		//sha1 = DatatypeConverter.printHexBinary(msdDigest.digest());
 	        //sha1 = new String(msdDigest.digest(), StandardCharsets.UTF_8);
 	        sha1 = Base64.getEncoder().encodeToString(msdDigest.digest());
-	        System.out.println("From hashMe: " + sha1);
+	        System.out.println("tools.HashMe.java : " + sha1);
 	        
 	        
 	    } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {

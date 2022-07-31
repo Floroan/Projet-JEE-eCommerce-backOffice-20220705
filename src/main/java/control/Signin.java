@@ -24,7 +24,6 @@ public class Signin extends HttpServlet {
 	private HashMe hs;
 	int cpt = 0;
 
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -100,24 +99,22 @@ public class Signin extends HttpServlet {
 
 		if (request.getParameter("auth") != null) {
 
-
-			System.out.println("passe ici signin");
+			System.out.println("Signin.java");
 
 			Database.Connect();
 			String user = request.getParameter("nom");
 			String userMail = request.getParameter("mail");
 			String pass = request.getParameter("pass");
 
+			if ( !RegexValidator.nameValidator(user) || !RegexValidator.emailValidator(userMail) ) {
+				
+				session.setAttribute("authError", "Le nom ou l’email n’est pas au bon format.");
 
-			if (!RegexValidator.nameValidator(user)) {
-				session.setAttribute("authError", "Merci de vérifier votre nom.");
-
-			} else if (!RegexValidator.emailValidator(userMail)) {
-				session.setAttribute("authError", "Merci de vérifier votre email.");
 			} else {
 
 				hs = new HashMe();
 				String hpass = hs.sha1(pass);
+				System.out.println("HashMe from Sign.java : " + hpass);
 
 				adminDAO = new AdminDAO();
 				admin = adminDAO.getOneByNameMailPass(user, userMail, hpass);
@@ -129,23 +126,34 @@ public class Signin extends HttpServlet {
 					session.setAttribute("tentatives", cpt);
 
 					if (Integer.valueOf(session.getAttribute("tentatives").toString()) == 2) {
-						System.out.println(session.getAttribute("tentatives"));
+						
 						session.setAttribute("authError", "Attention, plus qu'une tentative pour vous connecter");
+						
 					} else if (Integer.valueOf(session.getAttribute("tentatives").toString()) == 3) {
-						session.setAttribute("user", user);
-						session.setAttribute("userMail", userMail);
-						session.removeAttribute("tentatives");
-						request.getRequestDispatcher("/test.jsp").forward(request, response);
+						
+//						session.setAttribute("user", user);
+//						session.setAttribute("userMail", userMail);
+//						session.removeAttribute("tentatives");
+//						request.getRequestDispatcher("/test.jsp").forward(request, response);
+						
+						session.setAttribute("authError", "Le système vous a bloqué, veuillez contacter l’administrateur.");
+						request.getRequestDispatcher("/signInError.jsp").forward(request, response);
+						
 					} else {
-						session.setAttribute("authError", "Un probl�me est survenu.");
+						
+						session.setAttribute("authError", "Première tentative sur trois.");
+						
 					}
 
 				} else {
+					
 					session.removeAttribute("tentatives");
+					session.removeAttribute("authError");
 					session.setAttribute("admin", admin);
 					session.setAttribute("isConnected", true);
 					conn = true;
 					response.sendRedirect("Dashboard");
+					
 				}
 
 			}
