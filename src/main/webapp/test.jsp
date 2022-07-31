@@ -8,8 +8,6 @@
 </head>
 <body>
 
-
-
 <H1> CONNECTION ERROR POUR L'UTILISATEUR ${user } , ${userMail } </H1>
 <a href="Index">retour connection</a>
 </body>

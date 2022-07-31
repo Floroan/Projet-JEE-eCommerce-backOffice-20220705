@@ -27,16 +27,16 @@ public class CommandeDAO {
 		try {
 			
 			if(obj.getId() != 0) {
-				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("UPDATE commandes fk_utilisateur=?, date=?, total=?, fk_adresse=?, etat=?, archiver=? WHERE id=?");
+				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("UPDATE commandes set fk_utilisateur=?, date=?, total=?, fk_adresse=?, etat=?, archiver=? WHERE id=?;");
 				
-				preparedStatement.setInt(1,obj.getFk_utilisateur());
-				preparedStatement.setDate(2,obj.getDate());
+				preparedStatement.setInt(1, obj.getFk_utilisateur());
+				preparedStatement.setDate(2, obj.getDate());
 				preparedStatement.setDouble(3, obj.getTotal());
-				preparedStatement.setInt(4,obj.getFk_adresse());
-				preparedStatement.setInt(5,obj.getEtat());
-				preparedStatement.setInt(6,obj.getArchiver());
+				preparedStatement.setInt(4, obj.getFk_adresse());
+				preparedStatement.setInt(5, obj.getEtat());
+				preparedStatement.setInt(6, obj.getArchiver());
 				
-				preparedStatement.setInt(7,obj.getId());
+				preparedStatement.setInt(7, obj.getId());
 //				java.sql.Date d = DateUtilToDateSql.convert(obj.getDate());
 //				preparedStatement.setDate(3, d);
 

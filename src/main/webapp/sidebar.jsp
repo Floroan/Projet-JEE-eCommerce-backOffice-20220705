@@ -84,11 +84,11 @@
               <ul>
                 <li> <a href="TableCommandes?"><i class="bi bi-circle"></i>Toutes les commandes</a>
                 </li>
-                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdEnCours%>"><i class="bi bi-circle"></i>Les commandes en cours</a>
+                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdEnCours%>"><i class="bi bi-circle"></i>Les commandes à préparer</a>
                 </li>
-                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdValidees%>"><i class="bi bi-circle"></i>Les commandes validées</a>
+                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdValidee%>"><i class="bi bi-circle"></i>Les commandes à livrer</a>
                 </li>
-                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdLivrees%>"><i class="bi bi-circle"></i>Les commandes livrées</a>
+                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdLivree%>"><i class="bi bi-circle"></i>Les commandes livrées</a>
                 </li>
                 <li> <a href="DetailCommande?id=0"><i class="bi bi-circle"></i>Détails/recherche d'une commande</a>
                 </li>

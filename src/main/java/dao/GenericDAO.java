@@ -159,7 +159,31 @@ public class GenericDAO<T> {
 		return list;
 	}
 	
-	
+	// added 29/07/2022 19:22
+	public ArrayList<String> getOneColumnByTableDesired(String columnName, String tableName) {
+		Database.Connect();
+		ArrayList<String> list = new ArrayList<String>();
+		try {
+		
+			PreparedStatement preparedStatement = 
+					Database.connexion.prepareStatement("SELECT ? FROM ?; ");
+			preparedStatement.setString(1, columnName);
+			preparedStatement.setString(2, tableName);
+			ResultSet resultat = preparedStatement.executeQuery();
+			
+			
+			while(resultat.next()) {
+			String col = resultat.getString(columnName);
+			// restrictions
+			list.add(col);			
+			}
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	System.out.println("problème");
+    }
+		return list;
+	}
 	
 	public void moultiRecherche(String ...TableName) {
 		

@@ -16,7 +16,7 @@ public class Details_commandeDAO {
 		try {
 			
 			if(obj.getId() != 0) {
-				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("UPDATE details_commande set fk_commande=?, fk_produit=?, qte=?, prix=? archiver=? WHERE id=?");
+				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("UPDATE details_commande set fk_commande=?, fk_produit=?, qte=?, prix=?, archiver=? WHERE id=?");
 				preparedStatement.setInt(1,obj.getFk_commande());
 				preparedStatement.setInt(2, obj.getFk_produit());
 				preparedStatement.setInt(3, obj.getQte());
@@ -62,6 +62,10 @@ public Details_commande getById(int id) {
 			u.setPrix(resultat.getDouble( "prix" ));
 			u.setArchiver(resultat.getInt( "archiver" ));
 			
+			ProduitDAO prodDao = new ProduitDAO();
+			Produit p = prodDao.getById(u.getFk_produit());
+			u.setP(p);
+			
 			return u;
 		
 	} catch (Exception ex) {
@@ -86,6 +90,10 @@ public Details_commande getByIdCommande(int id) {
 			u.setQte(resultat.getInt( "qte" ));
 			u.setPrix(resultat.getDouble( "prix" ));
 			u.setArchiver(resultat.getInt( "archiver" ));
+			
+			ProduitDAO prodDao = new ProduitDAO();
+			Produit p = prodDao.getById(u.getFk_produit());
+			u.setP(p);
 			
 			return u;
 		
@@ -112,6 +120,11 @@ public ArrayList<Details_commande> getAll() {
 				u.setQte(resultat.getInt( "qte" ));
 				u.setPrix(resultat.getDouble( "prix" ));
 				u.setArchiver(resultat.getInt( "archiver" ));
+				
+				ProduitDAO prodDao = new ProduitDAO();
+				Produit p = prodDao.getById(u.getFk_produit());
+				u.setP(p);
+				
 				list.add(u);
 			}
 			
@@ -173,6 +186,11 @@ public ArrayList<Details_commande> getAllByIdCommande(int id) {
 				u.setQte(resultat.getInt( "qte" ));
 				u.setPrix(resultat.getDouble( "prix" ));
 				u.setArchiver(resultat.getInt( "archiver" ));
+				
+				ProduitDAO prodDao = new ProduitDAO();
+				Produit p = prodDao.getById(u.getFk_produit());
+				u.setP(p);
+				
 				list.add(u);
 			}
 			

@@ -11,6 +11,7 @@ import tools.Fields;
 public class Service_adresse_livraison {
 
 	private  Adresse_livraisonDAO adressDAO;
+	private String message;
 	
 	public Service_adresse_livraison() {
 		Database.Connect();	
@@ -23,8 +24,9 @@ public class Service_adresse_livraison {
 		adressDAO.save(add);
 	}
 	
-	public void form_nouvelle_adresse(HttpServletRequest r, Utilisateur ut) throws NullPointerException{
+	public String form_nouvelle_adresse(HttpServletRequest r, Utilisateur ut) throws NullPointerException{
 		
+		try {
 		Adresse_livraison add = new Adresse_livraison();
 		add.setAdresse(r.getParameter(Constantes.newAdresse));
 		add.setVille(r.getParameter(Constantes.newVille));
@@ -35,6 +37,11 @@ public class Service_adresse_livraison {
 		
 		adressDAO = new Adresse_livraisonDAO();
 		adressDAO.save(add);
+		message = "La nouvelle adresse pour ce client et cette commande est bien enregistrée.";
+		}catch(NumberFormatException ne) {
+			message = "Seule des valeurs numériques sont acceptées pour le champs code postal.";
+		}
+		return message;
 	}
 	
 }

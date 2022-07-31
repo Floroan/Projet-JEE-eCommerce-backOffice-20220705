@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Admin;
 import model.Commande;
+import model.Produit;
 import model.Recherche;
 import model.Sous_categorie;
 import service_commande.Service_commandes;
@@ -102,8 +103,8 @@ public class Dashboard extends HttpServlet {
 				request.setAttribute("lastcmds", lastcmds);
 		}
 		
-		ArrayList<Commande> commandes = cmdDao.getLimit(20);
-		
+		ArrayList<Commande> commandes = cmdDao.getAll();
+		ArrayList<Commande> commandes20 = cmdDao.getLimit(20);
 		
 		String char_sscats_titre="";
 		String char_sscats_nbr="";
@@ -114,6 +115,7 @@ public class Dashboard extends HttpServlet {
 		}
 		
 		HashMap<Recherche, Integer> mapMotsCle = new HashMap<>(); 
+		
 		mapMotsCle = rechDao.getmotsAndcount(5);
 		String mots ="";
 		String nbMot = "";
@@ -144,19 +146,35 @@ public class Dashboard extends HttpServlet {
 
 			 SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 			 String dt = df.format(entry.getKey());
-			 visiA7jours +=  entry.getValue() + ", "; 
+			 visiA7jours +=  entry.getValue() + ","; 
 			 visitotalA7jours += entry.getValue();
 			
 			} System.out.println("visite 7 jours: " + visiA7jours); System.out.println("visite 7 jours: " + visitotalA7jours);
+			
+		// top 5 visites >> produits
+			String key = ""; String vals = ""; ArrayList<String> keys = new ArrayList<String>();
+		for(Map.Entry<Produit, Integer> entry : visiDao.getVisitesByProduit(5).entrySet() ) {
+				// key += "<p title=" + "\"" + entry.getKey().getTitre() + "\"" + ">" + "</p>";
+			keys.add(entry.getKey().getTitre());
+			key += "'" + entry.getKey().getTitre().substring(0,12) + "',";
+				 vals += entry.getValue() + ",";	
+			}
+		
+		System.out.println("prods "  +key);
+		System.out.println("prods "  +vals);
 		
 		request.setAttribute("cmdsAll", genDao.countRows("commandes"));
-		request.setAttribute("cmdsLast20", commandes);
+		request.setAttribute("cmdsLast20", commandes20);
 		request.setAttribute("total_CA", Service_commandes.chiffreAffaireTotal(commandes));
 		request.setAttribute("cmdsA24h", Service_commandes.last_commandes_With24hInterval());
 		request.setAttribute("visiA7jours", visiA7jours);
 		request.setAttribute("visitotalA7jours", visitotalA7jours);
+		request.setAttribute("topVisites_produits", key);
+		request.setAttribute("topVisites_values", vals);
+		request.setAttribute("topVisites_titresProduits", keys);
 		request.setAttribute("totalVisites", visiDao.getAll());
 		request.setAttribute("totalProduits", genDao.countRows("produits"));
+		request.setAttribute("prodsAlertStock", prodDao.getProduitsAlerteStock(null));
 		request.setAttribute("messagesNonLus", contDao.getAllByEtat(Constantes.nonlu));
 		request.setAttribute("sscats", ssCatDao.getAll());
 		

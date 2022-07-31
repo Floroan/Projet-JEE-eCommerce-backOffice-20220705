@@ -1,3 +1,4 @@
+<%@page import="model.Produit"%>
 <%@page import="java.util.Map"%>
 <%@page import="model.Recherche"%>
 <%@page import="model.Sous_categorie"%>
@@ -61,7 +62,12 @@
 		margin: 20px auto;
 		}
 		
-		#chart2 {
+ 		#chart2 { 
+		max-width: 800px; 
+ 		margin: 20px auto; 
+		} 
+		
+		#chart61 {
 		max-width: 800px;
 		margin: 20px auto;
 		}
@@ -79,6 +85,7 @@
 <% ArrayList<Visite> visites = (ArrayList<Visite>) request.getAttribute("totalVisites"); %>
 <% ArrayList<Contact> messagesNonLus = (ArrayList<Contact>) request.getAttribute("messagesNonLus"); %>
 <% ArrayList<Sous_categorie> sscats = (ArrayList<Sous_categorie>) request.getAttribute("sscats"); %>
+<% ArrayList<Produit> prodsAlertStock = (ArrayList<Produit>) request.getAttribute("prodsAlertStock"); %>
 <% HashMap<Recherche, Integer> top = (HashMap<Recherche, Integer>) request.getAttribute("topRecherches"); %>
 <% double ca = (Double) request.getAttribute("total_CA"); %>
   <!--start wrapper-->
@@ -104,7 +111,7 @@
                      <div class="d-flex align-items-stretch justify-content-between overflow-hidden">
                       <div class="w-50">
                         <p>Commandes à 24h</p>
-                        <h4 class="">${cmdsAll }</h4>
+                        <p class="">Total des commandes: ${cmdsAll }</p>
                       </div>
                       <div class="w-50">
                       <% Integer cc = (Integer)request.getAttribute("cmdsA24h"); %>
@@ -121,17 +128,17 @@
                </div>
                
                
-               <div class="col">
+                <div class="col">
                 <div class="card overflow-hidden radius-10">
                     <div class="card-body">
                      <div class="d-flex align-items-stretch justify-content-between overflow-hidden">
                       <div class="w-50">
                         <p>Progression des visites à 7 jours</p>
                         <h4 class=""><%= visites.size() %></h4>
+                        
                       </div>
                       <div class="w-50">
                       <% Integer mod = (Integer) request.getAttribute("visitotalA7jours") * 100 / visites.size(); %>
-                      
                          <p class="mb-3 float-end text-danger" ><%= mod %>%<i class="bi bi-arrow-down"></i></p>
                          <div id="chart2"></div>
                       </div>
@@ -379,21 +386,19 @@
                               <h2 class="mb-1"><%= visites.size() %></h2>
                               <h6 class="mb-0">Total Visites</h6>
                            </div>
-                          <canvas id="chart6"></canvas>
+                          <canvas id="chart61">
+                          </canvas> 
                         </div>
                       </div>
                       <div class="col-lg-5 col-xl-5 col-xxl-4">
                         <div class="">
+                        <% ArrayList<String> titres = (ArrayList) request.getAttribute("topVisites_titresProduits"); %>
+                        <%for(String tp : titres){ %>
                           <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                              <i class="bi bi-display-fill me-2 text-primary"></i> <span>Desktop - </span> <span>15.2%</span>
+                              <i class="bi bi-display-fill me-2 text-primary"></i> <span><%= tp.substring(0,15) %></span> <span>15.2%</span>
                             </li>
-                            <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                              <i class="bi bi-phone-fill me-2 text-success"></i> <span>Mobile - </span> <span>62.3%</span>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                              <i class="bi bi-tablet-landscape-fill me-2 text-orange"></i> <span>Tablet - </span> <span>22.5%</span>
-                            </li>
+							<%} %>
                           </ul>
                          </div>
                       </div>
@@ -401,6 +406,28 @@
                   </div>
                 </div>
               </div>
+              
+                          <script>
+                          var chart = new Chart(document.getElementById('chart61'), {
+                        		type: 'doughnut',
+                        		data: {
+                        			labels: [${topVisites_produits}],
+                        			datasets: [{
+                        				label: "Device Users",
+                        				backgroundColor: ["#12bf24", "#3461ff", "#ff6632"],
+                        				data: [${topVisites_values}]
+                        			}]
+                        		  },
+                        		options: {
+                        			maintainAspectRatio: false,
+                        			cutoutPercentage: 85,
+                        			responsive: true,
+                        		  legend: {
+                        			display: false
+                        		  }
+                        		}
+                        	  });
+                          </script>
               
               
             </div><!--end row-->
@@ -475,62 +502,10 @@
                         <div id="chart8"></div>
                       </div>
                     </div>
-                    <div class="card radius-10 border shadow-none mb-3">
-                      <div class="card-body">
-                        <div class="d-flex align-items-center">
-                          <div class="">
-                            <p class="mb-1">Total Posts</p>
-                            <h4 class="mb-0 text-success">489</h4>
-                          </div>
-                          <div class="dropdown ms-auto">
-                            <div class="dropdown-toggle dropdown-toggle-nocaret cursor-pointer" data-bs-toggle="dropdown"><i class="bi bi-three-dots fs-4"></i>
-                            </div>
-                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="javascript:;">Action</a>
-                              </li>
-                              <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                              </li>
-                              <li>
-                                <hr class="dropdown-divider">
-                              </li>
-                              <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div id="chart9"></div>
-                      </div>
-                    </div>
+					</div>
+				</div>
                     
-                    <div class="card radius-10 border shadow-none mb-0">
-                      <div class="card-body">
-                        <div class="d-flex align-items-center">
-                          <div class="">
-                            <p class="mb-1">New Tasks</p>
-                            <h4 class="mb-0 text-info">149</h4>
-                          </div>
-                          <div class="dropdown ms-auto">
-                            <div class="dropdown-toggle dropdown-toggle-nocaret cursor-pointer" data-bs-toggle="dropdown"><i class="bi bi-three-dots fs-4"></i>
-                            </div>
-                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="javascript:;">Action</a>
-                              </li>
-                              <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                              </li>
-                              <li>
-                                <hr class="dropdown-divider">
-                              </li>
-                              <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div id="chart10"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-             </div>
+
              
              
 
@@ -617,7 +592,6 @@
             		  chart.render();
             		  
              </script>
-             
              
              <script>
              
@@ -738,10 +712,88 @@
 <!--               </div> -->
 <!--            </div> -->
 
-
          </div><!--end row-->
 
+<!-- 		row table des produits en alerte stock -->
+	<%if(prodsAlertStock.size() > 0){ %>
+         <div class="row">
+            <div class="col-12 col-lg-12 col-xl-12 d-flex">
+              <div class="card radius-10 w-100">
+                <div class="card-body">
+                  <div class="d-flex align-items-center">
+                    <h6 class="mb-0">Alertes stock produits</h6>
+                    <div class="fs-5 ms-auto dropdown">
+                       <div class="dropdown-toggle dropdown-toggle-nocaret cursor-pointer" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></div>
+                         <ul class="dropdown-menu">
+                           <li><a class="dropdown-item" href="#">Action</a></li>
+                           <li><a class="dropdown-item" href="#">Another action</a></li>
+                           <li><hr class="dropdown-divider"></li>
+                           <li><a class="dropdown-item" href="#">Something else here</a></li>
+                         </ul>
+                     </div>
+                   </div>
+                   <div class="table-responsive mt-2">
+                    <table class="table align-middle mb-0">
+                      <thead class="table-light">
+                        <tr>
+                          <th>#ID</th>
+                          <th>Image</th>
+                          <th>Titre</th>
+                          <th>Stock actuel</th>
+                          <th>Stock min</th>
+                          <th>Statut Archive</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      
+                      
+                      <% for(Produit p: prodsAlertStock){ %>
+<%--                       <% for(int i = 0; i < 20; i++){ %> --%>
+<%--                       	<% Commande cmd = commandes.get(i); %> --%>
+                        <tr>
+                          <td><%= p.getId() %></td>
+                          <td>  
+								<div class="d-flex align-items-center gap-3 cursor-pointer">
+	                             	<a href="FicheProduit?id=<%= p.getId()%>" title="Voir informations & statistiques">
+	                                <img src="<%= p.getImage() %>" class="rounded-circle" width="44" height="44" alt="">
+                                </a>
+                             </div>
+                            </td>
+                          <td><%= p.getTitre().substring(0, 20) %></td>
+                          <td>
+                            <div class="d-flex align-items-center gap-3">
+                              <div class="product-info">
+                                <h6 class="product-name mb-1"><%= p.getStock() %></h6>
+                              </div>
+                            </div>
+                          </td>
+                          <td><%= p.getStock_min() %></td>
+                          <td><%= p.getArchiver() %></td>
+                          <td>
+                            <div class="d-flex align-items-center gap-3 fs-6">
+                              <a href="DetailProduit?id=<%=p.getId() %>" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="View detail" aria-label="Views"><i class="bi bi-eye-fill"></i></a>
+                              <a href="DetailProduit?id=<%=p.getId() %>" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Editer le stock" aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
+<!--                               <a href="javascript:;" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete"><i class="bi bi-trash-fill"></i></a> -->
+                            </div>
+                          </td>
+                        </tr>
+                        <%} %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div><!--end row-->
+	<%} %>
 
+
+
+
+
+<!-- 		row table des 20 dernières commandes -->
          <div class="row">
             <div class="col-12 col-lg-12 col-xl-12 d-flex">
               <div class="card radius-10 w-100">

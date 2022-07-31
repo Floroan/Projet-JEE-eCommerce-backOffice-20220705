@@ -1,3 +1,4 @@
+<%@page import="tools.Constantes"%>
 <%@page import="model.Details_commande"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Adresse_livraison"%>
@@ -43,7 +44,7 @@
 
 <body>
 
-
+<% Commande c = (Commande) request.getAttribute("commande"); %>
   <!--start wrapper-->
   <div class="wrapper">
   
@@ -72,76 +73,165 @@
 				
 				<div class="row">
 					<div class="col-xl-9 mx-auto">
+					
 						<h6 class="mb-0 text-uppercase">Fiche de la commande</h6>
 						<hr/>
 						<div class="card">
 							<div class="card-body">
 								<div class="p-4 border rounded">
-									<form class="row g-3 needs-validation" novalidate>
+									
+									<% if(request.getAttribute("commande") == null){ %>
 										<div class="col-md-8">
-											<label for="validationCustom01" class="form-label">Rechercher</label>
-											<input type="text" class="form-control" id="validationCustom01" placeholder="rechercher" name="rechercher" required>
+											<form class="row g-3 needs-validation" method="post">
+											
+												<label for="validationCustom01" class="form-label">Rechercher</label>
+												<div class="col-md-4">
+												<input type="number" class="form-control" id="validationCustom01" placeholder="rechercher par id" name="<%=Constantes.idcommande%>" required>
+												</div>
+												<div class="col-md-6">
+												<input type="submit" class="form-control" id="validationCustom01" name="rechercher" value="rechercher">
+												</div>
+											</form>
 										</div>
-										<div class="col-md-4">
-											<label for="validationCustom01" class="form-label">Commande ID</label>
-											<input type="text" class="form-control" id="validationCustom01" value="${commande.id }" readonly="readonly" required>
+										<%} else { %>
+										
+										<%if(c.getEtat() == 3){ %>
+											<div class="alert border-0 bg-light-danger alert-dismissible fade show">
+							                    <div class="text-danger">Cette commande est déjà livrée et ne peut plus être modifiée.</div>
+							                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						                  	</div>
+										<%} %>
+										
+										<form class="row g-3 needs-validation" method="post">
+										<div class="col-md-2">
+											<label for="validationCustom02" class="form-label">Commande ID</label>
+											<input type="text" class="form-control" id="validationCustom02" value="${commande.id }" readonly="readonly" required>
 										</div>
-										<div class="col-md-4">
-											<label for="validationCustom02" class="form-label">Total</label>
-											<input type="text" class="form-control" id="validationCustom02" value="${ commande.total } €"  readonly="readonly" required>
+										<div class="col-md-3">
+											<label for="validationCustom03" class="form-label">Etat</label>
+											<input type="text" class="form-control" id="validationCustom03" value="${commande.etat }" readonly="readonly" required>
+										</div>
+										<div class="col-md-3">
+											<label for="validationCustom04" class="form-label">Total</label>
+											<input type="text" class="form-control" id="validationCustom04" value="${commande.total } €"  readonly="readonly" required>
 										</div>
 										<div class="col-md-4">
 											<label for="validationCustomUsername" class="form-label">Client, prénom et nom</label>
 											<div class="input-group has-validation"> <span class="input-group-text" id="inputGroupPrepend"></span>
-												<input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" value="${ commande.u.prenom }  ${ commande.u.nom }" required>
-												<div class="invalid-feedback">Please choose a username.</div>
+												<input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" value="${ commande.u.prenom }  ${ commande.u.nom }" readonly="readonly">
 											</div>
 										</div>
 										<div class="col-md-12">
-										<label for="validationCustom03" class="form-label">Adresse de livraison</label>
+										<label for="validationCustom05" class="form-label">Adresse de livraison</label>
 										</div>
 										<div class="col-md-6">
-											<label for="validationCustom03" class="form-label">ligne adresse</label>
-											<input type="text" class="form-control" id="validationCustom03" value="${ commande.adresse.adresse }" required>
+											<label for="validationCustom06" class="form-label">ligne adresse</label>
+											<input type="text" class="form-control" id="validationCustom06" value="${ commande.adresse.adresse }"  readonly="readonly" required>
 											<div class="invalid-feedback">Please provide a valid adress line.</div>
 										</div>
 										<div class="col-md-6">
-											<label for="validationCustom05" class="form-label">code postal</label>
-											<input type="text" class="form-control" id="validationCustom05" value="${ commande.adresse.cp }" required>
+											<label for="validationCustom07" class="form-label">code postal</label>
+											<input type="text" class="form-control" id="validationCustom07" value="${ commande.adresse.cp }" readonly="readonly" required>
 											<div class="invalid-feedback">Please provide a valid zip.</div>
 										</div>
 										<div class="col-md-6">
-											<label for="validationCustom03" class="form-label">Ville</label>
-											<input type="text" class="form-control" id="validationCustom03" value="${ commande.adresse.ville }" required>
+											<label for="validationCustom08" class="form-label">Ville</label>
+											<input type="text" class="form-control" id="validationCustom08" value="${ commande.adresse.ville }" readonly="readonly" required>
 											<div class="invalid-feedback">Please provide a valid city.</div>
 										</div>
 										<div class="col-md-6">
-											<label for="validationCustom04" class="form-label">Pays</label>
-											<input type="text" class="form-control" id="validationCustom03" value="${ commande.adresse.pays }" required>					
+											<label for="validationCustom09" class="form-label">Pays</label>
+											<input type="text" class="form-control" id="validationCustom09" value="${ commande.adresse.pays }" readonly="readonly" required>					
 											<div class="invalid-feedback">Please select a valid state.</div>
 										</div>
+					
+										
+<!-- 		row table des details de la commande -->
+	<%if(cmd.getDetails().size() > 0){ %>
 
-										
-										<% if(cmd != null){ %>
-										
-										<%for(Details_commande dc : cmd.getDetails()){ %>
-										 
-										<div class="col-md-6">
-											<label for="validationCustom05" class="form-label">Produit</label>
-											<input type="text" class="form-control" id="validationCustom05" value="<%= dc.getP().getTitre() %>"  readonly="readonly" required>
-										</div>
-										<div class="col-md-6">
-											<label for="validationCustom05" class="form-label">Quantité</label>
-											<input type="text" class="form-control" id="validationCustom05" value="<%= dc.getQte() %>" required>
-										</div>
-										<%} %>
+	
+         <div class="row">
+            <div class="col-12 col-lg-12 col-xl-12 d-flex">
+              <div class="card radius-10 w-100">
+                <div class="card-body">
+                  <div class="d-flex align-items-center">
+                    <h6 class="mb-0">Détails de la commande</h6>
+                    <div class="fs-5 ms-auto dropdown">
+                       <div class="dropdown-toggle dropdown-toggle-nocaret cursor-pointer" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></div>
+                         <ul class="dropdown-menu">
+                           <li><a class="dropdown-item" href="#">Action</a></li>
+                           <li><a class="dropdown-item" href="#">Another action</a></li>
+                           <li><hr class="dropdown-divider"></li>
+                           <li><a class="dropdown-item" href="#">Something else here</a></li>
+                         </ul>
+                     </div>
+                   </div>
+                   <div class="table-responsive mt-2">
+                    <table class="table align-middle mb-0">
+                      <thead class="table-light">
+                        <tr>
+                         
+                          <th>Image</th>
+                          <th>Titre</th>
+                          <th>Quantité</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      
+                      
+                      <% for(Details_commande dc : cmd.getDetails()){ %>
+                      
+<%--                       <% for(int i = 0; i < 20; i++){ %> --%>
+<%--                       	<% Commande cmd = commandes.get(i); %> --%>
+						<form method="post">
+                        <tr> 
+                         <input type="hidden" name="<%= Constantes.detailId %>" value="<%= dc.getId()%>"/> 
+                          <td>  
+								<div class="d-flex align-items-center gap-3 cursor-pointer">
+	                             	<a href="FicheProduit?id=<%= dc.getP().getId()%>" title="Voir informations & statistiques">
+	                                <img src="<%= dc.getP().getImage() %>" class="rounded-circle" width="44" height="44" alt="">
+                                </a>
+                             </div>
+                            </td>
+                          <td><%= dc.getP().getTitre().substring(0, 30) %></td>
+                          <td>
+                            <div class="d-flex align-items-center gap-3">
+                              <div class="product-info">
+                                <input type="number" class="col-md-4" value="<%= dc.getQte() %>" name="qte"/>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+							<div class="col-md-5">
+									<label for="validationCustom13" class="form-label">Modifications</label>
+									<div id="validationCustom13">
+<%-- 										<button  type="submit" name="<%=Constantes.diminuerQte %>" class="btn btn-success" title="diminuer la quantité"><i class="bi bi-arrow-left-square"></i></button> --%>
+										<button  type="submit" name="<%=Constantes.modifierQte %>" class="btn btn-success" title="augmenter la quantité"><i class="lni lni-pencil"></i></button>
+										<button  type="submit" name="<%=Constantes.supprimer %>" class="btn btn-outline-danger" title="supprimer, attention action irréversible"><i class="fadeIn animated bx bx-trash-alt"></i></button>
+									</div>
+							</div>
+                          </td>
+                        </tr>
+                        </form>
+                        <%} %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div><!--end row-->
+          
+	<%} %>
 
 
 										<% if (adresses != null){ %>
 										<div class="col-md-12">
 											<label for="validationCustom04" class="form-label">Changer l'adresse de livraison</label>
 											<select class="form-select" id="validationCustom04" required>
-												<option selected disabled value="">Choisir une adresse existante</option>
+												<option selected disabled value="${commande.adresse.id }">adresse actuelle : ${commande.adresse.adresse }, ${commande.adresse.cp } ${commande.adresse.ville }</option>
 												<% for(Adresse_livraison ad : adresses){ %>
 												<option value=<%= ad.getId() %>> <%= ad.getAdresse() + ", " + ad.getVille() + " " + ad.getCp() + ", " + ad.getPays() %></option>
 												<%}%>
@@ -156,24 +246,24 @@
 						<div class="dropdown">
                           <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                           <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="tooltip" data-bs-original-title="Modifier les changements apportés" >Modifier</a>
+                            <li><input type="submit" value="modifier" name="<%= Constantes.modifier %>" class="dropdown-item" data-bs-toggle="tooltip" data-bs-original-title="Modifier les changements apportés" />
                             </li>
                             <% String archive= " "; %>
                             <%if(cmd.getArchiver()==0){ archive= "non"; }else{ archive="oui";} %>
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="tooltip" data-bs-original-title="Voulez-vous archiver cette commande ? Statut actuel <%= archive %>">Archiver</a>
+                            <li><input type="submit" class="dropdown-item" name="<%= Constantes.archiver %> data-bs-toggle="tooltip" data-bs-original-title="Voulez-vous archiver cette commande ? Statut actuel <%= archive %>">Archiver</input>
                           </ul>
                         </div>
-									</form>
-									
-										<%}else{ %>
-										 <div class="col-md-8">
-											<label for="validationCustom01" class="form-label">Rechercher</label>
-											<input type="text" class="form-control" id="validationCustom01" placeholder="rechercher" name="rechercher" required>
-										</div>
-										<%} %>
+					</form>
+						<%} %>			
+
 								</div>
 							</div>
 						</div>
+						
+						<% if(request.getAttribute("commande") != null){ %>
+												<jsp:include page="/formNouvelleAdresse.jsp"></jsp:include>
+												${messageNouvelleAdresse }
+						<%} %>
 						
 						
 <!-- 						<div id="newAddress"></div> -->
@@ -212,35 +302,35 @@
 <!-- 						</div> -->
 						
 						
-						<jsp:include page="/formNouvelleAdresse.jsp"></jsp:include>
+
 						
 
-						<h6 class="mb-0 text-uppercase">Supported elements</h6>
-						<hr/>
-						<div class="card">
-							<div class="card-body">
-								<div class="p-4 border rounded">
-									<form class="was-validated">
+<!-- 						<h6 class="mb-0 text-uppercase">Supported elements</h6> -->
+<!-- 						<hr/> -->
+<!-- 						<div class="card"> -->
+<!-- 							<div class="card-body"> -->
+<!-- 								<div class="p-4 border rounded"> -->
+<!-- 									<form class="was-validated"> -->
 
-										<div class="mb-3">
-											<select class="form-select" required aria-label="select example">
-												<option selected disabled ="">filtres de recherche</option>
-												<option value="1">Client, nom & prénom</option>
-												<option value="2">ID Commande</option>
-											</select>
-											<div class="invalid-feedback">Example invalid select feedback</div>
-										</div>
-										<div class="mb-3">
-											<input type="file" class="form-control" aria-label="file example" required>
-											<div class="invalid-feedback">Example invalid form file feedback</div>
-										</div>
-										<div class="mb-3">
-											<button class="btn btn-primary" type="submit" disabled>Submit form</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
+<!-- 										<div class="mb-3"> -->
+<!-- 											<select class="form-select" required aria-label="select example"> -->
+<!-- 												<option selected disabled ="">filtres de recherche</option> -->
+<!-- 												<option value="1">Client, nom & prénom</option> -->
+<!-- 												<option value="2">ID Commande</option> -->
+<!-- 											</select> -->
+<!-- 											<div class="invalid-feedback">Example invalid select feedback</div> -->
+<!-- 										</div> -->
+<!-- 										<div class="mb-3"> -->
+<!-- 											<input type="file" class="form-control" aria-label="file example" required> -->
+<!-- 											<div class="invalid-feedback">Example invalid form file feedback</div> -->
+<!-- 										</div> -->
+<!-- 										<div class="mb-3"> -->
+<!-- 											<button class="btn btn-primary" type="submit" disabled>Submit form</button> -->
+<!-- 										</div> -->
+<!-- 									</form> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 
 					</div>
 				</div>

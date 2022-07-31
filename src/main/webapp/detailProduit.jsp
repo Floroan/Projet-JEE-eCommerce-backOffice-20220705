@@ -147,7 +147,7 @@
 
 										<div class="col-md-6">
 											<label for="validationCustom05" class="form-label">Stock</label>
-											<input type="text" class="form-control" id="validationCustom05"name="<%= Constantes.stockProd %>" value="<%= p.getStock() %>" required>
+											<input type="text" class="form-control" id="validationCustom05"name="<%= Constantes.stockProd %>" value="<%= p.getStock() %>" readonly="readonly" title="Non éditable, pour modifier le stock, passez par les gestions fournisseurs et stock" required>
 										</div>
 										<div class="col-md-6">
 											<label for="validationCustom05" class="form-label">Fixer le stock minimal</label>
@@ -161,7 +161,7 @@
                             <% if(p.getArchiver()==0){ archive= "non"; }else{ archive="oui";} %>
 										<div class="col-md-6">
 											<label for="validationCustom05" class="form-label">archivé ?</label>
-											<input type="text" class="form-control" id="validationCustom05"  name="<%= Constantes.archiveProd %>" readonly="readonly" value="<%= archive %>" title="Non éditable, voir le bouton 'actions' pour archiver le produit" required>
+											<input type="text" class="form-control" id="validationCustom05"  name="<%= Constantes.archiveProd %>" readonly="readonly" value="<%= archive %>" data-bs-original-title="Non éditable, voir le bouton 'actions' pour archiver le produit" required>
 <%-- 											<select  class="form-select" name="<%= Constantes.archiveProd %>" required> --%>
 <!-- 												<option>Non</option> -->
 <!-- 												<option>Oui</option> -->
