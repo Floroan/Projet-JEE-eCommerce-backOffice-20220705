@@ -122,85 +122,96 @@ public class RechercheDAO {
 			}
 
 			return list;
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
 		}
 	}
 
-
-public LinkedHashMap<Recherche, Integer> getmotsAndcount(int limit) {
-	LinkedHashMap<Recherche, Integer> list = new LinkedHashMap<>();
-	try {
-			PreparedStatement preparedStatement  = Database.connexion
+	public LinkedHashMap<Recherche, Integer> getmotsAndcount(int limit) {
+		
+		LinkedHashMap<Recherche, Integer> list = new LinkedHashMap<>();
+		
+		try {
+			
+			/*
+			  * Problème avec Group by :
+			  * - https://stackoverflow.com/questions/23921117/disable-only-full-group-by : ONLY_FULL_GROUP_BY,
+			  * - tuto pour régler le problème : https://grafikart.fr/tutoriels/only-full-group-by-sql-1206 
+			  */
+			PreparedStatement preparedStatement = Database.connexion
 					.prepareStatement("SELECT *, COUNT(*) as count FROM recherches "
 							+ "GROUP BY motcle ORDER BY count DESC LIMIT ?;");
 			preparedStatement.setInt(1, limit);
 			ResultSet resultat = preparedStatement.executeQuery();
 
-			while(resultat.next()) {
+			while (resultat.next()) {
+				
 				Recherche u = new Recherche();
-				u.setId(resultat.getInt( "id" ));
-				u.setFk_user(resultat.getInt( "fk_user" ));
+				u.setId(resultat.getInt("id"));
+				u.setFk_user(resultat.getInt("fk_user"));
 				u.setMotcle(resultat.getString("motcle"));
 				u.setDate(resultat.getDate("date"));
-				u.setArchiver(resultat.getInt( "archiver" ));		
+				u.setArchiver(resultat.getInt("archiver"));
+
+				list.put(u, resultat.getInt("count"));
 				
-				list.put(u, resultat.getInt( "count" ));
 			}
+			
 			return list;
-		
-	} catch (Exception ex) {
-    	ex.printStackTrace();
-    	return null;
-    }
-}
 
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			return null;
+			
+		}
+	}
 
-public HashMap<Recherche, Integer> getmotCountAndUser() {
-	HashMap<Recherche, Integer> list = new HashMap<>();
-	try {
-			PreparedStatement preparedStatement  = 
-					Database.connexion.prepareStatement("SELECT motcle, COUNT(*) as count FROM recherches LEFT JOIN utilisateurs ON recherches.fk_user = utilisateurs.id WHERE utilisateurs.id = recherches.fk_user GROUP BY motcle ORDER BY count DESC;");
-		
-			ResultSet resultat=preparedStatement.executeQuery();
+	public HashMap<Recherche, Integer> getmotCountAndUser() {
+		HashMap<Recherche, Integer> list = new HashMap<>();
+		try {
+			PreparedStatement preparedStatement = Database.connexion.prepareStatement(
+					"SELECT motcle, COUNT(*) as count FROM recherches LEFT JOIN utilisateurs ON recherches.fk_user = utilisateurs.id WHERE utilisateurs.id = recherches.fk_user GROUP BY motcle ORDER BY count DESC;");
 
-			while(resultat.next()) {
+			ResultSet resultat = preparedStatement.executeQuery();
+
+			while (resultat.next()) {
 				Recherche u = new Recherche();
-				u.setId(resultat.getInt( "id" ));
-				u.setFk_user(resultat.getInt( "fk_user" ));
+				u.setId(resultat.getInt("id"));
+				u.setFk_user(resultat.getInt("fk_user"));
 				u.setMotcle(resultat.getString("motcle"));
 				u.setDate(resultat.getDate("date"));
-				u.setArchiver(resultat.getInt( "archiver" ));		
-				
+				u.setArchiver(resultat.getInt("archiver"));
+
 				Utilisateur ut = new Utilisateur();
 				ut.setId(resultat.getInt("id"));
 				ut.setNom(resultat.getString("nom"));
-				
-				list.put(u, resultat.getInt( "count" ));
+
+				list.put(u, resultat.getInt("count"));
 			}
 			return list;
-		
-	} catch (Exception ex) {
-    	ex.printStackTrace();
-    	return null;
-    }
-}
 
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
 
 //SELECT motcle, COUNT(*) as count FROM recherches LEFT JOIN utilisateurs ON recherches.fk_user = utilisateurs.id WHERE utilisateurs.id = recherches.fk_user GROUP BY motcle ORDER BY count DESC; 
 
 //SELECT motcle,COUNT(*) as count FROM recherches GROUP BY motcle ORDER BY count DESC;
 //SELECT motcle,COUNT(*) as count FROM recherches GROUP BY motcle ORDER BY motcle ASC;
 
-public void archiverById(Recherche c) {
-	try {
-		
-			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("UPDATE recherches set archiver=? WHERE id=?");
-			preparedStatement.setInt(1,c.getArchiver());
-			preparedStatement.setInt(2,c.getId());
-			
+	public void archiverById(Recherche c) {
+		try {
+
+			PreparedStatement preparedStatement = Database.connexion
+					.prepareStatement("UPDATE recherches set archiver=? WHERE id=?");
+			preparedStatement.setInt(1, c.getArchiver());
+			preparedStatement.setInt(2, c.getId());
+
 			preparedStatement.executeUpdate();
 
 			System.out.println("ARCHIVED OK");
@@ -227,47 +238,47 @@ public void archiverById(Recherche c) {
 			System.out.println("DELETED NO");
 		}
 	}
-	
+
 	/**********************
 	 * 
-	 * 		MÉTHODES
+	 * MÉTHODES
 	 * 
 	 **********************/
-	
+
 	// COUNT ALL RESEARCHES BY ONE USER PER EACH MONTH OF THE CURRENT YEAR
 	// return String
-	public String countAllResearchesByOneUserPerEachMonthOfTheCurrentYear (int fk_user) {
-		
+	public String countAllResearchesByOneUserPerEachMonthOfTheCurrentYear(int fk_user) {
+
 		DaoTools dt = new DaoTools();
-		String paramGraph =  dt.countAllClicksByOneUserPerEachMonthOfTheCurrentYearForOneTable(fk_user, "recherches");
-		
+		String paramGraph = dt.countAllClicksByOneUserPerEachMonthOfTheCurrentYearForOneTable(fk_user, "recherches");
+
 		return paramGraph;
 
 	}
-	
+
 	// COUNT ALL RESEARCHES BY ONE USER PER EACH MONTH OF THE CURRENT YEAR
 	// return int
-	public int countAllResearchesByOneUser (int fk_user) {
-		
+	public int countAllResearchesByOneUser(int fk_user) {
+
 		try {
-			
+
 			PreparedStatement ps = Database.connexion
 					.prepareStatement("SELECT COUNT(*) FROM `recherches` WHERE `fk_user`=? ");
 			ps.setInt(1, fk_user);
-			
+
 			ResultSet rs = ps.executeQuery();
-			
+
 			rs.next();
-			
+
 			int c = rs.getInt("COUNT(*)");
 
 			return c;
-			
+
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 			return 0;
-			
+
 		}
 
 	}
