@@ -22,7 +22,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Commande;
-import model.Recherche;
 import model.Sous_categorie;
 import service_commande.Service_commandes;
 import tools.ChartsGenerator;
@@ -112,19 +111,34 @@ public class Dashboard extends HttpServlet {
 			char_sscats_nbr += prodDao.getCountBySsCat(ss.getId()) + ",";
 		}
 
-		HashMap<Recherche, Integer> mapMotsCle = new HashMap<>();
-		mapMotsCle = rechDao.getmotsAndcount(5);
+		/*
+		 * CAMEMBERT MOTS CLÉ RECHERCHÉS
+		 */
+//		HashMap<Recherche, Integer> mapMotsCle = new HashMap<>();
+//		mapMotsCle = rechDao.getmotsAndcount(5);
+//		String mots = "";
+//		String nbMot = "";
+//		for (Map.Entry<Recherche, Integer> entry : mapMotsCle.entrySet()) {
+//			Recherche r = entry.getKey();
+//			/*
+//			 * Problème avec Group by : -
+//			 * https://stackoverflow.com/questions/23921117/disable-only-full-group-by :
+//			 * ONLY_FULL_GROUP_BY, - tuto pour régler le problème :
+//			 * https://grafikart.fr/tutoriels/only-full-group-by-sql-1206
+//			 */
+//			mots += "'" + entry.getKey().getMotcle() + "',";
+//			nbMot += entry.getValue() + ",";
+//		}
+		/*
+		 * NOUVEAU CAMEMBERT MOTS CLÉ RECHERCHÉS
+		 */
+		HashMap<String, Integer> mapMotsCle = new HashMap<>();
+		mapMotsCle = rechDao.countTheMostSearchedWords(5);
 		String mots = "";
 		String nbMot = "";
-		for (Map.Entry<Recherche, Integer> entry : mapMotsCle.entrySet()) {
-			Recherche r = entry.getKey();
-			/*
-			 * Problème avec Group by : -
-			 * https://stackoverflow.com/questions/23921117/disable-only-full-group-by :
-			 * ONLY_FULL_GROUP_BY, - tuto pour régler le problème :
-			 * https://grafikart.fr/tutoriels/only-full-group-by-sql-1206
-			 */
-			mots += "'" + entry.getKey().getMotcle() + "',";
+		for (Map.Entry<String, Integer> entry : mapMotsCle.entrySet()) {
+			
+			mots += "'" + entry.getKey() + "',";
 			nbMot += entry.getValue() + ",";
 		}
 

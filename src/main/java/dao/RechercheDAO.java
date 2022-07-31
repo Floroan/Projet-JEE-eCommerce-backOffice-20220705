@@ -136,26 +136,35 @@ public class RechercheDAO {
 		try {
 			
 			/*
-			  * Problème avec Group by :
+			  * Problème avec Group by --> Ajouter ONLY_FULL_GROUP_BY,
 			  * - https://stackoverflow.com/questions/23921117/disable-only-full-group-by : ONLY_FULL_GROUP_BY,
 			  * - tuto pour régler le problème : https://grafikart.fr/tutoriels/only-full-group-by-sql-1206 
+			  * 
 			  */
-			PreparedStatement preparedStatement = Database.connexion
-					.prepareStatement("SELECT *, COUNT(*) as count FROM recherches "
-							+ "GROUP BY motcle ORDER BY count DESC LIMIT ?;");
-			preparedStatement.setInt(1, limit);
-			ResultSet resultat = preparedStatement.executeQuery();
+			// Le problème est que MySQL ne sait pas quel champ choisir.
+			// Il en prend donc un au hasard quand ONLY_FULL_GROUP_BY n’est pas activé
+			// Essaye cette requête pour comprendre :
+			// SELECT GROUP_CONCAT(recherches.id SEPARATOR ','), GROUP_CONCAT(recherches.fk_user SEPARATOR ','), GROUP_CONCAT(recherches.date SEPARATOR ','), GROUP_CONCAT(recherches.motcle SEPARATOR ','), GROUP_CONCAT(recherches.archiver SEPARATOR ','), COUNT(*) as count FROM recherches GROUP BY motcle ORDER BY count DESC LIMIT 5
+			// De surcroit est-ce utile de récupérer un objet pour afficher un graphique ?
+			// À part pour faire joujou ;)
+			// Ci dessous la bonne requête et plus bas la nouvelle méthode countTheMostSearchedWords():
+			// SELECT recherches.motcle, COUNT(*) as count FROM recherches GROUP BY motcle ORDER BY count DESC LIMIT ?;
+			
+			PreparedStatement ps = Database.connexion
+					.prepareStatement("SELECT *, COUNT(*) as count FROM recherches GROUP BY motcle ORDER BY count DESC LIMIT ?;"); // FAUX
+			ps.setInt(1, limit);
+			ResultSet rs = ps.executeQuery();
 
-			while (resultat.next()) {
+			while (rs.next()) {
 				
 				Recherche u = new Recherche();
-				u.setId(resultat.getInt("id"));
-				u.setFk_user(resultat.getInt("fk_user"));
-				u.setMotcle(resultat.getString("motcle"));
-				u.setDate(resultat.getDate("date"));
-				u.setArchiver(resultat.getInt("archiver"));
+				u.setId(rs.getInt("id"));
+				u.setFk_user(rs.getInt("fk_user"));
+				u.setMotcle(rs.getString("motcle"));
+				u.setDate(rs.getDate("date"));
+				u.setArchiver(rs.getInt("archiver"));
 
-				list.put(u, resultat.getInt("count"));
+				list.put(u, rs.getInt("count"));
 				
 			}
 			
@@ -282,5 +291,40 @@ public class RechercheDAO {
 		}
 
 	}
+	
+	/*
+	 * Ci dessous la bonne requête et plus bas la nouvelle méthode countTheMostSearchedWords():
+	 * SELECT recherches.motcle, COUNT(*) as count FROM recherches GROUP BY motcle ORDER BY count DESC LIMIT ?;
+	 */
+	
+	// compter les mots les plus recherchés
+	public LinkedHashMap<String, Integer> countTheMostSearchedWords(int limit) {
+		
+		LinkedHashMap<String, Integer> list = new LinkedHashMap<>();
+		
+		try {
+			
+			PreparedStatement ps = Database.connexion
+					.prepareStatement("SELECT recherches.motcle, COUNT(*) as count "
+							+ "FROM recherches GROUP BY motcle ORDER BY count DESC LIMIT ?");
+			ps.setInt(1, limit);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				list.put( rs.getString( "motcle" ), rs.getInt( "count" ) );
+				
+			}
+			
+			return list;
+
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			return null;
+			
+		}
+	}
+
 
 }
