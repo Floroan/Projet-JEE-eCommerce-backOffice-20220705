@@ -55,7 +55,9 @@ Admin abSession = (Admin) request.getAttribute("abSession");
        	<!--end top header-->
 
        	<!--start sidebar -->
-       	<jsp:include page="/SideBar"></jsp:include>
+       	<jsp:include page="/SideBar">
+       		<jsp:param name="abFromServletAdminCard" value="<%= ab.getNom() %>" />
+       	</jsp:include>
        	<!--end sidebar -->
 
 

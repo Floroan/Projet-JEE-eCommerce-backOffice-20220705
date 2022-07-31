@@ -5,6 +5,7 @@
 <%
 Coordonnee cb = (Coordonnee) request.getAttribute("cb");
 String privileges = (String) request.getAttribute("privileges");
+String abFromServletAdminCard = (String) request.getAttribute("abFromServletAdminCard");
 %>
 <aside class="sidebar-wrapper" data-simplebar="true">
           <div class="sidebar-header">
@@ -182,13 +183,42 @@ if ( privileges.contains("commandes") ) {
 if ( privileges.contains("utilisateurs") ) {
 %>
             <li class="menu-label">Gestion des utilisateurs</li>
+            <li>
+              <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class="bi bi-music-note-list"></i></div>
+                <div class="menu-title">Menu Levels</div>
+              </a>
+              <ul>
+                <li> <a class="has-arrow" href="javascript:;"><i class="bi bi-circle"></i>Level One</a>
+                  <ul>
+                    <li> <a class="has-arrow" href="javascript:;"><i class="bi bi-circle"></i>Level Two</a>
+                    
+                      <ul>
+                        <li> <a href="javascript:;"><i class="bi bi-circle"></i>Level Three</a></li>
+                      </ul>
+                    
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
            	<li>
            		<a class="has-arrow" href="javascript:;">
                		<div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
                		<div class="menu-title">Back Office</div>
                	</a>
              	<ul>
-               		<li> <a href="AdminList"><i class="bi bi-circle"></i>Employés</a></li>
+               		<li> <a class="has-arrow" href="AdminList"><i class="bi bi-circle"></i>Employés</a>
+               		<ul>
+               		<%
+               		if ( abFromServletAdminCard != null ) {
+               		%>
+	               		<li> <a href="javascript:;"><i class="bi bi-circle"></i><%= abFromServletAdminCard %></a></li>
+               		<%
+               		}
+               		%>
+               		</ul>
+               		</li>
              	</ul>
 			</li>
 			<li>

@@ -43,8 +43,14 @@ public class SideBar extends HttpServlet {
 		CoordonneesDAO cd = new CoordonneesDAO();
 		AdminDAO ad = new AdminDAO();
 		
-		Coordonnee cb = cd.getById(1);
+		Coordonnee cb = cd.getById(1); // nom de la société
 		Admin ab = ad.getById(id);
+		
+		if ( request.getParameter("abFromServletAdminCard") != null ) {
+			String abFromServletAdminCard = request.getParameter("abFromServletAdminCard");
+			System.out.println("abFromServletAdminCard est dans SideBar : " + abFromServletAdminCard );
+			request.setAttribute( "abFromServletAdminCard", abFromServletAdminCard );
+		}
 		
 		request.setAttribute("cb", cb);
 		request.setAttribute("privileges", ab.getPrivileges());
