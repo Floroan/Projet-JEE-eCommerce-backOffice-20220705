@@ -381,7 +381,7 @@ Admin abSession = (Admin) request.getAttribute("abSession");
 											id="utilisateurs" 
 											<%-- onclick="" --%>
 								<%
-								if ( ab.getPrivileges().contains("commandes") ) {
+								if ( ab.getPrivileges().contains("utilisateurs") ) {
 								%>
 											checked
 								<%

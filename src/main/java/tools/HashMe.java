@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 public class HashMe {
 
 	private final String sel = "SBSHSESWFBvbcVcXsQZQaIUOLdzaa";
-	
+
 	/**
 	 * Hashing with SHA1
 	 *
@@ -18,22 +18,26 @@ public class HashMe {
 	 * @return String hashed
 	 */
 	public String sha1(String input) {
-		
-	    String sha1 = input + sel;
-	    
-	    try {
-	        MessageDigest msdDigest = MessageDigest.getInstance("SHA-1");
-	        				msdDigest = MessageDigest.getInstance("MD5");
-	        msdDigest.update(input.getBytes("UTF-8"), 0, input.length());	        
-	        		//sha1 = DatatypeConverter.printHexBinary(msdDigest.digest());
-	        //sha1 = new String(msdDigest.digest(), StandardCharsets.UTF_8);
-	        sha1 = Base64.getEncoder().encodeToString(msdDigest.digest());
-	        System.out.println("tools.HashMe.java : " + sha1);
-	        
-	        
-	    } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
-	        Logger.getLogger(HashMe.class.getName()).log(Level.SEVERE, null, e);
-	    }
-	    return sha1;
+
+		System.out.println("Password before hash : " + input);
+		String sha1 = input + sel;
+
+		try {
+			
+			MessageDigest msdDigest = MessageDigest.getInstance("SHA-1");
+			msdDigest = MessageDigest.getInstance("MD5");
+			msdDigest.update(input.getBytes("UTF-8"), 0, input.length());
+			// sha1 = DatatypeConverter.printHexBinary(msdDigest.digest());
+			// sha1 = new String(msdDigest.digest(), StandardCharsets.UTF_8);
+			sha1 = Base64.getEncoder().encodeToString(msdDigest.digest());
+			
+			System.out.println("HashMe from Package tools.HashMe.java : " + sha1);
+			System.out.println("Password : 11aaAA@@ -> hcxTphhoBsVOBdYWBvFSQw==");
+			
+
+		} catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+			Logger.getLogger(HashMe.class.getName()).log(Level.SEVERE, null, e);
+		}
+		return sha1;
 	}
 }

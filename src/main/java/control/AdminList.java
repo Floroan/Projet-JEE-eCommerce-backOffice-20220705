@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Admin;
 import tools.Database;
+import tools.HashMe;
 
 /**
  * Servlet implementation class AdminList
@@ -102,14 +103,18 @@ public class AdminList extends HttpServlet {
 					privileges += "utilisateurs,";
 				}
 				
-				
 				Admin ab = new Admin();
+				
 				ab.setNom(fn);
 				ab.setEmail(e);
+				
+				HashMe hs = new HashMe();
+				p = hs.sha1(p);
 				ab.setPassword(p);
+				
 				ab.setPrivileges(privileges);
 				
-//				System.out.println(ab);
+				System.out.println(ab);
 				ad.save(ab);
 				
 				String employeeAdded = "L’employé(e) a bien été enregistré(e).";

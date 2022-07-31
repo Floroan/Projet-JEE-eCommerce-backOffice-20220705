@@ -60,8 +60,8 @@ public class AdminCard extends HttpServlet {
 				ab.setNom(fn);
 				ab.setEmail(e);
 
-				System.out.println(ab);
-//				ad.save(ab);
+//				System.out.println(ab);
+				ad.save(ab);
 				
 				String profilUpdated = "La fiche a bien été mise à jour.";
 				

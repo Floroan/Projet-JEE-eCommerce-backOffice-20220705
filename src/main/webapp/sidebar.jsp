@@ -75,7 +75,7 @@ if ( privileges.contains("stat") ) {
 			<li>
            		<a class="has-arrow" href="javascript:;">
                		<div class="parent-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
-               		<div class="menu-title">Front office</div>
+               		<div class="menu-title">Front Office</div>
                	</a>
              	<ul>
 		<%
@@ -183,25 +183,6 @@ if ( privileges.contains("commandes") ) {
 if ( privileges.contains("utilisateurs") ) {
 %>
             <li class="menu-label">Gestion des utilisateurs</li>
-            <li>
-              <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class="bi bi-music-note-list"></i></div>
-                <div class="menu-title">Menu Levels</div>
-              </a>
-              <ul>
-                <li> <a class="has-arrow" href="javascript:;"><i class="bi bi-circle"></i>Level One</a>
-                  <ul>
-                    <li> <a class="has-arrow" href="javascript:;"><i class="bi bi-circle"></i>Level Two</a>
-                    
-                      <ul>
-                        <li> <a href="javascript:;"><i class="bi bi-circle"></i>Level Three</a></li>
-                      </ul>
-                    
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
            	<li>
            		<a class="has-arrow" href="javascript:;">
                		<div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
@@ -224,7 +205,7 @@ if ( privileges.contains("utilisateurs") ) {
 			<li>
            		<a class="has-arrow" href="javascript:;">
                		<div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
-               		<div class="menu-title">Front office</div>
+               		<div class="menu-title">Front Office</div>
                	</a>
              	<ul>
              		<li> <a href="UserList"><i class="bi bi-circle"></i>Utilisateurs</a></li>

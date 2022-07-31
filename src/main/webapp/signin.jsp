@@ -97,7 +97,7 @@
                             <div class="ms-auto position-relative">
                               <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-lock-fill"></i></div>
 
-                              <input value="000" name="pass" type="password" class="form-control radius-30 ps-5" id="inputChoosePassword" placeholder="Entrer votre mot de passe">
+                              <input value="11aaAA@@" name="pass" type="password" class="form-control radius-30 ps-5" id="inputChoosePassword" placeholder="Entrer votre mot de passe">
 
                             </div>
                           </div>

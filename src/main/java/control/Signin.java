@@ -98,9 +98,7 @@ public class Signin extends HttpServlet {
 		boolean conn = false;
 
 		if (request.getParameter("auth") != null) {
-
-			System.out.println("Signin.java");
-
+			
 			Database.Connect();
 			String user = request.getParameter("nom");
 			String userMail = request.getParameter("mail");
@@ -114,7 +112,6 @@ public class Signin extends HttpServlet {
 
 				hs = new HashMe();
 				String hpass = hs.sha1(pass);
-				System.out.println("HashMe from Sign.java : " + hpass);
 
 				adminDAO = new AdminDAO();
 				admin = adminDAO.getOneByNameMailPass(user, userMail, hpass);
