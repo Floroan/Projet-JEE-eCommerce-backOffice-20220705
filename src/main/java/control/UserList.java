@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import dao.UtilisateurDAO;
 import jakarta.servlet.ServletException;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Utilisateur;
 import tools.Database;
+import tools.DateManipulator;
 
 /**
  * Servlet implementation class UserList
@@ -36,6 +38,57 @@ public class UserList extends HttpServlet {
 		Database.Connect();
 		
 		UtilisateurDAO ud = new UtilisateurDAO();
+		
+		// ADD EMPLOYEE FORM
+		if ( request.getParameter("addUserForm") != null ) {
+			
+			if ( request.getParameter("firstName").isBlank() 
+					|| request.getParameter("lastName").isBlank()
+					|| request.getParameter("mail").isBlank()
+					|| request.getParameter("password").isBlank()
+					|| !tools.RegexValidator.emailValidator( request.getParameter("mail") ) 
+//							|| !tools.RegexValidator.passwordValidator("password")
+					) {
+				
+				String invalidAdd = "Vérifier que les champs ne soient pas vide et que le mail soit au bon format.";
+				request.setAttribute("invalidAdd", invalidAdd);
+				
+			} else {
+				
+				String fn = request.getParameter("firstName");
+				String ln = request.getParameter("lastName");
+				String e = request.getParameter("mail");
+				String p = request.getParameter("password");
+				
+
+//				System.out.println("ud.getByMail() : " + ud.getByMail(e));
+				if ( ud.getByMail(e) == null ) {
+					
+					Utilisateur ub = new Utilisateur();
+					ub.setNom(fn);
+					ub.setPrenom(ln);
+					ub.setEmail(e);
+					ub.setPassword(p);
+					
+					Date d = new Date();
+					ub.setDate_inscription( DateManipulator.dateConvertToSql( d ) );
+					
+//					System.out.println(ub);
+					ud.save(ub);
+					
+					String userAdded = "L’employé(e) a bien été enregistré(e).";
+					
+					request.setAttribute("userAdded", userAdded);
+					
+				} else {
+					
+					String invalidAdd = "Cet email existe déjà.";
+					request.setAttribute("invalidAdd", invalidAdd);
+					
+				}
+				
+			}
+		}
 		
 		// BOUTON ARCHIVER
 		if ( request.getParameter("archived") != null ) {

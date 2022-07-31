@@ -77,6 +77,35 @@ public class UtilisateurDAO {
 			return null;
 		}
 	}
+	
+	public Utilisateur getByMail( String mail ) {
+		try {
+
+			PreparedStatement preparedStatement = Database.connexion
+					.prepareStatement("SELECT * FROM utilisateurs WHERE email=?");
+			preparedStatement.setString(1, mail);
+
+			ResultSet resultat = preparedStatement.executeQuery();
+
+			resultat.next();
+			
+			Utilisateur u = new Utilisateur();
+			
+			u.setId(resultat.getInt("id"));
+			u.setNom(resultat.getString("nom"));
+			u.setPrenom(resultat.getString("prenom"));
+			u.setEmail(resultat.getString("email"));
+			u.setDate_inscription(resultat.getDate("date_inscription"));
+			u.setPassword(resultat.getString("password"));
+			u.setArchiver(resultat.getInt("archiver"));
+			
+			return u;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
 
 	public Utilisateur getOne(String name, String pass) {
 		try {

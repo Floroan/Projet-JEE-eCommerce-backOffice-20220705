@@ -88,14 +88,66 @@ ArrayList<Utilisateur> prospects = (ArrayList<Utilisateur>) request.getAttribute
 				</div>
 			</div> -->
 			<!--end breadcrumb-->
-			<h6 class="mb-0 text-uppercase">Liste des utilisateurs</h6>
-			<hr/>
 			<div>
 				<div class="alert alert-danger text-center" role="alert">
 					Je souhaite utiliser <a href="https://editor.datatables.net/examples/simple/simple.html">EDITOR</a> mais je n’arrive pas à le faire fonctionner.<br>
 					Avec DATATABLE, seuls les td qui n’ont pas d’Input peuvent être triés !<br> 
 				</div>
 			</div>
+			<hr/>
+			<h6 class="mb-0 text-uppercase">Ajouter un utilisateur</h6>
+			<br>
+			<%
+			if (request.getAttribute("invalidAdd") != null) {
+			%>
+			<div>
+				<div class="alert alert-danger text-center" role="alert">
+					<%=request.getAttribute("invalidAdd")%>
+				</div>
+			</div>
+			<%
+			}
+			%>
+			<%
+			if (request.getAttribute("userAdded") != null) {
+			%>
+			<div>
+				<div class="alert alert-success text-center" role="alert">
+					<%=request.getAttribute("userAdded")%>
+				</div>
+			</div>
+			<%
+			}
+			%>
+			<div class="card">
+				<div class="card-body">
+					<form class="row g-4" method="post" action="UserList" >
+						<div class="col-md-3">
+							<label class="form-label">Nom de famille</label>
+							<input type="text" class="form-control" name="firstName" >
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">Prénom</label>
+							<input type="text" class="form-control" name="lastName" >
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">Email</label>
+							<div class="input-group">
+								<div class="input-group-text">@</div>
+						    	<input type="email" class="form-control" name="mail" >
+						    </div>
+						</div>
+					    <div class="col-md-3">
+					    	<label class="form-label">Mot de passe</label>
+							<input type="text" class="form-control" name="password" >
+						</div>
+						<div class="col-auto">
+							<button class="btn btn-primary" type="submit" name="addUserForm">Ajouter</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<h6 class="mb-0 text-uppercase">Liste des utilisateurs</h6>
 			<hr/>
 			<div class="card">
 				<div class="card-body">
