@@ -35,6 +35,7 @@ public class DetailCommande extends HttpServlet {
 	private Commande cmd;
 	private ArrayList<Adresse_livraison> adresses;
 	private ProduitDAO prodDao;
+	private Adresse_livraisonDAO adressDao;
 	
 	
 	private int id;
@@ -60,13 +61,7 @@ public class DetailCommande extends HttpServlet {
 		Database.Connect();
 		cmdDao = new CommandeDAO();
 		
-		if(id > 0) {
-			
-			fillCommande(id);
-			request.setAttribute("commande", cmd);
-			System.out.println(cmd);
-			request.setAttribute("adresses", adresses);
-		}
+
 
 		
 		if(request.getParameter("retirer") != null) {
@@ -78,7 +73,7 @@ public class DetailCommande extends HttpServlet {
 			System.out.println("rechercher");
 			
 			cmd = cmdDao.getById(Integer.parseInt(request.getParameter(Constantes.idcommande)));
-			fillCommande(Integer.parseInt(request.getParameter(Constantes.idcommande)));
+			this.getCommande(Integer.parseInt(request.getParameter(Constantes.idcommande)));
 			request.setAttribute("commande", cmd);
 			request.setAttribute("adresses", adresses);
 			
@@ -121,7 +116,6 @@ public class DetailCommande extends HttpServlet {
 					}
 				}
 				
-
 				cmd.getDetails().add(dt);
 				//System.out.println(cmd.toString());
 				cmdDao.save(cmd);
@@ -147,101 +141,101 @@ public class DetailCommande extends HttpServlet {
 
 		}
 		
-		if(request.getParameter(Constantes.augmenterQte) != null) {
-			
-			System.out.println("augmenter");
-			
-			request.getAttribute(Constantes.detailId);
-			detailDao = new Details_commandeDAO();
-			Details_commande dt = detailDao.getById(Integer.parseInt(request.getParameter(Constantes.detailId)));
-			
-			prodDao = new ProduitDAO();
-			Produit p = prodDao.getById(dt.getFk_produit());
-			
-			if(p.getStock() <= p.getStock_min() || p.getStock() == 0) {
-				request.setAttribute("message", "Le stock actuel sur ce produit ne permet pas d'en augmenter la quantité sur cette commande.");
-				
-			}else if (p.getStock() >= p.getStock_min() + 10) {
-				int qte = dt.getQte() + 1;
-				dt.setQte(qte);
-				
-				System.out.println(dt);
-				detailDao.save(dt);
-				
-				// maj commande
-				Iterator<Details_commande> it = cmd.getDetails().iterator();
-				
-				while(it.hasNext()) {
-					if(it.next().getId() == dt.getId()){
-						it.remove();
-					}
-				}
-				cmd.getDetails().add(dt);
-				//System.out.println(cmd.toString());
-				cmdDao.save(cmd);
-				
-				p.setStock(p.getStock() - 1);
-				prodDao.save(p);
-			}
-
-		}
+//		if(request.getParameter(Constantes.augmenterQte) != null) {
+//			
+//			System.out.println("augmenter");
+//			
+//			request.getAttribute(Constantes.detailId);
+//			detailDao = new Details_commandeDAO();
+//			Details_commande dt = detailDao.getById(Integer.parseInt(request.getParameter(Constantes.detailId)));
+//			
+//			prodDao = new ProduitDAO();
+//			Produit p = prodDao.getById(dt.getFk_produit());
+//			
+//			if(p.getStock() <= p.getStock_min() || p.getStock() == 0) {
+//				request.setAttribute("message", "Le stock actuel sur ce produit ne permet pas d'en augmenter la quantité sur cette commande.");
+//				
+//			}else if (p.getStock() >= p.getStock_min() + 10) {
+//				int qte = dt.getQte() + 1;
+//				dt.setQte(qte);
+//				
+//				System.out.println(dt);
+//				detailDao.save(dt);
+//				
+//				// maj commande
+//				Iterator<Details_commande> it = cmd.getDetails().iterator();
+//				
+//				while(it.hasNext()) {
+//					if(it.next().getId() == dt.getId()){
+//						it.remove();
+//					}
+//				}
+//				cmd.getDetails().add(dt);
+//				//System.out.println(cmd.toString());
+//				cmdDao.save(cmd);
+//				
+//				p.setStock(p.getStock() - 1);
+//				prodDao.save(p);
+//			}
+//		}
 		
-		if(request.getParameter(Constantes.diminuerQte) != null) {
-			System.out.println("diminuer");
-			request.getAttribute(Constantes.detailId);
-			detailDao = new Details_commandeDAO();
-			Details_commande dt = detailDao.getById(Integer.parseInt(request.getParameter(Constantes.detailId)));
-			
-			prodDao = new ProduitDAO();
-			Produit p = prodDao.getById(dt.getFk_produit());
-			
-			int qte = dt.getQte() - 1;
-			dt.setQte(qte);
-			detailDao.save(dt);
-			
-			// maj commande
-			Iterator<Details_commande> it = cmd.getDetails().iterator();
-			
-			while(it.hasNext()) {
-				if(it.next().getId() == dt.getId()){
-					it.remove();
-				}
-			}
-			cmd.getDetails().add(dt);
-			//System.out.println(cmd.toString());
-			cmdDao.save(cmd);
-			
-			p.setStock(p.getStock() + 1);
-			prodDao.save(p);
-			
-		}
+//		if(request.getParameter(Constantes.diminuerQte) != null) {
+//			System.out.println("diminuer");
+//			request.getAttribute(Constantes.detailId);
+//			detailDao = new Details_commandeDAO();
+//			Details_commande dt = detailDao.getById(Integer.parseInt(request.getParameter(Constantes.detailId)));
+//			
+//			prodDao = new ProduitDAO();
+//			Produit p = prodDao.getById(dt.getFk_produit());
+//			
+//			int qte = dt.getQte() - 1;
+//			dt.setQte(qte);
+//			detailDao.save(dt);
+//			
+//			// maj commande
+//			Iterator<Details_commande> it = cmd.getDetails().iterator();
+//			
+//			while(it.hasNext()) {
+//				if(it.next().getId() == dt.getId()){
+//					it.remove();
+//				}
+//			}
+//			cmd.getDetails().add(dt);
+//			//System.out.println(cmd.toString());
+//			cmdDao.save(cmd);
+//			
+//			p.setStock(p.getStock() + 1);
+//			prodDao.save(p);
+//			
+//		}
 		
 		if(request.getParameter(Constantes.supprimer) != null) {	
 			System.out.println("supp detail");
 			
+			System.out.println("before" +cmd.getDetails().size());
 			Iterator<Details_commande> it = cmd.getDetails().iterator();
-			
 			while(it.hasNext()) {
 				if(it.next().getId() == Integer.parseInt(request.getParameter(Constantes.detailId))){
 					it.remove();
 				}
 			}
-			System.out.println(cmd.getDetails());
-			//cmdDao.save(cmd);
-	
+			detailDao = new Details_commandeDAO();
+			detailDao.deleteById(Integer.parseInt(request.getParameter(Constantes.detailId)));
+			System.out.println("after"+cmd.getDetails().size());
+			cmdDao.save(cmd);	
 		}
 		
 		if(request.getParameter(Constantes.modifier) != null) {
 			System.out.println("action requise modifier commande");
-			System.out.println(request.getParameter("id"));
-			Commande c  = new Commande();
-			c.setId(Integer.parseInt(request.getParameter("id")));
-			
-			detail = new Details_commande();
-			
-			for(Details_commande dl : c.getDetails()) {
-				
-			}	
+			System.out.println(request.getParameter(Constantes.changerAdresse));
+
+			//cmd = cmdDao.getById(Integer.parseInt(request.getParameter(Constantes.idcommande)));
+			Commande c = cmd;
+			c.setFk_adresse(Integer.parseInt(request.getParameter(Constantes.changerAdresse)));
+//			adressDao = new Adresse_livraisonDAO();
+//			Adresse_livraison ad = adressDao.getById(Integer.parseInt(request.getParameter(Constantes.changerAdresse)));
+//			c.setAdresse(ad);
+			cmdDao.save(c);
 		}
 		
 		if(request.getParameter("nouvelleAdresse") != null) {
@@ -253,8 +247,28 @@ public class DetailCommande extends HttpServlet {
 //		}catch(NullPointerException ne) {
 //			request.getRequestDispatcher("/ficheCommande2.jsp").forward(request, response);
 //		}
+		
+		if(request.getParameter("enLivraison") != null) {
+			System.out.println("passer en livraison");
+			cmd.setEtat(Constantes.cmdValidee);
+			cmdDao.save(cmd);
+			response.sendRedirect("/Hytek_Admin/TableCommandesByEtat?etat=1");
+		}
+		
 	
-		request.getRequestDispatcher("/ficheCommande2.jsp").forward(request, response);
+		if(id > 0) {
+			this.getCommande(id);
+			request.setAttribute("commande", cmd);
+			System.out.println(cmd);
+			request.setAttribute("adresses", adresses);
+		}
+		
+		try {
+			request.getRequestDispatcher("/ficheCommande2.jsp").forward(request, response);
+		}catch (IllegalStateException e) {
+			// TODO: handle exception
+		}
+		
 		
 	}
 
@@ -266,7 +280,7 @@ public class DetailCommande extends HttpServlet {
 		doGet(request, response);
 	}
 
-	public void fillCommande(int id) {
+	public void getCommande(int id) {
 		cmd = cmdDao.getByIdCommandeUserAdressAndDetails(id);
 		Adresse_livraisonDAO adressDao = new Adresse_livraisonDAO();
 		adresses = adressDao.getAllByClient(cmd.getFk_utilisateur());

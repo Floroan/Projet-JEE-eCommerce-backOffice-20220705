@@ -248,6 +248,7 @@ public void archiverById(Details_commande c) {
 }
 
 public void deleteById(int id) {
+	
 	try {
 		
 			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("DELETE FROM details_commande WHERE id=?");

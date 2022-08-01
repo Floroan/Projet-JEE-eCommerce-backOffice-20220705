@@ -84,9 +84,9 @@
                     <div class="col-xl-5">
                       <div class="card-body p-4">
                         <h1 class="display-1"><span class="text-warning">5</span><span class="text-danger">0</span><span class="text-primary">0</span></h1>
-                        <h2 class="font-weight-bold display-4">Sorry, unexpected error</h2>
+                        <h2 class="font-weight-bold display-4">Une erreur server est survenue</h2>
                         <p>Looks like you are lost!
-                          <br>May be you are not connected to the internet!</p>
+                          <br>Un problème de connection, ou votre session a expirée</p>
                         <div class="mt-5">	<a href="Signin" class="btn btn-lg btn-primary px-md-5 radius-30">Go Signin</a>
 <!--                           <a href="javascript:;" class="btn btn-lg btn-outline-dark ms-3 px-md-5 radius-30">Back</a> -->
                         </div>

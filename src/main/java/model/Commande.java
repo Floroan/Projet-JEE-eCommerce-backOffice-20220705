@@ -87,6 +87,10 @@ public class Commande {
 	}
 
 	public double getTotal() {
+		return total;	
+	}
+	
+	public double getTotalDetails() {
 		total = 0;
 		if(this.details == null) {
 			return this.total;
@@ -98,6 +102,7 @@ public class Commande {
 		return this.total;
 		}	
 	}
+	
 
 	public void setTotal(double total) {
 		this.total = total;

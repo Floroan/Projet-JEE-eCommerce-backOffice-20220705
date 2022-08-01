@@ -10,7 +10,7 @@ public final class Constantes {
 	stockProd = "stockProd", stockMinProd = "stockMinProd", PUProd= "PUProd", archiveProd= "archiveProd",
 	
 	//adresse
-	newAdresse = "newAdresse", newVille = "newVille", newPays = "newPays", newCP = "newCP",
+	changerAdresse= "changerAdresse", newAdresse = "newAdresse", newVille = "newVille", newPays = "newPays", newCP = "newCP",
 	
 	// commande
 	editCommande = "editCommande", archiveCommande = "archiveCommande", idcommande = "idCommande",

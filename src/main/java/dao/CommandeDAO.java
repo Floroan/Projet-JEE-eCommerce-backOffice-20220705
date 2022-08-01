@@ -303,7 +303,7 @@ public ArrayList<Commande> getAllByEtat(int etat) {
 	ArrayList<Commande> list = new ArrayList<Commande>();
 	try {
 		
-			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM commandes WHERE etat=?;");
+			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM commandes WHERE etat=? AND archiver=0;");
 			preparedStatement.setInt(1, etat);
 			ResultSet resultat=preparedStatement.executeQuery();
 

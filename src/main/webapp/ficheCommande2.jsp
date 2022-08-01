@@ -97,7 +97,7 @@
 										
 										<%if(c.getEtat() == 3){ %>
 											<div class="alert border-0 bg-light-danger alert-dismissible fade show">
-							                    <div class="text-danger">Cette commande est déjà livrée et ne peut plus être modifiée.</div>
+							                    <div class="text-danger">Cette commande est déjà livrée et ne peut plus être modifiée, vous ne pouvez que l'archiver ou ajouter une adresse pour ce client.</div>
 							                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 						                  	</div>
 										<%} %>
@@ -105,7 +105,7 @@
 										<form class="row g-3 needs-validation" method="post">
 										<div class="col-md-2">
 											<label for="validationCustom02" class="form-label">Commande ID</label>
-											<input type="text" class="form-control" id="validationCustom02" value="${commande.id }" readonly="readonly" required>
+											<input type="text" class="form-control" id="validationCustom02" value="${commande.id }" name="<%=Constantes.idcommande %>" readonly="readonly" required>
 										</div>
 										<div class="col-md-3">
 											<label for="validationCustom03" class="form-label">Etat</label>
@@ -113,7 +113,7 @@
 										</div>
 										<div class="col-md-3">
 											<label for="validationCustom04" class="form-label">Total</label>
-											<input type="text" class="form-control" id="validationCustom04" value="${commande.total } €"  readonly="readonly" required>
+											<input type="text" class="form-control" id="validationCustom04" value="${commande.getTotalDetails() } €"  readonly="readonly" required>
 										</div>
 										<div class="col-md-4">
 											<label for="validationCustomUsername" class="form-label">Client, prénom et nom</label>
@@ -144,6 +144,9 @@
 											<input type="text" class="form-control" id="validationCustom09" value="${ commande.adresse.pays }" readonly="readonly" required>					
 											<div class="invalid-feedback">Please select a valid state.</div>
 										</div>
+										<div class="col-12">
+											<a  href="#newAddress" class="btn btn-primary" type="submit">Nouvelle adresse</a>
+										</div>
 					
 										
 <!-- 		row table des details de la commande -->
@@ -154,6 +157,7 @@
             <div class="col-12 col-lg-12 col-xl-12 d-flex">
               <div class="card radius-10 w-100">
                 <div class="card-body">
+                <%if(cmd.getEtat() != 3){ %>
                   <div class="d-flex align-items-center">
                     <h6 class="mb-0">Détails de la commande</h6>
                     <div class="fs-5 ms-auto dropdown">
@@ -218,6 +222,7 @@
                       </tbody>
                     </table>
                   </div>
+                  <%} %>
                 </div>
               </div>
             </div>
@@ -228,33 +233,43 @@
 
 
 										<% if (adresses != null){ %>
+										<%if(cmd.getEtat() != 3){ %>
 										<div class="col-md-12">
 											<label for="validationCustom04" class="form-label">Changer l'adresse de livraison</label>
-											<select class="form-select" id="validationCustom04" required>
-												<option selected disabled value="${commande.adresse.id }">adresse actuelle : ${commande.adresse.adresse }, ${commande.adresse.cp } ${commande.adresse.ville }</option>
+											<select class="form-select" id="validationCustom04" name="<%= Constantes.changerAdresse %>" required>
+												<option selected disabled value="${commande.adresse.id }">adresse actuelle : ${commande.adresse.adresse }, ${commande.adresse.cp } ${commande.adresse.ville }, ${commande.adresse.pays }</option>
 												<% for(Adresse_livraison ad : adresses){ %>
 												<option value=<%= ad.getId() %>> <%= ad.getAdresse() + ", " + ad.getVille() + " " + ad.getCp() + ", " + ad.getPays() %></option>
 												<%}%>
-											</select>
-											<div class="invalid-feedback">Please select a valid state.</div>
+											</select>	
 										</div>
-										<div class="col-12">
-											<a  href="#newAddress" class="btn btn-primary" type="submit">Nouvelle adresse</a>
-										</div>
+										<%} %>
 										<%} %>
 										
 						<div class="dropdown">
                           <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                           <ul class="dropdown-menu">
-                            <li><input type="submit" value="modifier" name="<%= Constantes.modifier %>" class="dropdown-item" data-bs-toggle="tooltip" data-bs-original-title="Modifier les changements apportés" />
+                          <%if(cmd.getEtat() != 3){ %>
+                            <li>
+                            	<input type="submit" value="modifier l'adresse" name="<%= Constantes.modifier %>" class="dropdown-item" data-bs-toggle="tooltip" data-bs-original-title="Modifier les changements apportés" />
                             </li>
+                            <%} %>
                             <% String archive= " "; %>
                             <%if(cmd.getArchiver()==0){ archive= "non"; }else{ archive="oui";} %>
-                            <li><input type="submit" class="dropdown-item" name="<%= Constantes.archiver %> data-bs-toggle="tooltip" data-bs-original-title="Voulez-vous archiver cette commande ? Statut actuel <%= archive %>">Archiver</input>
+                            <li><input type="submit" class="dropdown-item" name="<%= Constantes.archiver %>" value="Archiver" data-bs-toggle="tooltip" data-bs-original-title="Voulez-vous archiver cette commande ? Statut actuel <%= archive %>"/>
                           </ul>
                         </div>
 					</form>
-						<%} %>			
+						<%} %>		
+						
+						<%if(cmd.getEtat() == 1){ %>
+						<div class="p-4 border rounded">
+						<form method="post" >
+						<input type="hidden" name="etatLivraison" value="<%= Constantes.idcommande %>">
+							<button name="enLivraison" class="btn btn-warning px-5" data-bs-toggle="tooltip" type="submit"  data-bs-placement="right">Passer en livraison</button>
+						</form>
+						</div>
+						<%} %>	
 
 								</div>
 							</div>

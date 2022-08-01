@@ -185,10 +185,19 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("topRecherches_NBR", nbMot);
 		request.setAttribute("testChart", cg.pie(char_sscats_titre, char_sscats_nbr, null));
 		
-		if(session.getAttribute("isConnected").equals(true)) {
-			request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+		
+		
+//		if(session.getAttribute("isConnected").equals(true)) {
+//			request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+//		}else {
+//			response.sendRedirect("Signin");
+//		}
+		
+		if(session.getAttribute("isConnected") == null) {
+			request.getRequestDispatcher("/error500.jsp").forward(request, response);
+			
 		}else {
-			response.sendRedirect("Signin");
+			request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
 		}
 		
 	}

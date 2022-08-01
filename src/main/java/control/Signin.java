@@ -13,6 +13,9 @@ import tools.RegexValidator;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.SocketException;
+
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 import dao.AdminDAO;
 
@@ -100,6 +103,7 @@ public class Signin extends HttpServlet {
 
 		if (request.getParameter("auth") != null) {
 
+			//try {
 			System.out.println("passe ici signin");
 			Database.Connect();
 			String user = request.getParameter("nom");
@@ -147,6 +151,12 @@ public class Signin extends HttpServlet {
 
 			}
 
+//		}catch(SocketException e){
+//			request.setAttribute("communicationError", "serveur déconnecté");
+//			response.sendRedirect("/error500.jsp");
+//		}
+		
+		
 		} // fin if control Regex..
 
 		if (conn == false) {
