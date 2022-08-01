@@ -64,7 +64,7 @@
                         <hr>
                       	<div>
                       	<%
-                      	if ( session.getAttribute("authError") != null ) {
+                      	if ( session.getAttribute("authError") != null || request.getAttribute("authError") != null ) {
                       	%>
 							<div class="alert alert-danger text-center" role="alert">
 								${authError }

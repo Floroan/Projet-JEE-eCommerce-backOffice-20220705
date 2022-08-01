@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 
 import dao.AdminDAO;
+import dao.DaoException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -99,7 +100,6 @@ public class Signin extends HttpServlet {
 
 		if (request.getParameter("auth") != null) {
 			
-			Database.Connect();
 			String user = request.getParameter("nom");
 			String userMail = request.getParameter("mail");
 			String pass = request.getParameter("pass");
@@ -110,47 +110,75 @@ public class Signin extends HttpServlet {
 
 			} else {
 
+				Database.Connect();
+//				try {
+//					Database.Connect();
+//				} catch (InstantiationException e) {
+////					e1.printStackTrace();
+//					request.setAttribute("authError", e.getMessage());
+//					request.getRequestDispatcher("/signin.jsp").forward(request, response);
+//				} catch (IllegalAccessException e) {
+////					e1.printStackTrace();
+//					request.setAttribute("authError", e.getMessage());
+//					request.getRequestDispatcher("/signin.jsp").forward(request, response);
+//				} catch (ClassNotFoundException e) {
+////					e1.printStackTrace();
+//					request.setAttribute("authError", e.getMessage());
+//					request.getRequestDispatcher("/signin.jsp").forward(request, response);
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//					request.setAttribute("authError", e.getMessage());
+//					request.getRequestDispatcher("/signin.jsp").forward(request, response);
+//				}
+				
 				hs = new HashMe();
 				String hpass = hs.sha1(pass);
 
 				adminDAO = new AdminDAO();
-				admin = adminDAO.getOneByNameMailPass(user, userMail, hpass);
-				System.out.println(admin);
-
-				if (admin == null) {
-
-					cpt++;
-					session.setAttribute("tentatives", cpt);
-
-					if (Integer.valueOf(session.getAttribute("tentatives").toString()) == 2) {
+				try {
+					admin = adminDAO.getOneByNameMailPass(user, userMail, hpass);
+					System.out.println(admin);
+					
+					if (admin == null) {
 						
-						session.setAttribute("authError", "Attention, plus qu'une tentative pour vous connecter");
+						cpt++;
+						session.setAttribute("tentatives", cpt);
 						
-					} else if (Integer.valueOf(session.getAttribute("tentatives").toString()) == 3) {
-						
-//						session.setAttribute("user", user);
-//						session.setAttribute("userMail", userMail);
-//						session.removeAttribute("tentatives");
-//						request.getRequestDispatcher("/test.jsp").forward(request, response);
-						
-						session.setAttribute("authError", "Le système vous a bloqué, veuillez contacter l’administrateur.");
-						request.getRequestDispatcher("/signInError.jsp").forward(request, response);
+						if (Integer.valueOf(session.getAttribute("tentatives").toString()) == 2) {
+							
+							session.setAttribute("authError", "Attention, plus qu'une tentative pour vous connecter");
+							
+						} else if (Integer.valueOf(session.getAttribute("tentatives").toString()) == 3) {
+							
+	//						session.setAttribute("user", user);
+	//						session.setAttribute("userMail", userMail);
+	//						session.removeAttribute("tentatives");
+	//						request.getRequestDispatcher("/test.jsp").forward(request, response);
+							
+							session.setAttribute("authError", "Le système vous a bloqué, veuillez contacter l’administrateur.");
+							request.getRequestDispatcher("/signInError.jsp").forward(request, response);
+							
+						} else {
+							
+							session.setAttribute("authError", "Première tentative sur trois.");
+							
+						}
 						
 					} else {
 						
-						session.setAttribute("authError", "Première tentative sur trois.");
+						session.removeAttribute("tentatives");
+						session.removeAttribute("authError");
+						session.setAttribute("admin", admin);
+						session.setAttribute("isConnected", true);
+						conn = true;
+						response.sendRedirect("Dashboard");
 						
 					}
-
-				} else {
-					
-					session.removeAttribute("tentatives");
-					session.removeAttribute("authError");
-					session.setAttribute("admin", admin);
-					session.setAttribute("isConnected", true);
-					conn = true;
-					response.sendRedirect("Dashboard");
-					
+				} catch (DaoException e) {
+//					e.printStackTrace();
+					System.out.println("Dao exception : " + e);
+					request.setAttribute("authError", e.getMessage());
+					request.getRequestDispatcher("/signin.jsp").forward(request, response);
 				}
 
 			}
