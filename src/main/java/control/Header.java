@@ -3,12 +3,14 @@ package control;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import dao.AdminDAO;
 import dao.ContactDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Admin;
 import model.Contact;
 import tools.Constantes;
 import tools.Database;
@@ -34,12 +36,16 @@ public class Header extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		AdminDAO ad = new AdminDAO();
+		
 		HttpSession session = request.getSession(true);
+		Admin abSession = (Admin) session.getAttribute("admin");
 		
 		String names[] = session.getValueNames();
 		for ( int i = 0, n = names.length; i < n; i++ ) {
 			String key = names[i];
-			System.out.println("Session key (Header) : " + key + " -> Session value : " + session.getValue(key));
+			System.out.println("Session key (from Header) : " + key + " -> Session value : " + session.getValue(key));
 		}
 		
 //		request.setAttribute("nom", "toto");
@@ -50,6 +56,7 @@ public class Header extends HttpServlet {
 		
 		request.setAttribute("contacts", contacts);
 		request.setAttribute("privileges", returnPrivileges());
+		request.setAttribute("abSession", abSession);
 		request.getRequestDispatcher("/header.jsp").include(request, response);
 	}
 

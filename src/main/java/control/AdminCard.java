@@ -137,6 +137,18 @@ public class AdminCard extends HttpServlet {
 			// GESTION DES UTILISATEURS
 			if ( request.getParameter("utilisateurs") != null ) {
 				privileges += "utilisateurs,";
+				if ( request.getParameter("boUtilisateurs") != null ) {
+					privileges += "boUtilisateurs,";
+					if ( request.getParameter("boUtilisateursEmployees") != null ) {
+						privileges += "boUtilisateursEmployees,";	
+					}
+				}
+				if ( request.getParameter("foUtilisateurs") != null ) {
+					privileges += "foUtilisateurs,";
+					if ( request.getParameter("foUtilisateursUtilisateurs") != null ) {
+						privileges += "foUtilisateursUtilisateurs,";	
+					}
+				}
 			}
 			
 			System.out.println(privileges);

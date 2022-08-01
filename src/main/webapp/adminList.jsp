@@ -267,8 +267,62 @@ ArrayList<Admin> staff = (ArrayList<Admin>) request.getAttribute("staff");
 											name="utilisateurs" 
 											value="utilisateurs" 
 											id="utilisateurs" 
-											<%-- onclick="" --%>
+											onclick="utilisateursFunction()"
 										>
+									</div>
+									<div id="divUtilisateurs" style="display:none">
+										<ul style="list-style-type: none;">
+											<li>
+												<div class="form-check">
+													<label class="form-check-label" for="boUtilisateurs">Back office</label>
+													<input class="form-check-input" type="checkbox" 
+														name="boUtilisateurs" 
+														value="boUtilisateurs" 
+														id="boUtilisateurs" 
+														onclick="utilisateursBoFunction()"
+													>
+												</div>
+												<div id="divBoUtilisateurs" style="display:none">
+													<ul style="list-style-type: none;">
+														<li>
+															<div class="form-check">
+																<label class="form-check-label" for="boUtilisateursEmployees">Employés</label>
+																<input class="form-check-input" type="checkbox" 
+																	name="boUtilisateursEmployees" 
+																	value="boUtilisateursEmployees" 
+																	id="boUtilisateursEmployees"
+																>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</li>
+											<li>
+												<div class="form-check">
+													<label class="form-check-label" for="foUtilisateurs">Front office</label>
+													<input class="form-check-input" type="checkbox" 
+														name="foUtilisateurs" 
+														value="foUtilisateurs" 
+														id="foUtilisateurs" 
+														onclick="utilisateursFoFunction()"					
+													>
+												</div>
+												<div id="divFoUtilisateurs" style="display:none">
+													<ul style="list-style-type: none;">
+														<li>
+															<div class="form-check">
+																<label class="form-check-label" for="foUtilisateursUtilisateurs">Utilisateurs</label>
+																<input class="form-check-input" type="checkbox" 
+																	name="foUtilisateursUtilisateurs" 
+																	value="foUtilisateursUtilisateurs" 
+																	id="foUtilisateursUtilisateurs"
+																>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</li>
+										</ul>
 									</div>
 								</li>
 							</ul>
@@ -326,10 +380,10 @@ ArrayList<Admin> staff = (ArrayList<Admin>) request.getAttribute("staff");
   			text.style.display = "none";
   		}
 	}
-  	/* GESTION GÉNÉRAL */
-  	/* function statFunction() {
-  		var checkBox = document.getElementById("stat");
-  		var text = document.getElementById("divStat");
+  	/* GESTION DES UTILISATEURS */
+  	function utilisateursFunction() {
+  		var checkBox = document.getElementById("utilisateurs");
+  		var text = document.getElementById("divUtilisateurs");
   		if (checkBox.checked == true){
   			text.style.display = "block";
   		} else {
@@ -337,9 +391,9 @@ ArrayList<Admin> staff = (ArrayList<Admin>) request.getAttribute("staff");
   		}
 	}
   	
-  	function statBoFunction() {
-  		var checkBox = document.getElementById("boStat");
-  		var text = document.getElementById("divBoStat");
+  	function utilisateursBoFunction() {
+  		var checkBox = document.getElementById("boUtilisateurs");
+  		var text = document.getElementById("divBoUtilisateurs");
   		if (checkBox.checked == true){
   			text.style.display = "block";
   		} else {
@@ -347,15 +401,15 @@ ArrayList<Admin> staff = (ArrayList<Admin>) request.getAttribute("staff");
   		}
 	}
   	
-  	function statFoFunction() {
-  		var checkBox = document.getElementById("foStat");
-  		var text = document.getElementById("divFoStat");
+  	function utilisateursFoFunction() {
+  		var checkBox = document.getElementById("foUtilisateurs");
+  		var text = document.getElementById("divFoUtilisateurs");
   		if (checkBox.checked == true){
   			text.style.display = "block";
   		} else {
   			text.style.display = "none";
   		}
-	} */
+	}
   </script>
 			<h6 class="mb-0 text-uppercase">Liste des employé(e)s</h6>
 			<hr/>

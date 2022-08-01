@@ -379,7 +379,7 @@ Admin abSession = (Admin) request.getAttribute("abSession");
 											name="utilisateurs" 
 											value="utilisateurs" 
 											id="utilisateurs" 
-											<%-- onclick="" --%>
+											onclick="utilisateursFunction()"
 								<%
 								if ( ab.getPrivileges().contains("utilisateurs") ) {
 								%>
@@ -388,6 +388,119 @@ Admin abSession = (Admin) request.getAttribute("abSession");
 								}
 								%>
 										>
+									</div>
+								<%
+								if ( ab.getPrivileges().contains("utilisateurs") ) {
+								%>
+									<div id="divUtilisateurs" style="display:block">											
+								<%
+								} else {
+								%>
+									<div id="divUtilisateurs" style="display:none">
+								<%
+								}
+								%>
+										<ul style="list-style-type: none;">
+											<li>
+												<div class="form-check">
+													<label class="form-check-label" for="boUtilisateurs">Back office</label>
+													<input class="form-check-input" type="checkbox" 
+														name="boUtilisateurs" 
+														value="boUtilisateurs" 
+														id="boUtilisateurs" 
+														onclick="utilisateursBoFunction()"
+								<%
+								if ( ab.getPrivileges().contains("boUtilisateurs") ) {
+								%>
+														checked
+								<%
+								}
+								%>
+													>
+												</div>
+								<%
+								if ( ab.getPrivileges().contains("boUtilisateurs") ) {
+								%>
+												<div id="divBoUtilisateurs" style="display:block">								
+								<%
+								} else {
+								%>
+
+												<div id="divBoUtilisateurs" style="display:none">
+								<%
+								}
+								%>
+													<ul style="list-style-type: none;">
+														<li>
+															<div class="form-check">
+																<label class="form-check-label" for="boUtilisateursEmployees">Employés</label>
+																<input class="form-check-input" type="checkbox" 
+																	name="boUtilisateursEmployees" 
+																	value="boUtilisateursEmployees" 
+																	id="boUtilisateursEmployees"								
+								<%
+								if ( ab.getPrivileges().contains("boUtilisateursEmployees") ) {
+								%>
+														checked
+								<%
+								}
+								%>
+																>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</li>
+											<li>
+												<div class="form-check">
+													<label class="form-check-label" for="foUtilisateurs">Front office</label>
+													<input class="form-check-input" type="checkbox" 
+														name="foUtilisateurs" 
+														value="foUtilisateurs" 
+														id="foUtilisateurs" 
+														onclick="utilisateursFoFunction()"
+								<%
+								if ( ab.getPrivileges().contains("foUtilisateurs") ) {
+								%>
+														checked
+								<%
+								}
+								%>						
+													>
+												</div>
+								<%
+								if ( ab.getPrivileges().contains("foUtilisateurs") ) {
+								%>
+												<div id="divFoUtilisateurs" style="display:block">								
+								<%
+								} else {
+								%>
+												<div id="divFoUtilisateurs" style="display:none">
+								<%
+								}
+								%>
+													<ul style="list-style-type: none;">
+														<li>
+															<div class="form-check">
+																<label class="form-check-label" for="foUtilisateursUtilisateurs">Utilisateurs</label>
+																<input class="form-check-input" type="checkbox" 
+																	name="foUtilisateursUtilisateurs" 
+																	value="foUtilisateursUtilisateurs" 
+																	id="foUtilisateursUtilisateurs"
+								<%
+								if ( ab.getPrivileges().contains("foUtilisateursUtilisateurs") ) {
+								%>
+																	checked
+								<%
+								}
+								%>
+																>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</li>
+										</ul>
 									</div>
 								</li>
 							</ul>
@@ -457,10 +570,10 @@ Admin abSession = (Admin) request.getAttribute("abSession");
   			text.style.display = "none";
   		}
 	}
-  	/* GESTION GÉNÉRAL */
-  	/* function statFunction() {
-  		var checkBox = document.getElementById("stat");
-  		var text = document.getElementById("divStat");
+  	/* GESTION DES UTILISATEURS */
+  	function utilisateursFunction() {
+  		var checkBox = document.getElementById("utilisateurs");
+  		var text = document.getElementById("divUtilisateurs");
   		if (checkBox.checked == true){
   			text.style.display = "block";
   		} else {
@@ -468,9 +581,9 @@ Admin abSession = (Admin) request.getAttribute("abSession");
   		}
 	}
   	
-  	function statBoFunction() {
-  		var checkBox = document.getElementById("boStat");
-  		var text = document.getElementById("divBoStat");
+  	function utilisateursBoFunction() {
+  		var checkBox = document.getElementById("boUtilisateurs");
+  		var text = document.getElementById("divBoUtilisateurs");
   		if (checkBox.checked == true){
   			text.style.display = "block";
   		} else {
@@ -478,15 +591,16 @@ Admin abSession = (Admin) request.getAttribute("abSession");
   		}
 	}
   	
-  	function statFoFunction() {
-  		var checkBox = document.getElementById("foStat");
-  		var text = document.getElementById("divFoStat");
+  	function utilisateursFoFunction() {
+  		var checkBox = document.getElementById("foUtilisateurs");
+  		var text = document.getElementById("divFoUtilisateurs");
   		if (checkBox.checked == true){
   			text.style.display = "block";
   		} else {
   			text.style.display = "none";
   		}
-	} */
+	} 
+  	
   </script>
 		<!--end page main-->
 

@@ -183,11 +183,17 @@ if ( privileges.contains("commandes") ) {
 if ( privileges.contains("utilisateurs") ) {
 %>
             <li class="menu-label">Gestion des utilisateurs</li>
+	<%
+	if ( privileges.contains("boUtilisateurs") ) {
+	%> 
            	<li>
            		<a class="has-arrow" href="javascript:;">
                		<div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
                		<div class="menu-title">Back Office</div>
                	</a>
+		<%
+		if ( privileges.contains("boUtilisateursEmployees") ) {
+		%>
              	<ul>
                		<li> <a class="has-arrow" href="AdminList"><i class="bi bi-circle"></i>Employés</a>
                		<ul>
@@ -201,17 +207,31 @@ if ( privileges.contains("utilisateurs") ) {
                		</ul>
                		</li>
              	</ul>
+		<%
+		}
+		%>
 			</li>
+	<%
+	}
+	if ( privileges.contains("foUtilisateurs") ) {
+	%> 
 			<li>
            		<a class="has-arrow" href="javascript:;">
                		<div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
                		<div class="menu-title">Front Office</div>
                	</a>
              	<ul>
+		<%
+		if ( privileges.contains("foUtilisateursUtilisateurs") ) {
+		%>
              		<li> <a href="UserList"><i class="bi bi-circle"></i>Utilisateurs</a></li>
+		<%
+		}
+		%>
              	</ul>
 			</li>
 <%
+	}
 }
 %>
             <!-- <li>

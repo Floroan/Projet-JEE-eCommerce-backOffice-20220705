@@ -88,7 +88,7 @@
                             <div class="ms-auto position-relative">
                               <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-envelope-fill"></i></div>
 
-                              <input value="tanguy.manas@gmail.com" name="mail" type="email" class="form-control radius-30 ps-5" id="inputEmailAddress" placeholder="Entrer votre email">
+                              <input value="tanguy.manas@hytek.com" name="mail" type="email" class="form-control radius-30 ps-5" id="inputEmailAddress" placeholder="Entrer votre email">
 
                             </div>
                           </div>

@@ -1,9 +1,13 @@
-<%@page import="model.Contact"%>
-<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="model.Admin"%>
+<%@page import="model.Contact"%>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
-<% ArrayList<Contact> contacts = (ArrayList<Contact>) request.getAttribute("contacts"); %>
+<% 
+ArrayList<Contact> contacts = (ArrayList<Contact>) request.getAttribute("contacts");
+Admin abSession = (Admin) request.getAttribute("abSession");
+%>
       <header class="top-header">        
         <nav class="navbar navbar-expand gap-3">
           <div class="mobile-toggle-icon fs-3">
@@ -37,7 +41,10 @@
                           <img src="assets/images/avatars/avatar-1.png" alt="" class="rounded-circle" width="54" height="54">
                           <div class="ms-3">
                             <h6 class="mb-0 dropdown-user-name">${admin.nom }</h6>
-                            <small class="mb-0 dropdown-user-designation text-secondary">Manager</small>
+                            <%
+							String[] typeEmploye = abSession.getPrivileges().split(","); 
+							%>
+                            <small class="mb-0 dropdown-user-designation text-secondary"><%= typeEmploye[0] %></small><br>
                             <small class="mb-0 dropdown-user-designation text-secondary">${admin.email }</small>
                           </div>
                        </div>
