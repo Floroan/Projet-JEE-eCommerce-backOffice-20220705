@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.BeanException;
 import model.Fournisseur;
 import tools.Database;
 
@@ -57,23 +58,65 @@ public class FournisseursList extends HttpServlet {
 				int idHref = Integer.parseInt( request.getParameter("id") );
 				
 				fb.setId(idHref);
-				fb.setNom( fd.getById(idHref).getNom() );
 				fb.setArchiver(0);
-				
-				fd.save(fb);
-				
+				fd.archiverById(fb);
 			} 
 			
 			if ( request.getParameter( "archived").equals( "isNotArchived" ) ) {
 				
 				int idForm = Integer.parseInt( request.getParameter("id") );
 				
-				fb.setId(idForm);
-				fb.setNom( fd.getById(idForm).getNom() );
+				fb = fd.getById(idForm);
 				fb.setArchiver(1);
-				
 				fd.archiverById(fb);
+			}
+		}
+		
+		// FORM AJOUTER UN NOUVEAU FOURNISSEUR
+		if (request.getParameter("addFournisseurForm") != null ) {
+			
+			try {
+				String nom = request.getParameter( "nom" );
+			
+				Fournisseur fb = new Fournisseur();
+				fb.setNom(nom);
+				fd.save(fb);
+				request.setAttribute("supplierAdded", "Le nouveau fournisseur a bien été ajouté.");
 				
+			} catch (BeanException e) {
+				
+				e.printStackTrace();
+				System.out.println("Dao exception : " + e.getMessage());
+				request.setAttribute("invalidAdd", e.getMessage());
+			}
+		}
+		
+		// FORM METTRE À JOUR ADRESSE
+		if (request.getParameter("updateFournisseurForm") != null ) {
+						
+			int idFournisseur = Integer.parseInt( request.getParameter("idFournisseur") );
+			Fournisseur fbCheckIfIsArchived = fd.getById(idFournisseur);
+			if ( fbCheckIfIsArchived.getArchiver() == 1 ) {
+				
+				request.setAttribute("invalidUpdate", "Un fournisseur archivé ne peut être modifié.");
+				
+			} else {
+				
+				try {
+					String nom = request.getParameter( "nom" );
+					
+					Fournisseur fb = new Fournisseur();
+					fb.setId(idFournisseur);
+					fb.setNom(nom);
+					fd.save(fb);
+					request.setAttribute("supplierUpdated", "Le nom du fournisseur a bien été mis à jour.");
+					
+				} catch (Exception e) {
+					
+					e.printStackTrace();
+					System.out.println("Dao exception : " + e.getMessage());
+					request.setAttribute("invalidUpdate", e.getMessage());					
+				}
 			}
 		}
 		
@@ -87,44 +130,6 @@ public class FournisseursList extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// doGet(request, response);
-		
-		Database.Connect();
-		
-		// FORM AJOUTER UN NOUVEAU FOURNISSEUR
-		if (request.getParameter("addFournisseurForm") != null ) {
-			
-			FournisseurDao fd = new FournisseurDao();
-			Fournisseur fb = new Fournisseur();
-			
-			String nom = request.getParameter( "nom" );
-			
-			fb.setNom(nom);
-			
-			fd.save(fb);
-			
-			response.sendRedirect("FournisseursList");
-			
-		}
-		
-		// FORM METTRE À JOUR ADRESSE
-		if (request.getParameter("updateFournisseurForm") != null ) {
-			
-			FournisseurDao fd = new FournisseurDao();
-			Fournisseur fb = new Fournisseur();
-			
-			int idFournisseur = Integer.parseInt( request.getParameter("idFournisseur") );
-			
-			String nom = request.getParameter( "nom" );
-			
-			
-			fb.setId(idFournisseur);
-			fb.setNom(nom);
-			System.out.println(fb);
-			fd.save(fb);
-			
-			response.sendRedirect("FournisseursList");
-			
-		}
+		doGet(request, response);
 	}
 }

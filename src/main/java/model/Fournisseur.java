@@ -1,5 +1,7 @@
 package model;
 
+import tools.RegexValidator;
+
 public class Fournisseur {
 
 	private int id, archiver;
@@ -36,8 +38,16 @@ public class Fournisseur {
 		return nom;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setNom(String nom) throws BeanException {
+		if ( !RegexValidator.supplierValidator(nom) ) {
+			throw new BeanException(
+					"Depuis le setter.<br>"
+					+ "Le nom du fournisseur doit posséder de 1 à 50 caractères<br>"
+					+ "sans contenir de caractères spéciaux."
+					);
+		} else {
+			this.nom = nom;			
+		}
 	}
 
 	@Override

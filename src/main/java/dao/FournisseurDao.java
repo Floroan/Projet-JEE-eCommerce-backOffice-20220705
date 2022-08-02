@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -9,26 +10,29 @@ import tools.Database;
 
 public class FournisseurDao {
 	public int save(Fournisseur obj) {
-		int newId = 0;
+		
+		int newId = 0; // To return the Generated Key
+		Connection c = null;
+        PreparedStatement ps = null;
+        
 		try {
+			c = Database.connexion;
 
 			if (obj.getId() != 0) {
-				PreparedStatement preparedStatement = Database.connexion
-						.prepareStatement("UPDATE fournisseurs set nom=?, archiver=? WHERE id=?");
-				preparedStatement.setString(1, obj.getNom());
-				preparedStatement.setInt(2, obj.getArchiver());
+				ps = c.prepareStatement("UPDATE fournisseurs set nom=?, archiver=? WHERE id=?");
+				ps.setString(1, obj.getNom());
+				ps.setInt(2, obj.getArchiver());
 
-				preparedStatement.setInt(3, obj.getId());
-				preparedStatement.executeUpdate();
+				ps.setInt(3, obj.getId());
+				ps.executeUpdate();
 			} else {
-				PreparedStatement preparedStatement = Database.connexion.prepareStatement(
-						"INSERT INTO fournisseurs (nom, archiver) VALUES(?,?)",
+				ps = c.prepareStatement("INSERT INTO fournisseurs (nom, archiver) VALUES(?,?)",
 						PreparedStatement.RETURN_GENERATED_KEYS);
-				preparedStatement.setString(1, obj.getNom());
-				preparedStatement.setInt(2, obj.getArchiver());
-				preparedStatement.executeUpdate();
+				ps.setString(1, obj.getNom());
+				ps.setInt(2, obj.getArchiver());
+				ps.executeUpdate();
 
-				ResultSet rs = preparedStatement.getGeneratedKeys();
+				ResultSet rs = ps.getGeneratedKeys();
 				rs.next();
 				newId = rs.getInt(1);
 			}

@@ -18,6 +18,7 @@ public class RegexValidator {
 	// (?=\S+$) # no whitespace allowed in the entire string
 	// .{8,} # anything, at least eight places though
 	// $ # end-of-string
+	private static String regexSupplier = "^[a-zA-Z0-9\s]{1,50}$";
 
 	// EmailValidator
 	public static boolean emailValidator(String email) {
@@ -40,4 +41,10 @@ public class RegexValidator {
 				.matches();
 	}
 	
+	// SupplierValidator
+	public static boolean supplierValidator(String supplier) {
+		return Pattern.compile(regexSupplier)
+				.matcher(supplier)
+				.matches();
+	}	
 }

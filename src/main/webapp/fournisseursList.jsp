@@ -65,6 +65,28 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 				<div class="col-xl-6 mx-auto">
 					<div class="card">
 						<div class="card-body">
+							<%
+							if (request.getAttribute("invalidAdd") != null) {
+							%>
+							<div>
+								<div class="alert alert-danger" role="alert">
+									<%=request.getAttribute("invalidAdd")%>
+								</div>
+							</div>
+							<%
+							}
+							%>
+							<%
+							if (request.getAttribute("supplierAdded") != null) {
+							%>
+							<div>
+								<div class="alert alert-success text-center" role="alert">
+									<%=request.getAttribute("supplierAdded")%>
+								</div>
+							</div>
+							<%
+							}
+							%>
 							<form class="row g-2" method="post">
 								<div class="col-md-9">
 									<input type="text" name="nom" class="form-control" placeholder="Nom du fournisseur" aria-label="First name">
@@ -79,6 +101,28 @@ ArrayList<Fournisseur> fbCol = (ArrayList) request.getAttribute("fbCol");
 					</div>
 					
 					<!-- boucle -->
+				<%
+				if (request.getAttribute("invalidUpdate") != null) {
+				%>
+				<div>
+					<div class="alert alert-danger" role="alert">
+						<%=request.getAttribute("invalidUpdate")%>
+					</div>
+				</div>
+				<%
+				}
+				%>
+				<%
+				if (request.getAttribute("supplierUpdated") != null) {
+				%>
+				<div>
+					<div class="alert alert-success text-center" role="alert">
+						<%=request.getAttribute("supplierUpdated")%>
+					</div>
+				</div>
+				<%
+				}
+				%>
 				<%
 				for ( Fournisseur fb : fbCol ) {
 				%>
