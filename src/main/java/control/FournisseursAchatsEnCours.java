@@ -106,7 +106,7 @@ public class FournisseursAchatsEnCours extends HttpServlet {
 			Produit pb = pd.getById(idProduit);
 			int newQty = pb.getStock() + orderQty;
 			pb.setStock(newQty);
-			//pd.save(pb);
+			pd.save(pb);
 			
 			Entree_stock eb = ed.getById(idEntreeStock);
 			eb.setArchiver(1);

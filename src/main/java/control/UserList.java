@@ -171,7 +171,7 @@ public class UserList extends HttpServlet {
 					u.setEmail(e);
 					
 					System.out.println(u);
-					//ud.save(u);
+					ud.save(u);
 					
 				}
 			}

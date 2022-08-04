@@ -1,6 +1,5 @@
 package tools;
 
-
 import java.util.regex.Pattern;
 
 public class RegexValidator {
@@ -19,6 +18,30 @@ public class RegexValidator {
 	// .{8,} # anything, at least eight places though
 	// $ # end-of-string
 	private static String regexSupplier = "^[a-zA-Z0-9\s]{1,50}$";
+	private static String regexRudeWords = ""
+			/*
+			 * À FAIRE : 1 - Récupérer la liste des mots vulgaires :
+			 * https://fr.wiktionary.org/wiki/Cat%C3%A9gorie:Termes_vulgaires_en_fran%C3%
+			 * A7ais Et créer avec « StringBuffer ou autre » une méthod pour construire
+			 * regexRudeWolds. private String buildRegexRudeWolds ( ArrayList<String>
+			 * frenchRudeWordsList ) { return String s; } 2 - De même avec :
+			 * https://github.com/splorp/wordpress-comment-blacklist
+			 * 
+			 */
+			// https://stackoverflow.com/questions/18289929/regex-to-find-a-specific-word-in-a-string-in-java
+			// . matches any character, *? is for zero or more times, \b is a word boundary.
+			// https://docs.oracle.com/javase/1.5.0/docs/api/java/util/regex/Pattern.html
+			// ENLEVER LES 2 DÉLIMITEURS DE MOT (\b) POUR OBTENIR LA SUITE DE CARACTÈRES
+			// AJOUTER Pattern.CASE_INSENSITIVE DANS LA MÉTHODE
+			+ ".*?chi.*?"
+			+ "|.*?con.*?"
+			+ "|.*?couille.*?"
+			+ "|.*?encul.*?"
+			+ "|.*?merd.*?"
+			+ "|.*?niq.*?"
+			+ "|.*?nik.*?"
+			+ "|.*?pétasse.*?"
+			+ "|.*?salop.*?";
 
 	// EmailValidator
 	public static boolean emailValidator(String email) {
@@ -40,11 +63,34 @@ public class RegexValidator {
 				.matcher(password)
 				.matches();
 	}
-	
+
 	// SupplierValidator
 	public static boolean supplierValidator(String supplier) {
 		return Pattern.compile(regexSupplier)
 				.matcher(supplier)
 				.matches();
-	}	
+	}
+
+	// RudeWordsValidator
+	public static boolean RudeWordsValidator(String s) {
+
+//		Pattern p = Pattern.compile(regexRudeWords, Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
+//		Matcher m = p.matcher(s);
+
+//		int c = 0;
+//		while (m.find())// finding pattern in regular expression
+//		{
+//			System.out.println(" Start : " + m.start() + ", End : " + m.end() + " Pattern group : " + m.group());
+//		}
+//
+//		System.out.println(" number of Matches:  " + c);
+
+		return Pattern.compile(regexRudeWords, Pattern.MULTILINE | Pattern.CASE_INSENSITIVE)
+				.matcher(s)
+				.find();
+
+//		return Pattern.compile(regexRudeWords)
+//				.matcher(s)
+//				.matches();
+	}
 }

@@ -145,21 +145,30 @@ public Commentaire getByIdProdAndClient(int idProd, int idCli) {
 		ArrayList<Commentaire> list = new ArrayList<Commentaire>();
 		try {
 
-			PreparedStatement preparedStatement = Database.connexion.prepareStatement("SELECT * FROM commentaires");
+			PreparedStatement ps = Database.connexion.prepareStatement("SELECT * FROM commentaires");
 
-			ResultSet resultat = preparedStatement.executeQuery();
+			ResultSet rs = ps.executeQuery();
+			
+			UtilisateurDAO ud = new UtilisateurDAO();
+			ProduitDAO pd = new ProduitDAO();
 
-			while (resultat.next()) {
-				Commentaire u = new Commentaire();
-				u.setId(resultat.getInt("id"));
-				u.setCommentaire(resultat.getString("commentaire"));
-				u.setNote(resultat.getInt("note"));
-				u.setDate(resultat.getDate("date"));
-				u.setFk_prod(resultat.getInt("fk_prod"));
-				u.setFk_user(resultat.getInt("fk_user"));
-				u.setArchiver(resultat.getInt("archiver"));
+			while (rs.next()) {
+				Commentaire c = new Commentaire();
+				c.setId(rs.getInt("id"));
+				c.setCommentaire(rs.getString("commentaire"));
+				c.setNote(rs.getInt("note"));
+				c.setDate(rs.getDate("date"));
+				c.setFk_prod(rs.getInt("fk_prod"));
+				c.setFk_user(rs.getInt("fk_user"));
+				c.setArchiver(rs.getInt("archiver"));
+				
+				Utilisateur u = ud.getById( rs.getInt("fk_user") );
+				Produit p = pd.getById( rs.getInt("fk_prod") );
 
-				list.add(u);
+				c.setUtilisateur(u);
+				c.setProd(p);
+				
+				list.add(c);
 			}
 
 			return list;
@@ -338,5 +347,22 @@ public Commentaire getByIdProdAndClient(int idProd, int idCli) {
 			
 		}
 
+	}
+	
+	public void deleteByIdCommentaire(int id) {
+		try {
+
+			PreparedStatement preparedStatement = Database.connexion
+					.prepareStatement("DELETE FROM commentaires WHERE id=?");
+			preparedStatement.setInt(1, id);
+
+			preparedStatement.executeUpdate();
+
+			System.out.println("DELETED OK");
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("DELETED NO");
+		}
 	}
 }

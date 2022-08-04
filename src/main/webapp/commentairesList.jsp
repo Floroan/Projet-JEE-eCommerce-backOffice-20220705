@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="utf-8"%>
-<%@ page import="model.Coordonnee"%>
-<%@ page import="model.Slide"%>
+<%@ page import="model.Commentaire"%>
+<%@ page import="model.Utilisateur"%>
 <%@ page import="java.util.ArrayList"%>
+<%@page import="tools.DateManipulator"%>
+<%@page import="tools.RegexValidator"%>
 <%
-Coordonnee cb = (Coordonnee) request.getAttribute("cb");
-ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
+ArrayList<Commentaire> cbCol = (ArrayList) request.getAttribute("cbCol");
+ArrayList<Utilisateur> ubColClients = (ArrayList) request.getAttribute("ubColClients");
+ArrayList<Utilisateur> ubColProspects = (ArrayList) request.getAttribute("ubColProspects");
 %>
 <!doctype html>
 <html lang="fr">
@@ -41,7 +44,7 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
   <!-- FONTAWESOME -->
   <script src="https://kit.fontawesome.com/bff2375f4b.js" crossorigin="anonymous"></script>
 
-  <title>Front office</title>
+  <title>Commentaires</title>
 </head>
 
 <!--start wrapper-->
@@ -58,180 +61,126 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
 
        <!--start content-->
 		<main class="page-content">
-		
-			<div class="alert alert-danger text-center" role="alert">
-				Il faut rafraîchir le serveur (F5 à la racine du projet) pour que le nouveau logo apparaisse !!?<br> 
-				La modification du slider ne peut être vue car ce sont 2 projets différents.<br>
-				Du coup, on fait quoi...<br>
-			</div>
-			<h1 class="mb-0 text-uppercase text-center">Adresse & Slider</h1>
+			<h1 class="mb-0 text-uppercase text-center">Commentaires produits</h1>
 			<hr/>
 			<div class="row">
 				<div class="col-xl-12"> <!-- mx-auto -->
 					<div class="card">
 						<div class="card-body">
-							<h6 class="mb-0 text-uppercase">Modifier les informations de l’entreprise</h6>
-                			<hr/>
-								<div class="col-md-12">
-									<img src="<%= cb.getLogo() %>" alt="image"  width="13%">
-								</div>
-							<form class="row g-5" method="post" action="SiteFrontOffice" enctype="multipart/form-data">
-								<div class="col-md-2">
-									<label for="logoFile" class="form-label">Choisir un nouveau logo</label>
-									<input class="form-control" type="file" name="logoFile" id="logoFile"/>
-								</div>
-								<div class="col-md-2">
-									<label class="form-label">Nom de l’entreprise</label>
-									<input type="text" name="name" class="form-control" value="<%= cb.getNom() %>"/>
-								</div>
-								<div class="col-md-3">
-									<label class="form-label">Adresse</label>
-									<input type="text" name="address" class="form-control" value="<%= cb.getAdresse() %>"/>
-								</div>
-								<div class="col-md-2">
-									<label class="form-label">Téléphone</label>
-									<input type="text" name="phone" class="form-control" value="<%= cb.getTelephone() %>"/>
-								</div>
-								<div class="col-md-3">
-									<label class="form-label">Email</label>
-									<input type="text" name="mail" class="form-control" value="<%= cb.getEmail() %>"/>
-								</div>
-								<div class="col-md-3">
-									<div class="d-grid">
-										<!-- <button type="submit" class="btn btn-warning" name="updateCompany">Mettre à jour les coordonnées</button> -->
-										<input type="submit" class="btn btn-warning" name="updateCompany" value="Mettre à jour les coordonnées" />
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-				
-				<div class="col-xl-12"> <!-- mx-auto -->
-					<div class="card">
-						<div class="card-body">
-							<h6 class="mb-0 text-uppercase">Ajouter un slide au slider de la page d’accueil</h6>
-                			<hr/>
-							<form id="addSlide" class="row g-1" method="post" action="SiteFrontOffice" enctype="multipart/form-data">
-								<div class="col-md-3">
-									<input class="form-control" type="file" name="newSlideFile" id="newSlideFile"/>
-									<label for="newSlideFile" class="form-label">Choisir une image en 1760 x 703</label>
-									<br>
-								</div>
-								<div class="col-md-3">
-									<input type="text" name="title" class="form-control" placeholder="Titre sur l’image"/>
-									<br>
-								</div>
-								<div class="col-md-3">
-									<input type="text" name="titleButton" class="form-control" placeholder="Titre du bouton"/>
-									<br>
-								</div>
-								<div class="col-md-3">
-									<input type="text" name="urlButton" class="form-control" placeholder="Destination du bouton (URL)"/>
-									<br>
-								</div>
-								<div class="col-md-12">
-									<textarea name="text" form="addSlide" class="form-control" rows="5">Écrivez ici vos phrases d’accroches, explications... qui apparaîtront sur l’image.</textarea>
-									<br>
-								</div>
-								<div class="col-md-2">
-									<div class="d-grid">
-										<input type="submit" class="btn btn-primary" name="addNewSlide" value="Ajouter un slide" />
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-				
-				<div class="col-xl-12"> <!-- mx-auto -->
-					<div class="card">
-						<div class="card-body">
-							<h6 class="mb-0 text-uppercase">Modifier un slide du slider de la page d’accueil</h6>
-                			<hr/>
-                			
-
+							<!-- <h6 class="mb-0 text-uppercase"></h6>
+                			<hr/> -->
 							<%
-							if (request.getAttribute("alertUpdateSlider") != null) {
+							if (request.getAttribute("alertUpdateComments") != null) {
 							%>
 							<div>
 								<div class="alert alert-danger text-center" role="alert">
-									<%=request.getAttribute("alertUpdateSlider")%>
+									<%=request.getAttribute("alertUpdateComments")%>
 								</div>
 							</div>
 							<%
 							}
 							%>
-							<form id="updateSlide" method="post" action="SiteFrontOffice" enctype="multipart/form-data"> 
-								<input type="submit" class="btn btn-warning" name="updateSlide" value="Mettre à jour le slider" />
+							<form id="updateComments" method="post"> 
+								<input type="submit" class="btn btn-warning" name="updateComments" value="Mettre à jour le(s) commentaire(s)" />
 								<p></p>
 								<table id="example" class="table table-striped table-bordered dataTable" style="width:100%"
 									role="grid" aria-describedby="example_info">
 									<thead>
 									<tr>
-										<th>Id</th>
-										<th>Image actuelle</th>
-										<th>Nouvelle Image</th>
-										<th>Titre</th>
-										<th>Titre bouton</th>
-										<th>Url bouton</th>
-										<th>Texte</th>
+										<th class="text-center">Id</th>
+										<th style="width:50px">Produit</th>
+										<th style="width:150px">Utilisateur</th>
+										<th>Date</th>
+										<th>Note</th>
+										<th style="width:300px">Commentaire</th>
+										<th style="width:300px">Commentaire</th>
+										<th style="width:90px">Gros mots ?</th>
 										<th>Actions</th>
 									</tr>
 								</thead>
 									<tbody>
 									<% 
 									int i = 0;
-									for( Slide sb : sbCol ) {
+									for( Commentaire cb : cbCol ) {
 										i++;
 									%>
 										<tr>
 											<td class="align-middle">
-												<input size="1" type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= sb.getId() %>" <%-- name="id"--%> class='form-control-plaintext text-center' readonly>
+												<input size="1" type="text" id="row-<%= i %>-id" name="row-<%= i %>-id" value="<%= cb.getId() %>" <%-- name="id"--%> class='form-control-plaintext text-center' readonly>
 											</td>
 											<td class="align-middle">
-												<img src="<%= sb.getImage() %>" alt="image" height="30px" width="100%">
+												<a href="#" ><img src="<%= cb.getProd().getImage() %>" alt="image" height="100%" width="100%"></a>
 											</td>
+											<td class="align-middle text-center">
+											<%
+											for (Utilisateur client : ubColClients) {
+												if ( client.getId() == cb.getFk_user()) {
+											%>
+												<a href="UserClientCard?id=<%= cb.getFk_user() %>" class="btn btn-sm btn-primary px-5"><%= cb.getUtilisateur().getNom() %></a>
+											<%
+												}
+											}
+											for ( Utilisateur prospect : ubColProspects ) {
+												if ( prospect.getId() == cb.getFk_user() ) {
+											%>
+												<a href="UserProspectCard?id=<%= cb.getFk_user() %>" class="btn btn-sm btn-primary px-5"><%= cb.getUtilisateur().getNom() %></a>
+											<%
+												}
+											}
+											%>
+											
+											</td>
+											<%
+											String d = DateManipulator.dateConvertToDDmmYYYY( cb.getDate() );
+											%>
+											<td class="align-middle"><%= d %></td>
+											<td class="align-middle text-center"><%= cb.getNote() %></td>
+											<td class="align-middle"><%= cb.getCommentaire() %></td>
 											<td class="align-middle">
-												<input class="form-control form-control-sm" type="file" id="row-<%= i %>-urlImg" name="row-<%= i %>-urlImg"/>
-												<label for="row-<%= i %>-urlImg" class="form-label">Choisir une image en 1760 x 703</label>
-											</td>
-											<td class="align-middle">
-												<input type="text" id="row-<%= i %>-title" name="row-<%= i %>-title" value="<%= sb.getTitre() %>"/>
-											</td>
-											<td class="align-middle">
-												<input type="text" id="row-<%= i %>-titleButton" name="row-<%= i %>-titleButton" value="<%= sb.getTitreBouton() %>"/>
-											</td>
-											<td class="align-middle">
-												<input type="text" id="row-<%= i %>-urlButton" name="row-<%= i %>-urlButton" value="<%= sb.getUrl() %>"/>
-											</td>
-											<td>
-												<textarea id="row-<%= i %>-text" name="row-<%= i %>-text" form="updateSlide" class="form-control" rows="5"><%= sb.getDescription() %></textarea>
+												<textarea id="row-<%= i %>-text" name="row-<%= i %>-text" form="updateComments" class="form-control" <%-- rows="5" --%>><%= cb.getCommentaire() %></textarea>
 											</td>
 										<%
-										if ( sb.getArchiver() == 0 ) {
+										if ( RegexValidator.RudeWordsValidator(cb.getCommentaire()) ) {
+										%>
+											<td class="align-middle text-center">
+												<span class="alert alert-danger" role="alert">Peut-être</span>
+											</td>
+										<%
+										} else {
+										%>
+											<td class="align-middle text-center">Non</td>
+										<%
+										}
+										if ( cb.getArchiver() == 0 ) {
 										%>
 											<td class="text-center align-middle">
-												<a href="SiteFrontOffice?id=<%= sb.getId() %>&archived=isNotArchived" class="btn btn-sm btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
-												<hr>
-												<a href="SiteFrontOffice?id=<%= sb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
+												<div class="mb-1">
+													<a href="CommentairesList?id=<%= cb.getId() %>&archived=isNotArchived" class="btn btn-sm btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
+												</div>
+												<!-- <hr> -->
+												<!-- <br> -->
+												<div>
+													<a href="CommentairesList?id=<%= cb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
+												</div>
 											</td>
 										<%
 										} else {
 										%>
 											<td class="text-center align-middle">
-												<a href="SiteFrontOffice?id=<%= sb.getId() %>&archived=isArchived" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
-												<hr>
-												<a href="SiteFrontOffice?id=<%= sb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
+												<div class="mb-1">
+													<a href="CommentairesList?id=<%= cb.getId() %>&archived=isArchived" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
+												</div>
+												<!-- <hr> -->
+												<div>
+													<a href="CommentairesList?id=<%= cb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
+												</div>
 											</td>
-										<%
+									<%
 										}
-										%>
-											</tr>
-										<%
-										} 
-										%>
-									
+
+									} 
+									%>
+										</tr>
 									</tbody>
 									<!-- <tfoot>
 										<tr>
@@ -248,10 +197,6 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
                 		</div>
                 	</div>
 				</div> 
-				
-				
-				
-				
 			</div>
 		</main>
 		<!--end page main-->
@@ -368,4 +313,6 @@ ArrayList<Slide> sbCol = (ArrayList) request.getAttribute("sbCol");
   
 </body>
 
-</html>		
+</html>				
+		
+		

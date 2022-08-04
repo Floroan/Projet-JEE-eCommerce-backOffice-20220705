@@ -113,6 +113,7 @@ if ( privileges.contains("webSite") ) {
               </a>
               <ul>
                 <li> <a href="SiteFrontOffice"><i class="bi bi-circle"></i>Adresse & Sider</a></li>
+                <li> <a href="CommentairesList"><i class="bi bi-circle"></i>Commentaires</a></li>
               </ul>
             </li>
             <li>

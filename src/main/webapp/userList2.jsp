@@ -1,8 +1,8 @@
-<%@page import="tools.DateManipulator"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="utf-8"%>
-<%@ page import="java.util.ArrayList"%>
 <%@ page import="model.Utilisateur"%>
+<%@ page import="java.util.ArrayList"%>
+<%@page import="tools.DateManipulator"%>
 <% 
 Utilisateur visiteurs = (Utilisateur) request.getAttribute("visiteurs");
 ArrayList<Utilisateur> clients = (ArrayList<Utilisateur>) request.getAttribute("clients");

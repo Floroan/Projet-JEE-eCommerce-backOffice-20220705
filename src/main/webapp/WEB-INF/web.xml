@@ -375,4 +375,14 @@
     <servlet-name>AdminCard</servlet-name>
     <url-pattern>/AdminCard</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CommentairesList</display-name>
+    <servlet-name>CommentairesList</servlet-name>
+    <servlet-class>control.CommentairesList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommentairesList</servlet-name>
+    <url-pattern>/CommentairesList</url-pattern>
+  </servlet-mapping>
 </web-app>
