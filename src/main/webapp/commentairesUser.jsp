@@ -61,7 +61,17 @@ Utilisateur ub = (Utilisateur) request.getAttribute("ub");
        <!--start content-->
 		<main class="page-content">
 			<h1 class="mb-0 text-uppercase text-center">Commentaires produits</h1>
-			<h2 class="mb-0 text-center"><a href="CommentairesUser?idUser=<%= ub.getId() %>"><%= ub.getPrenom() %> <%= ub.getNom() %></a></h2>
+		<%
+		if ( ub.getCommandes() != null ) {
+		%>
+			<h2 class="mb-0 text-center"><a href="UserClientCard?id=<%= ub.getId() %>"><%= ub.getPrenom() %> <%= ub.getNom() %></a></h2>
+		<%
+		} else {
+		%>
+			<h2 class="mb-0 text-center"><a href="UserProspectCard?id=<%= ub.getId() %>"><%= ub.getPrenom() %> <%= ub.getNom() %></a></h2>
+		<%
+		}
+		%>
 			<hr/>
 			<div class="row">
 				<div class="col-xl-12"> <!-- mx-auto -->
