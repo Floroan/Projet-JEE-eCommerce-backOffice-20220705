@@ -7,8 +7,7 @@
 <%@page import="tools.RegexValidator"%>
 <%
 ArrayList<Commentaire> cbCol = (ArrayList) request.getAttribute("cbCol");
-ArrayList<Utilisateur> ubColClients = (ArrayList) request.getAttribute("ubColClients");
-ArrayList<Utilisateur> ubColProspects = (ArrayList) request.getAttribute("ubColProspects");
+Utilisateur ub = (Utilisateur) request.getAttribute("ub");
 %>
 <!doctype html>
 <html lang="fr">
@@ -62,6 +61,7 @@ ArrayList<Utilisateur> ubColProspects = (ArrayList) request.getAttribute("ubColP
        <!--start content-->
 		<main class="page-content">
 			<h1 class="mb-0 text-uppercase text-center">Commentaires produits</h1>
+			<h2 class="mb-0 text-center"><a href="CommentairesUser?idUser=<%= ub.getId() %>"><%= ub.getPrenom() %> <%= ub.getNom() %></a></h2>
 			<hr/>
 			<div class="row">
 				<div class="col-xl-12"> <!-- mx-auto -->
@@ -89,7 +89,7 @@ ArrayList<Utilisateur> ubColProspects = (ArrayList) request.getAttribute("ubColP
 									<tr>
 										<th class="text-center">Id</th>
 										<th style="width:50px">Produit</th>
-										<th style="width:150px">Utilisateur</th>
+										<!-- <th style="width:150px">Utilisateur</th> -->
 										<th>Date</th>
 										<th>Note</th>
 										<th style="width:300px">Commentaire</th>
@@ -111,25 +111,26 @@ ArrayList<Utilisateur> ubColProspects = (ArrayList) request.getAttribute("ubColP
 											<td class="align-middle">
 												<a href="#" ><img src="<%= cb.getProd().getImage() %>" alt="image" height="100%" width="100%"></a>
 											</td>
+											<%-- 
 											<td class="align-middle text-center">
 											<%
 											for (Utilisateur client : ubColClients) {
 												if ( client.getId() == cb.getFk_user()) {
 											%>
-												<a href="CommentairesUser?idUser=<%= cb.getFk_user() %>" class="btn btn-sm btn-primary px-5"><%= cb.getUtilisateur().getNom() %></a>
+												<a href="UserClientCard?id=<%= cb.getFk_user() %>" class="btn btn-sm btn-primary px-5"><%= cb.getUtilisateur().getNom() %></a>
 											<%
 												}
 											}
 											for ( Utilisateur prospect : ubColProspects ) {
 												if ( prospect.getId() == cb.getFk_user() ) {
 											%>
-												<a href="CommentairesUser?idUser=<%= cb.getFk_user() %>" class="btn btn-sm btn-primary px-5"><%= cb.getUtilisateur().getNom() %></a>
+												<a href="UserProspectCard?id=<%= cb.getFk_user() %>" class="btn btn-sm btn-primary px-5"><%= cb.getUtilisateur().getNom() %></a>
 											<%
 												}
 											}
 											%>
-											
 											</td>
+											--%>
 											<%
 											String d = DateManipulator.dateConvertToDDmmYYYY( cb.getDate() );
 											%>
@@ -155,12 +156,12 @@ ArrayList<Utilisateur> ubColProspects = (ArrayList) request.getAttribute("ubColP
 										%>
 											<td class="text-center align-middle">
 												<div class="mb-1">
-													<a href="CommentairesList?id=<%= cb.getId() %>&archived=isNotArchived" class="btn btn-sm btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
+													<a href="CommentairesUser?idUser=<%= ub.getId() %>&id=<%= cb.getId() %>&archived=isNotArchived" class="btn btn-sm btn-success px-5"><i class="fa-solid fa-file-circle-plus"></i></a>
 												</div>
 												<!-- <hr> -->
 												<!-- <br> -->
 												<div>
-													<a href="CommentairesList?id=<%= cb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
+													<a href="CommentairesUser?idUser=<%= ub.getId() %>&id=<%= cb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
 												</div>
 											</td>
 										<%
@@ -168,11 +169,11 @@ ArrayList<Utilisateur> ubColProspects = (ArrayList) request.getAttribute("ubColP
 										%>
 											<td class="text-center align-middle">
 												<div class="mb-1">
-													<a href="CommentairesList?id=<%= cb.getId() %>&archived=isArchived" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
+													<a href="CommentairesUser?idUser=<%= ub.getId() %>&id=<%= cb.getId() %>&archived=isArchived" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-file-circle-minus"></i></a>
 												</div>
 												<!-- <hr> -->
 												<div>
-													<a href="CommentairesList?id=<%= cb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
+													<a href="CommentairesUser?idUser=<%= ub.getId() %>&id=<%= cb.getId() %>&deleted=ok" class="btn btn-sm btn-danger px-5"><i class="fa-solid fa-trash"></i></a>
 												</div>
 											</td>
 									<%

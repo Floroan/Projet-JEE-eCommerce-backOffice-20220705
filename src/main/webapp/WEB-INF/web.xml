@@ -385,4 +385,14 @@
     <servlet-name>CommentairesList</servlet-name>
     <url-pattern>/CommentairesList</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CommentairesUser</display-name>
+    <servlet-name>CommentairesUser</servlet-name>
+    <servlet-class>control.CommentairesUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommentairesUser</servlet-name>
+    <url-pattern>/CommentairesUser</url-pattern>
+  </servlet-mapping>
 </web-app>

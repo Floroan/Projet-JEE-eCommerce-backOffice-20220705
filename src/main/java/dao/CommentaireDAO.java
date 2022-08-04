@@ -230,8 +230,9 @@ public Commentaire getByIdProdAndClient(int idProd, int idCli) {
 		try {
 
 			PreparedStatement preparedStatement = Database.connexion.prepareStatement(
-					"SELECT * FROM commentaires LEFT JOIN produits ON produits.id = commentaires.fk_prod "
-							+ " WHERE fk_user=? ORDER BY commentaires.note DESC");
+					"SELECT * FROM commentaires "
+					+ "LEFT JOIN produits ON produits.id = commentaires.fk_prod "
+					+ "WHERE fk_user=? ORDER BY commentaires.note DESC");
 			preparedStatement.setInt(1, id);
 			ResultSet resultat = preparedStatement.executeQuery();
 

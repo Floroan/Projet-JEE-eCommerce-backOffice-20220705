@@ -224,7 +224,7 @@ ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
 								class="d-flex align-items-stretch justify-content-between overflow-hidden">
 								<div class="w-50">
 									<p>
-										<a href="">Commentaires</a>
+										<a href="CommentairesUser?idUser=<%= client.getId() %>">Commentaires</a>
 									</p>
 									<h4 class="">${totalComments}</h4>
 								</div>

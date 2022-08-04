@@ -13,15 +13,15 @@ import model.Commentaire;
 import tools.Database;
 
 /**
- * Servlet implementation class CommentairesList
+ * Servlet implementation class CommentairesUser
  */
-public class CommentairesList extends HttpServlet {
+public class CommentairesUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CommentairesList() {
+    public CommentairesUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,6 +33,8 @@ public class CommentairesList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		int idUser = Integer.parseInt( request.getParameter("idUser"));
 		
 		Database.Connect();
 
@@ -70,7 +72,7 @@ public class CommentairesList extends HttpServlet {
 		// UPDATE BUTTON
 		if ( request.getParameter("updateComments") != null ) {
 			
-			int row = cd.getAll().size();
+			int row = cd.getAllByClient( idUser ).size();
 			ArrayList<Integer> idCol = new ArrayList<>();
 			
 			for ( int i = 1; i <= row; i++) {
@@ -83,7 +85,7 @@ public class CommentairesList extends HttpServlet {
 			
 			int j = -1;
 			int k = 0;
-			for ( Commentaire c : cd.getAll() ) {
+			for ( Commentaire c : cd.getAllByClient( idUser ) ) {
 				
 				j++;
 				k++;
@@ -99,15 +101,17 @@ public class CommentairesList extends HttpServlet {
 					String t = request.getParameter( "row-" + k + "-text" );
 					
 					c.setCommentaire(t);
+					
+					System.out.println(c);
 					cd.save(c);
+					
 				}
 			}
 		}
 		
-		request.setAttribute("cbCol", cd.getAll());
-		request.setAttribute("ubColClients", ud.getAllClients());
-		request.setAttribute("ubColProspects", ud.getAllProspect());
-		request.getRequestDispatcher("commentairesList.jsp").forward(request, response);
+		request.setAttribute("cbCol", cd.getAllByClient( idUser ));
+		request.setAttribute("ub", ud.getById( idUser ));
+		request.getRequestDispatcher("commentairesUser.jsp").forward(request, response);
 	}
 
 	/**
