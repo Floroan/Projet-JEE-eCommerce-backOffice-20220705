@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import model.Adresse_livraison;
 import model.Commande;
 import model.Commentaire;
+import model.Contact;
 import model.Utilisateur;
 import tools.Database;
 
@@ -382,5 +383,36 @@ public void deleteById(int id) {
     	System.out.println("DELETED NO");
     }
 }
+
+public ArrayList<Utilisateur> getByLike(String crit) {
+	ArrayList<Utilisateur> list = new ArrayList<Utilisateur>();
+	try {
+		
+			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM utilisateurs WHERE nom LIKE ? OR prenom LIKE ?;");
+			preparedStatement.setString(1, "%"+crit+"%");
+			preparedStatement.setString(2, "%"+crit+"%");
+			ResultSet resultat=preparedStatement.executeQuery();
+			
+			while(resultat.next()) {
+				Utilisateur u = new Utilisateur();
+				u.setId(resultat.getInt( "id" ));
+				u.setNom(resultat.getString( "nom" ));
+				u.setPrenom(resultat.getString( "prenom" ));
+				u.setEmail(resultat.getString( "email" ));
+				u.setDate_inscription(resultat.getDate("date_inscription"));
+				u.setPassword(resultat.getString( "password" ));
+				u.setArchiver(resultat.getInt("archiver"));
+
+				list.add(u);
+			}
+			
+			return list;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
+
 
 }

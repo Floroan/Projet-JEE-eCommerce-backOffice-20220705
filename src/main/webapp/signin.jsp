@@ -31,6 +31,12 @@
        <!--start content-->
        <main class="authentication-content">
         <div class="container-fluid">
+        
+<!--                   <div class="alert border-0 bg-light-danger alert-dismissible fade show"> -->
+<%--                     <div class="text-danger"><p>${communicationError }</p></div> --%>
+<!--                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+<!--                   </div> -->
+        
           <div class="authentication-card">
             <div class="card shadow rounded-0 overflow-hidden">
               <div class="row g-0">

@@ -248,7 +248,7 @@ public ArrayList<Contact> getAllByClientAndEtat(int idCli, int etat) {
 		
 			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM contacts  WHERE fk_user=? AND etat=? ORDER BY contacts.date DESC");
 			preparedStatement.setInt(1, idCli);
-			preparedStatement.setInt(1, etat);
+			preparedStatement.setInt(2, etat);
 			ResultSet resultat=preparedStatement.executeQuery();
 
 			while(resultat.next()) {
@@ -306,4 +306,43 @@ public void deleteById(int fk_prod, int fk_user) {
     	System.out.println("DELETED NO");
     }
 }
+
+
+
+public ArrayList<Contact> getByLike(String crit) {
+	ArrayList<Contact> list = new ArrayList<Contact>();
+	try {
+		
+			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM contacts WHERE sujet LIKE ? OR message LIKE ?");
+			preparedStatement.setString(1, "%"+crit+"%");
+			preparedStatement.setString(2, "%"+crit+"%");
+			ResultSet resultat=preparedStatement.executeQuery();
+			UtilisateurDAO utilDao = new UtilisateurDAO();
+			
+			while(resultat.next()) {
+				Contact u = new Contact();
+				u.setId(resultat.getInt( "id" ));
+				u.setFk_user(resultat.getInt( "fk_user" ));
+				u.setSujet(resultat.getString("sujet"));
+				u.setEmail(resultat.getString("email"));
+				u.setMessage(resultat.getString("message"));
+				u.setDate(resultat.getDate("date"));
+				u.setEtat(resultat.getInt( "etat" ));
+				u.setArchiver(resultat.getInt( "archiver" ));
+				
+				Utilisateur c;
+				c = utilDao.getById(u.getFk_user());
+				u.setU(c);
+				
+				list.add(u);
+			}
+			
+			return list;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
+
 }

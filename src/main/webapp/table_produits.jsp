@@ -81,14 +81,23 @@
                                 </a>
                              </div>
                            </td>
+
+							<td><%= p.getTitre() %></td>
+						<%
+						if (p.getDescription().length() > 30) {
+						%>
+<%-- 							<td><%=p.getDescription().substring(0, 30) %></td> --%>
+						<%
+						} else {
+						%>
+<%-- 							<td><%=p.getDescription()%></td> --%>
+						<%
+						}
+						%>
+
+						<td><%=p.getPrix()%></td>
                            
-                           <td><%= p.getTitre() %></td>
-                           
-<%--                            <td><%= p.getDescription().substring(0, 30) %></td> --%>
-                           
-                           <td><%= p.getPrix() %></td>
-                           
-                           <td><%= p.getFk_sous_categorie() %></td>
+                           <td><%=p.getFk_sous_categorie()%></td>
                            
                            <td><%= p.getStock() %></td>
                            

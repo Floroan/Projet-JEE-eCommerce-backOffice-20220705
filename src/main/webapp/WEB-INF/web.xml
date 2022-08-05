@@ -219,4 +219,14 @@
     <servlet-name>TopRecherches</servlet-name>
     <url-pattern>/TopRecherches</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TopOfTheTop</display-name>
+    <servlet-name>TopOfTheTop</servlet-name>
+    <servlet-class>control.TopOfTheTop</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TopOfTheTop</servlet-name>
+    <url-pattern>/TopOfTheTop</url-pattern>
+  </servlet-mapping>
 </web-app>
