@@ -24,7 +24,7 @@ public class Service_commandes {
 		double tt = 0;
 		for(Commande c : cmds) {
 			
-			tt += c.getTotal();
+			tt += c.getColumnTotal();
 		}
 		return tt;
 	}

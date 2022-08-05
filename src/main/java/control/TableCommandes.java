@@ -53,6 +53,15 @@ public class TableCommandes extends HttpServlet {
 			cmdDao.archiveById(c);
 		}
 		
+		if(request.getParameter("changeEtat") != null) {
+			System.out.println("change etat");
+			int id = Integer.parseInt( request.getParameter(Constantes.idcommande));
+			System.out.println(id);
+			Commande c = cmdDao.getById(id);
+			c.setEtat(Integer.parseInt(request.getParameter(Constantes.etat)));
+			cmdDao.save(c);
+	}
+		
 		request.setAttribute("commandes", cmdDao.getAll());
 		request.getRequestDispatcher("/table_commandes_body.jsp").forward(request, response);
 	}

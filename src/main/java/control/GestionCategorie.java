@@ -6,11 +6,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Categorie;
+import model.Sous_categorie;
 import tools.Database;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import dao.CategorieDAO;
+import dao.Sous_categorieDAO;
 
 /**
  * Servlet implementation class GestionCategorie
@@ -20,6 +23,9 @@ public class GestionCategorie extends HttpServlet {
 	
 	private CategorieDAO catDao;
 	private Categorie cat;
+	
+	private Sous_categorieDAO ss_catDao;
+	private Sous_categorie ss_cat;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -57,14 +63,27 @@ public class GestionCategorie extends HttpServlet {
 			System.out.println(request.getParameter("idcat"));
 			
 			cat = catDao.getById(Integer.parseInt(request.getParameter("catId")));
+			ss_catDao = new Sous_categorieDAO();		
+			ArrayList<Sous_categorie> listss_cat = ss_catDao.getAllByCategorie(cat);
 			
+			System.out.println(listss_cat);
 			if(cat.getArchiver() == 0) {
 				cat.setArchiver(1);
 			}
 			else if(cat.getArchiver() == 1) {
 				cat.setArchiver(0);
 			}
+			
+			System.out.println(cat.getArchiver());
+			
+			for(int i = 0; i < listss_cat.size(); i ++) {
+				Sous_categorie sc = listss_cat.get(i);
+				sc.setArchiver(cat.getArchiver());
+				ss_catDao.archiverById(sc);
+			}
+			
 			catDao.archiverById(cat);
+				
 		}
 		request.setAttribute("cats", catDao.getAll());
 		request.getRequestDispatcher("/gestion_categories.jsp").forward(request, response);

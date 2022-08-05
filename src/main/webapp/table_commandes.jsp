@@ -66,14 +66,20 @@
 								<% for(Commande cmd: commandes){ %>
 									<tr>
 <!-- 									<form method="form" action="TableCommandes"> -->
-<%-- 										<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/> --%>
+										
 										<td><%= cmd.getId() %></td>
 										<td><%= cmd.getDate() %></td>
 										<td><%= cmd.getU().getNom() + " " + cmd.getU().getPrenom() %></td>
 										<td><%= cmd.getU().getEmail() %></td>
 										<td><%= cmd.getTotal() %></td>
-										<td><%= cmd.getEtat() %></td>
-										<td><%= cmd.getArchiver() %></td>
+										<td class="col-md-1" >
+										<form method="post">
+												<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/>
+												<input class="col-md-6" type="number" min="0" max="3" value="<%= cmd.getEtat() %>" name="<%= Constantes.etat %>"/>
+												<button type="submit" name="changeEtat"><i class="lni lni-reload"></i></button>
+										</form>
+										</td>
+										<td class="col-md-1"><%= cmd.getArchiver() %></td>
 										<td>
 										<form method="post" action="TableCommandes">
 										<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/>

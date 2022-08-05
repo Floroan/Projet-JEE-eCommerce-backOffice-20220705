@@ -1,16 +1,25 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!doctype html>
-<html lang="en">
-
+    
+<!DOCTYPE html>
+<html>
 <head>
+
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="assets/images/favicon-32x32.png" type="image/png" />
   <!--plugins-->
+  <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
   <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
   <link href="assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+  
+    <link href="assets/plugins/datetimepicker/css/classic.css" rel="stylesheet" />
+	<link href="assets/plugins/datetimepicker/css/classic.time.css" rel="stylesheet" />
+	<link href="assets/plugins/datetimepicker/css/classic.date.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.min.css">
+  
   <link href="assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
   <!-- Bootstrap CSS -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -19,10 +28,9 @@
   <link href="assets/css/icons.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
+  
   <!-- loader-->
 	<link href="assets/css/pace.min.css" rel="stylesheet" />
-
 
   <!--Theme Styles-->
   <link href="assets/css/dark-theme.css" rel="stylesheet" />
@@ -30,88 +38,105 @@
   <link href="assets/css/semi-dark.css" rel="stylesheet" />
   <link href="assets/css/header-colors.css" rel="stylesheet" />
 
-  <title>Onedash - Bootstrap 5 Admin Template</title>
-</head>
+<title>Top of the Top</title>
+	
+	<style type="text/css">
+			#chart99 {
+			max-width: 800px;
+			margin: 20px auto;
+			}
+	</style>
 
+</head>
 <body>
+
+<% ArrayList<String> tables = (ArrayList<String>) request.getAttribute("tables"); %>
 
 
   <!--start wrapper-->
-  <div class="wrapper">
-  
-    <!--start top header-->
-    
-     <!--end top header-->
+	<div class="wrapper">
 
-       <!--start sidebar -->
-       
-       <!--end sidebar -->
+		<!--start top header-->
+		<jsp:include page="/Header"></jsp:include>
+		<!--end top header-->
 
-       <!--start content-->
-          <main class="page-content">
-          
-            <!--breadcrumb-->
-            <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-              <div class="breadcrumb-title pe-3">Pages</div>
-              <div class="ps-3">
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb mb-0 p-0">
-                    <li class="breadcrumb-item"><a href="Signin"><i class="bx bx-home-alt"></i></a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">500 Error</li>
-                  </ol>
-                </nav>
-              </div>
-<!--               <div class="ms-auto"> -->
-<!--                 <div class="btn-group"> -->
-<!--                   <button type="button" class="btn btn-primary">Settings</button> -->
-<!--                   <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span> -->
-<!--                   </button> -->
-<!--                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a> -->
-<!--                     <a class="dropdown-item" href="javascript:;">Another action</a> -->
-<!--                     <a class="dropdown-item" href="javascript:;">Something else here</a> -->
-<!--                     <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a> -->
-<!--                   </div> -->
-<!--                 </div> -->
-<!--               </div> -->
-            </div>
-            <!--end breadcrumb-->
+		<!--start sidebar -->
+		<jsp:include page="/SideBar"></jsp:include>
+		<!--end sidebar -->
 
-            <div class="error-404 d-flex align-items-center justify-content-center">
-              <div class="container">
-                <div class="card py-5">
-                  <div class="row g-0">
-                    <div class="col-xl-5">
-                      <div class="card-body p-4">
-                        <h1 class="display-1"><span class="text-warning">5</span><span class="text-danger">0</span><span class="text-primary">0</span></h1>
-                        <h2 class="font-weight-bold display-4">Une erreur server est survenue</h2>
-                        <p>Looks like you are lost!
-                          <br>Un problème de connection, ou votre session a expirée</p>
-                        <div class="mt-5">	<a href="Signin" class="btn btn-lg btn-primary px-md-5 radius-30">Go Signin</a>
-<!--                           <a href="javascript:;" class="btn btn-lg btn-outline-dark ms-3 px-md-5 radius-30">Back</a> -->
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xl-7">
-                      <img src="assets/images/error/505-error.png" class="img-fluid" alt="">
-                    </div>
-                  </div>
-                  <!--end row-->
-                </div>
-              </div>
-            </div>
-          </main>
-       <!--end page main-->
+		<!--start content-->
+		<main class="page-content">
 
+				<form method="post">
+					<label for="validationCustom01" class="form-label">
+						Des infos sur:
+						<select name="selectedTable" required>
+						<% for(String tb : tables){ %>
+							<option name="selectedTable"><%= tb  %></option>
+						<%} %>
+						</select>
+					</label>
+<!-- 					<input class="result form-control" type="text" id="date" placeholder="Date Picker..." data-dtp="dtp_9WbNa"> -->
+<!-- 					<input class="result form-control" type="text" id="date" placeholder="Date Picker..." data-dtp="dtp_QWzSz"> -->
+					
+<!-- 					<input type="text" class="form-control datepicker picker__input" readonly="" name="dt1" id="P1926380751" aria-haspopup="true" aria-readonly="false" aria-owns="P1926380751_root"> -->
+<!-- 					<input type="text" class="form-control datepicker picker__input" readonly=""  name="dt2" id="P1926380751" aria-haspopup="true" aria-readonly="false" aria-owns="P1926380751_root"> -->
+					<div class="col-md-4">
+					<label>Entre les dates suivantes:</label>
+					<div class="col-md-4">
+						<label>Début</label><input type="date" name="dt1" placehoder="début" class="form-control" required>
+						<label>Fin:</label><input type="date" name="dt2" placehoder="fin" class="form-control" required>
+					</div>
+						<button type="submit" name="topOf" class="btn btn-outline-primary px-5">Voir</button>
+					</div>
+				</form>
 
-       <!--start overlay-->
-        <div class="overlay nav-toggle-icon"></div>
-       <!--end overlay-->
+			<div id="chart99">
+			<label>${resultat }</label>
+			</div>
 
-        <!--Start Back To Top Button-->
-        <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
-        <!--End Back To Top Button-->
-        
+				<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+				
+				<script>
+	var options = {
+			  chart: {
+			    height: 380,
+			    width: "100%",
+			    type: "area",
+			    animations: {
+			      initialAnimation: {
+			        enabled: false
+			      }
+			    }
+			  },
+			  series: [
+			    {
+			      name: "quantité",
+			      data: [
+					${topOfResults}
+			      ]
+			    }
+			  ],
+			  xaxis: {
+			    type: "datetime"
+			  }
+			};
+
+			var chart = new ApexCharts(document.querySelector("#chart99"), options);
+
+			chart.render();
+
+	</script>
+	
+		<form method="post">
+			<button type="submit" name="retourDash">Retour au dashboard</button>
+		</form>
+	
+		</main>
+
+	</div>
+	
+ 
         <!--start switcher-->
        <div class="switcher-body">
         <button class="btn btn-primary btn-switcher shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="bi bi-paint-bucket me-0"></i></button>
@@ -176,22 +201,32 @@
        </div>
        <!--end switcher-->
 
-  </div>
-  <!--end wrapper-->
+	<!-- Bootstrap bundle JS -->
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<!--plugins-->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
+	<script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
+	<script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+	<script src="assets/js/pace.min.js"></script>
+	
+  	<script src="assets/plugins/datetimepicker/js/legacy.js"></script>
+	<script src="assets/plugins/datetimepicker/js/picker.js"></script>
+	<script src="assets/plugins/datetimepicker/js/picker.time.js"></script>
+	<script src="assets/plugins/datetimepicker/js/picker.date.js"></script>
+	
+	<script src="assets/plugins/bootstrap-material-datetimepicker/js/moment.min.js"></script>
+	<script src="assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js"></script>
+  	<script src="assets/js/form-date-time-pickes.js"></script>
 
-
-  <!-- Bootstrap bundle JS -->
-  <script src="assets/js/bootstrap.bundle.min.js"></script>
-  <!--plugins-->
-  <script src="assets/js/jquery.min.js"></script>
-  <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
-  <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
-  <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-  <script src="assets/js/pace.min.js"></script>
-  <!--app-->
-  <script src="assets/js/app.js"></script>
+	<script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
   
-
+    <!--app-->
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/index2.js"></script>
+  <script>
+    new PerfectScrollbar(".best-product")
+ </script>
+ 
 </body>
-
 </html>
