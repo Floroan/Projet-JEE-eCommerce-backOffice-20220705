@@ -111,7 +111,7 @@
                      <div class="d-flex align-items-stretch justify-content-between overflow-hidden">
                       <div class="w-50">
                         <p>Commandes à 24h</p>
-                        <p class="">Total des commandes: ${cmdsAll }</p>
+                        <p class="">Toutes: ${cmdsAll }</p>
                       </div>
                       <div class="w-50">
                       <% Integer cc = (Integer)request.getAttribute("cmdsA24h"); %>

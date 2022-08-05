@@ -6,21 +6,32 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Contact;
+import model.Utilisateur;
 import tools.Constantes;
 import tools.Database;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import dao.ContactDAO;
 import dao.GenericDAO;
+import dao.UtilisateurDAO;
 
 /**
  * Servlet implementation class GestionMessagerie
  */
 public class GestionMessagerie extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
        private ContactDAO contDao;
        private GenericDAO genDao;
+       
+       private UtilisateurDAO utDao;
+       
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -39,6 +50,7 @@ public class GestionMessagerie extends HttpServlet {
 		
 		contDao = new ContactDAO();
 		genDao = new GenericDAO();
+		utDao = new UtilisateurDAO();
 		
 		request.setAttribute("count", genDao.countRows("contacts"));
 		
@@ -70,6 +82,32 @@ public class GestionMessagerie extends HttpServlet {
 		}
 		
 		
+		if(request.getParameter(Constantes.rechercheContact) != null) {
+			// recherche dans le nom du contact, titre et corps de message
+			System.out.println("action recherche messages, par mot-clé");
+			System.out.println(request.getParameter("argRecherche"));
+			
+			ArrayList<Contact> contactsRecherche =  contDao.getByLike(request.getParameter("argRecherche"));
+			ArrayList<Utilisateur> utilisateursRecherche =  utDao.getByLike(request.getParameter("argRecherche"));
+			
+			System.out.println(contactsRecherche.size());
+			
+			ArrayList<Contact> contByUser = null;
+			for(Utilisateur ut: utilisateursRecherche) {
+				contByUser = contDao.getAllByClientAndEtat(ut.getId(), 0);
+				//contactsRecherche.addAll(contDao.getAllByClientAndEtat(ut.getId(), 0));
+			}
+			
+			HashSet hs = new HashSet();
+			hs.addAll(contactsRecherche);
+			hs.addAll(contByUser);
+			contByUser.clear();
+			contByUser.addAll(hs);
+
+			System.out.println(contByUser.size());
+		}
+		
+		//request.getRequestDispatcher("/headerMessagerie.jsp").include(request, response);
 		request.getRequestDispatcher("/messagerie.jsp").forward(request, response);
 	}
 

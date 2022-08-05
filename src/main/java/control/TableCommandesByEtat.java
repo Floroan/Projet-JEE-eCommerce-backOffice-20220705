@@ -12,6 +12,8 @@ import tools.Database;
 
 import java.io.IOException;
 
+import org.apache.tomcat.jakartaee.bcel.Const;
+
 import dao.CommandeDAO;
 
 /**
@@ -60,6 +62,15 @@ public class TableCommandesByEtat extends HttpServlet {
 				//request.getRequestDispatcher("/DetailCommande?id="+id).forward(request, response);
 		}
 		
+		if(request.getParameter(Constantes.remonteCmd) != null) {
+			System.out.println("remonter commande");
+			request.getParameter(Constantes.idcommande);
+			Commande c  = cmdDao.getById(Integer.parseInt(request.getParameter(Constantes.idcommande)));
+			c.setEtat(Constantes.cmdEnCours);
+			cmdDao.save(c);
+			System.out.println(request.getParameter(Constantes.idcommande));
+	}
+		
 		if(request.getParameter("Valider la livraison") != null) {
 			System.out.println("Valider la livraison de la commande");
 			int id = Integer.parseInt( request.getParameter(Constantes.idcommande));
@@ -67,12 +78,12 @@ public class TableCommandesByEtat extends HttpServlet {
 			c.setEtat(3);
 			cmdDao.save(c);
 			response.sendRedirect("/Hytek_Admin/TableCommandesByEtat?etat=2");
-	}
-		
+		}
+		 
 		
 		switch((String)session.getAttribute("etat")) {
 		
-		case "1" : 	request.setAttribute("titre", "les commandes en cours"); 
+		case "1" :  request.setAttribute("titre", "les commandes en cours"); 
 					request.setAttribute("message", "Pas de  commandes en cours"); 
 					request.setAttribute("titreBouton", "Preparer");
 			break;
@@ -85,7 +96,12 @@ public class TableCommandesByEtat extends HttpServlet {
 		case "3" : request.setAttribute("titre", "les commandes livrées ");  
 				   request.setAttribute("message", "Plus de commandes livrées, voir les archivages.");
 				   request.setAttribute("titreBouton", "Archiver");
-		
+		    break;
+		    
+		case "4" : request.setAttribute("titre", "les commandes signalées ");  
+		   request.setAttribute("message", "Plus de commandes signalées, voir les archivages.");
+		   request.setAttribute("titreBouton", "Archiver");
+		   break;
 		}
 		
 		request.setAttribute("commandes", cmdDao.getAllByEtat( Integer.parseInt(request.getParameter("etat"))));

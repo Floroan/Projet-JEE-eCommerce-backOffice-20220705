@@ -255,6 +255,13 @@ public class DetailCommande extends HttpServlet {
 			response.sendRedirect("/Hytek_Admin/TableCommandesByEtat?etat=1");
 		}
 		
+		if(request.getParameter(Constantes.signalerCmd) != null) {
+			System.out.println("Signaler commande");
+			cmd.setEtat(Constantes.cmdSignalee); // etat 4
+			cmdDao.save(cmd);
+			response.sendRedirect("/Hytek_Admin/TableCommandesByEtat?etat=1");
+		}
+		
 	
 		if(id > 0) {
 			this.getCommande(id);

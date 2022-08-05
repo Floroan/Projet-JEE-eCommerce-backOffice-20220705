@@ -65,8 +65,7 @@
 								<% for(Commande cmd: commandes){ %>
 								
 									<tr>
-										
-										
+			
 										<td><%= cmd.getId() %></td>
 										<td><%= cmd.getDate() %></td>
 										<td><%= cmd.getTotal() %></td>
@@ -77,8 +76,10 @@
 										<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/>
 		                                    <div class="d-flex align-items-center gap-3 fs-6">
 		                                      	<a href="DetailCommande?id=<%=cmd.getId() %>" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit" type="submit"><i class="bi bi-pencil-fill"></i></a>
-		                                      	<button name="${titreBouton }" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="${titreBouton }" aria-label="" class="btn btn-warning px-5">${titreBouton }</button>                                 
-<%-- 		                                    	<a href="DetailCommande?id=<%=cmd.getId()%>${Bouton}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="${titreBouton }" aria-label="" class="btn btn-warning px-5">${titreBouton }</a>  --%>
+		                                      	<button name="${titreBouton }" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="${titreBouton }" aria-label="" class="btn btn-warning px-5">${titreBouton }</button>
+		                                      	<% if(cmd.getEtat() == 2 || cmd.getEtat() == 4){ %>
+		                                      	<button type="submit" name="<%= Constantes.remonteCmd %>" class="btn btn-outline-secondary px-5" data-bs-toggle="tooltip" data-bs-original-title="Remonter la commande au tableau des commandes à préparer">Remonter en commande à préparer</button> 
+		                                     	<%} %>
 		                                     </form> 
 		                                    </div>
 	                                   </td>

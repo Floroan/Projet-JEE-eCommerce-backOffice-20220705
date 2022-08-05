@@ -2,7 +2,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Categorie"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 
@@ -69,7 +69,7 @@
 
               <div class="card">
                 <div class="card-header py-3">
-                  <h6 class="mb-0">Ajouter une catégorie</h6>
+                  <h6 class="mb-0">Ajouter une catÃ©gorie</h6>
                 </div>
                 <div class="card-body">
                    <div class="row">
@@ -83,7 +83,7 @@
                              </div>
                              <div class="col-12">
                               <label class="form-label">Archiver</label>
-                              <input name="ajoutArchive" type="number" class="form-control" min="0" max="1" value="0">
+                              <input name="ajoutArchive" type="number" class="form-control" min="0" max="1" value="0" required>
                             </div>
                             <div class="col-12">
                               <div class="d-grid">
@@ -117,7 +117,7 @@
 <!--                                    <td><input class="form-check-input" type="checkbox"></td> -->
 									<input type="hidden" name="catId" value="<%= cat.getId()%>"/>
                                    <td ><%= cat.getId() %></td>
-                                   <td><input name="catTitre" value="<%= cat.getTitre() %>"/></td>
+                                   <td><input name="catTitre" value="<%= cat.getTitre() %>" required/></td>
                                    <td><%= cat.getArchiver() %></td>
                                    <td>
                                     <div class="d-flex align-items-center gap-3 fs-6">

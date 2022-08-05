@@ -151,6 +151,7 @@ public class Dashboard extends HttpServlet {
 			
 			} System.out.println("visite 7 jours: " + visiA7jours); System.out.println("visite 7 jours: " + visitotalA7jours);
 			
+			
 		// top 5 visites >> produits
 			String key = ""; String vals = ""; ArrayList<String> keys = new ArrayList<String>();
 		for(Map.Entry<Produit, Integer> entry : visiDao.getVisitesByProduit(5).entrySet() ) {

@@ -247,7 +247,7 @@
 										<%} %>
 										
 						<div class="dropdown">
-                          <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                          <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Modifications</button>
                           <ul class="dropdown-menu">
                           <%if(cmd.getEtat() != 3){ %>
                             <li>
@@ -267,6 +267,8 @@
 						<form method="post" >
 						<input type="hidden" name="etatLivraison" value="<%= Constantes.idcommande %>">
 							<button name="enLivraison" class="btn btn-warning px-5" data-bs-toggle="tooltip" type="submit"  data-bs-placement="right">Passer en livraison</button>
+							<a href="TableCommandesByEtat?etat=<%= Constantes.cmdEnCours%>" class="btn btn-outline-secondary px-5" data-bs-toggle="tooltip" data-bs-original-title="Retour au tableau des commandes à préparer">Abandonner et retour</a> 
+							<button type="submit" name="<%= Constantes.signalerCmd %>" class="btn btn-outline-danger px-5" data-bs-toggle="tooltip" data-bs-original-title="Signaler un problème de stock, produit défectueux..etc">Signaler</button>
 						</form>
 						</div>
 						<%} %>	

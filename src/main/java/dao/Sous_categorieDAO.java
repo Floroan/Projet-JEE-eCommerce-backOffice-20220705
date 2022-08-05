@@ -104,7 +104,7 @@ public class Sous_categorieDAO {
 		try {
 			
 				PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM sous_categories wHERE fk_categorie=?");
-				preparedStatement.setInt(1,c.getId());
+				preparedStatement.setInt(1, c.getId());
 				ResultSet resultat= preparedStatement.executeQuery();
 
 				while(resultat.next()) {

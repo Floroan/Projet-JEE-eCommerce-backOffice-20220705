@@ -110,43 +110,50 @@
                   </div>
                 </div>
               </div>
-              <div class="email-header d-xl-flex align-items-center">
-                <div class="d-flex align-items-center">
-                  <div class="email-toggle-btn"><i class='bx bx-menu'></i>
-                  </div>
-                  <div class="btn btn-white">
-                    <input class="form-check-input" type="checkbox">
-                  </div>
-                  <div class="">
-                    <button type="button" class="btn btn-white ms-2"><i class="bi bi-arrow-repeat me-0"></i>
-                    </button>
-                  </div>
-                  <div class="">
-                    <button type="button" class="btn btn-white ms-2"><i class="bi bi-cloud-download-fill me-0"></i>
-                    </button>
-                  </div>
-                  <div class="d-none d-md-flex">
-                    <button type="button" class="btn btn-white ms-2"><i class="bi bi-file-earmark-bar-graph-fill me-0"></i>
-                    </button>
-                  </div>
-                  <div class="">
-                    <button type="button" class="btn btn-white ms-2"><i class="bi bi-trash-fill me-0"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="flex-grow-1 mx-xl-2 my-2 my-xl-0">
-                  <div class="input-group">	<span class="input-group-text bg-transparent"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control" placeholder="Search mail">
-                  </div>
-                </div>
-                <div class="ms-auto d-flex align-items-center">
-                  <button class="btn btn-sm btn-light">1-50 of 8,740</button>
-                  <button class="btn btn-white px-2 ms-2"><i class="bi bi-chevron-left me-0"></i>
-                  </button>
-                  <button class="btn btn-white px-2 ms-2"><i class="bi bi-chevron-right me-0"></i>
-                  </button>
-                </div>
-              </div>
+              
+              
+<!--               <div class="email-header d-xl-flex align-items-center"> -->
+<!--                 <div class="d-flex align-items-center"> -->
+<!--                   <div class="email-toggle-btn"><i class='bx bx-menu'></i> -->
+<!--                   </div> -->
+<!--                   <div class="btn btn-white"> -->
+<!--                     <input class="form-check-input" type="checkbox"> -->
+<!--                   </div> -->
+<!--                   <div class=""> -->
+<!--                     <button type="button" class="btn btn-white ms-2"><i class="bi bi-arrow-repeat me-0"></i> -->
+<!--                     </button> -->
+<!--                   </div> -->
+<!--                   <div class=""> -->
+<!--                     <button type="button" class="btn btn-white ms-2"><i class="bi bi-cloud-download-fill me-0"></i> -->
+<!--                     </button> -->
+<!--                   </div> -->
+<!--                   <div class="d-none d-md-flex"> -->
+<!--                     <button type="button" class="btn btn-white ms-2"><i class="bi bi-file-earmark-bar-graph-fill me-0"></i> -->
+<!--                     </button> -->
+<!--                   </div> -->
+<!--                   <div class=""> -->
+<!--                     <button type="button" class="btn btn-white ms-2"><i class="bi bi-trash-fill me-0"></i> -->
+<!--                     </button> -->
+<!--                   </div> -->
+<!--                 </div> -->
+<!--                 <div class="flex-grow-1 mx-xl-2 my-2 my-xl-0"> -->
+<!--                   <div class="input-group">	<span class="input-group-text bg-transparent"><i class="bi bi-search"></i></span> -->
+<!--                     <input type="text" class="form-control" placeholder="Search mail"> -->
+<!--                   </div> -->
+<!--                 </div> -->
+<!--                 <div class="ms-auto d-flex align-items-center"> -->
+<!--                   <button class="btn btn-sm btn-light">1-50 of 8,740</button> -->
+<!--                   <button class="btn btn-white px-2 ms-2"><i class="bi bi-chevron-left me-0"></i> -->
+<!--                   </button> -->
+<!--                   <button class="btn btn-white px-2 ms-2"><i class="bi bi-chevron-right me-0"></i> -->
+<!--                   </button> -->
+<!--                 </div> -->
+<!--               </div> -->
+
+
+<!-- 					header de la messagerie -->
+								<jsp:include page="headerMessagerie.jsp"></jsp:include>
+<!-- 					header de la messagerie -->
               
               <div class="email-content">
                 <div class="email-read-box p-3">
