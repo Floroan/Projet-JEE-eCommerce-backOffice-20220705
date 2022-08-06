@@ -152,7 +152,9 @@ public class Dashboard extends HttpServlet {
 			} System.out.println("visite 7 jours: " + visiA7jours); System.out.println("visite 7 jours: " + visitotalA7jours);
 			
 			
-		// top 5 visites >> produits
+		// top 5 visites >> produits :
+			
+			//old
 			String key = ""; String vals = ""; ArrayList<String> keys = new ArrayList<String>();
 		for(Map.Entry<Produit, Integer> entry : visiDao.getVisitesByProduit(5).entrySet() ) {
 				// key += "<p title=" + "\"" + entry.getKey().getTitre() + "\"" + ">" + "</p>";
@@ -161,8 +163,25 @@ public class Dashboard extends HttpServlet {
 				 vals += entry.getValue() + ",";	
 			}
 		
-		System.out.println("prods "  +key);
-		System.out.println("prods "  +vals);
+			
+		LinkedHashMap<Produit, Integer> top5Visites = visiDao.getVisitesByProduit(5);
+			
+//		String titres = "", vals = "";  ArrayList<String> keys = new ArrayList<String>(); ArrayList<String> images = new ArrayList<String>();
+//		for(Map.Entry<Produit, Integer> entry : visiDao.getVisitesByProduit2(5).entrySet() ) {
+//		System.out.println(entry);
+//			// key += "<p title=" + "\"" + entry.getKey().getTitre() + "\"" + ">" + "</p>";
+//		keys.add(entry.getKey().getTitre());
+//		titres += "'" + entry.getKey().getTitre().substring(0,12) + "',";
+//		images.add(entry.getKey().getImage());
+//			 vals += entry.getValue() + ",";	
+//		}
+		
+//		System.out.println("images " + images);
+//		System.out.println("prods "  +titres);
+//		System.out.println("prods "  +vals);
+
+		// fin top 5 des visites
+		
 		
 		request.setAttribute("cmdsAll", genDao.countRows("commandes"));
 		request.setAttribute("cmdsLast20", commandes20);
@@ -170,9 +189,14 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("cmdsA24h", Service_commandes.last_commandes_With24hInterval());
 		request.setAttribute("visiA7jours", visiA7jours);
 		request.setAttribute("visitotalA7jours", visitotalA7jours);
+		
+		request.setAttribute("top5Visites", top5Visites);
+		
 		request.setAttribute("topVisites_produits", key);
 		request.setAttribute("topVisites_values", vals);
-		request.setAttribute("topVisites_titresProduits", keys);
+
+		
+		
 		request.setAttribute("totalVisites", visiDao.getAll());
 		request.setAttribute("totalProduits", genDao.countRows("produits"));
 		request.setAttribute("prodsAlertStock", prodDao.getProduitsAlerteStock(null));

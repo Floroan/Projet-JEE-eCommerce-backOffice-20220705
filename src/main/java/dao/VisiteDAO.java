@@ -227,18 +227,50 @@ public class VisiteDAO {
 	 * 
 	 */
 	
+	// old
+//	public LinkedHashMap<Produit, Integer> getVisitesByProduit(int  nbProduits){
+//		LinkedHashMap<Produit, Integer> list = new LinkedHashMap<Produit, Integer>();
+//		
+//		try {
+//				PreparedStatement preparedStatement  =
+//						Database.connexion.prepareStatement("SELECT visites.fk_prod, COUNT(*) as cnt FROM visites WHERE archiver= 0 GROUP by visites.fk_prod ORDER by cnt DESC LIMIT ?");
+//				preparedStatement.setInt(1, nbProduits);
+//				ResultSet resultat=preparedStatement.executeQuery();
+//
+//				Produit p = new Produit();
+//				while(resultat.next()) {
+//					p = prodDao.getTitreAndMainImageById(resultat.getInt("fk_prod"));
+//					list.put(p, resultat.getInt( "cnt" ));
+//				}
+//				return list;
+//			
+//		} catch (Exception ex) {
+//	    	ex.printStackTrace();
+//	    	return null;
+//	    }
+//	}
+	
+	//SELECT *, COUNT(*) as cnt FROM visites LEFT JOIN produits ON visites.fk_prod = produits.id  WHERE produits.archiver=0 GROUP by visites.fk_prod ORDER by cnt DESC LIMIT ?
 	public LinkedHashMap<Produit, Integer> getVisitesByProduit(int  nbProduits){
 		LinkedHashMap<Produit, Integer> list = new LinkedHashMap<Produit, Integer>();
 		
 		try {
 				PreparedStatement preparedStatement  =
-						Database.connexion.prepareStatement("SELECT visites.fk_prod, COUNT(*) as cnt FROM visites GROUP by visites.fk_prod ORDER by cnt DESC LIMIT ?");
+						Database.connexion.prepareStatement("SELECT visites.fk_prod, produits.titre, produits.image, COUNT(*) as cnt"
+								+ "	FROM visites"
+								+ "	LEFT JOIN produits"
+								+ "	ON visites.fk_prod = produits.id"
+								+ "	WHERE produits.archiver = 0"
+								+ "	GROUP by visites.fk_prod, produits.titre, produits.image"
+								+ "	ORDER by cnt DESC LIMIT ?;");
 				preparedStatement.setInt(1, nbProduits);
 				ResultSet resultat=preparedStatement.executeQuery();
 
-				Produit p = new Produit();
 				while(resultat.next()) {
-					p = prodDao.getTitreAndMainImageById(resultat.getInt("fk_prod"));
+					Produit p = new Produit();
+					p.setId(resultat.getInt("fk_prod"));
+					p.setTitre(resultat.getString("titre"));
+					p.setImage(resultat.getString("image"));
 					list.put(p, resultat.getInt( "cnt" ));
 				}
 				return list;
@@ -248,6 +280,7 @@ public class VisiteDAO {
 	    	return null;
 	    }
 	}
+	
 	//SELECT visites.fk_prod, COUNT(*) as cnt FROM visites GROUP by visites.fk_prod ORDER by cnt DESC LIMIT 10
 	
 	

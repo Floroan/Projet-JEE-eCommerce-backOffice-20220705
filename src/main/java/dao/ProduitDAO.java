@@ -300,7 +300,7 @@ public void deleteById(int id) {
 public Produit getTitreAndMainImageById(int id) {
 	try {
 	
-			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT produits.id, produits.titre, produits.image FROM produits WHERE id=? AND archiver= 0");
+			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT produits.id, produits.titre, produits.image FROM produits WHERE id=? AND archiver = 0");
 			preparedStatement.setInt(1,id);
 			
 			ResultSet resultat=preparedStatement.executeQuery();

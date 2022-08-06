@@ -1,5 +1,12 @@
-/control/
-/service_adresse_livraison/
-/tools/
 /dao/
 /model/
+<<<<<<< HEAD
+=======
+/service_adresse_livraison/
+/service_archivage/
+/service_commande/
+/service_produit/
+/tests/
+/tools/
+/control/
+>>>>>>> main

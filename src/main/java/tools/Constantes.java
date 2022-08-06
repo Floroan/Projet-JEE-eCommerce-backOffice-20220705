@@ -35,14 +35,15 @@ public final class Constantes {
 	
 
 	// messages
-	messageNumberFormat = "Une ou plusieurs saisies sont invalides, vérifiez les champs";
+	messageNumberFormat = "Une ou plusieurs saisies sont invalides, vérifiez les champs.",
+	messageEtatcommande = "Impossible de modifier l'état de cette commande.";
 	
 	public final static int 
 	//message
 	nonlu =0, enCours=1, resolu=2, nonResolu=3, 
 	
 	// etat commande  aPreparer, enPreparation, aLivrer (bouton en livraison), livree(historique)
-	cmdSansEtat = 0, cmdEnCours = 1, cmdValidee = 2, cmdLivree = 3, cmdSignalee = 4,
+	cmdSansEtat = 0, cmdEnCours = 1, cmdValidee = 2, cmdLivree = 3, cmdSignalee = 4, maxEtats = 4,
 			
 	
 	
