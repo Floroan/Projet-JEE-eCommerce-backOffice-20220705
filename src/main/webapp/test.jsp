@@ -44,6 +44,7 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
 
 <body>
 
+<<<<<<< HEAD
 
   <!--start wrapper-->
   <div class="wrapper">
@@ -230,6 +231,10 @@ ArrayList<DataTablesListeClients> dcList = (ArrayList) request.getAttribute("dcL
   <!--app-->
   <script src="assets/js/app.js"></script>
   
+=======
+<H1> CONNECTION ERROR POUR L'UTILISATEUR ${user } , ${userMail } </H1>
+<a href="Index">retour connection</a>
+>>>>>>> main
 </body>
 
 </html>

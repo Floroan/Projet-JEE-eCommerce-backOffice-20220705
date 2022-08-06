@@ -87,8 +87,22 @@ public class Commande {
 	}
 
 	public double getTotal() {
-		return total;
+		return total;	
 	}
+	
+	public double getTotalDetails() {
+		total = 0;
+		if(this.details == null) {
+			return this.total;
+		}else {
+		for (Details_commande dc : details) {
+			System.out.println("qte from getter: " + dc.getQte() + "/" + dc.getPrix());
+			total += dc.getQte() * dc.getPrix();
+		}
+		return this.total;
+		}	
+	}
+	
 
 	public void setTotal(double total) {
 		this.total = total;
@@ -135,4 +149,8 @@ public class Commande {
 	}
 	
 
+	public double getColumnTotal() {
+		return total;	
+	}
+	
 }

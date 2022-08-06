@@ -77,8 +77,8 @@ public class UtilisateurDAO {
 			return null;
 		}
 	}
-	
-	public Utilisateur getByMail( String mail ) {
+
+	public Utilisateur getByMail(String mail) {
 		try {
 
 			PreparedStatement preparedStatement = Database.connexion
@@ -88,9 +88,9 @@ public class UtilisateurDAO {
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			resultat.next();
-			
+
 			Utilisateur u = new Utilisateur();
-			
+
 			u.setId(resultat.getInt("id"));
 			u.setNom(resultat.getString("nom"));
 			u.setPrenom(resultat.getString("prenom"));
@@ -98,7 +98,7 @@ public class UtilisateurDAO {
 			u.setDate_inscription(resultat.getDate("date_inscription"));
 			u.setPassword(resultat.getString("password"));
 			u.setArchiver(resultat.getInt("archiver"));
-			
+
 			return u;
 
 		} catch (Exception ex) {
@@ -323,22 +323,23 @@ public class UtilisateurDAO {
 
 	// RETRIEVE ALL WHO HAVE ORDER(S)
 	public ArrayList<Utilisateur> getAllClients() {
-		
+
 		ArrayList<Utilisateur> list = new ArrayList<Utilisateur>();
-		
+
 		try {
-			
+
 			CommandeDAO od = new CommandeDAO();
-			
+
 			PreparedStatement ps = Database.connexion
-					.prepareStatement("SELECT * FROM `utilisateurs` WHERE id IN(SELECT fk_utilisateur FROM `commandes`)");
+					.prepareStatement(
+							"SELECT * FROM `utilisateurs` WHERE id IN(SELECT fk_utilisateur FROM `commandes`)");
 
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
-				
+
 				Utilisateur o = new Utilisateur();
-				
+
 				o.setId(rs.getInt("id"));
 				o.setNom(rs.getString("nom"));
 				o.setPrenom(rs.getString("prenom"));
@@ -346,41 +347,42 @@ public class UtilisateurDAO {
 				o.setEmail(rs.getString("email"));
 				o.setPassword(rs.getString("password"));
 				o.setArchiver(rs.getInt("archiver"));
-				
-				ArrayList<Commande> orders = od.getAllByClient( o.getId() );
+
+				ArrayList<Commande> orders = od.getAllByClient(o.getId());
 				o.setCommandes(orders);
-				
+
 				list.add(o);
 			}
-			
+
 			return list;
 
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 			return null;
-			
+
 		}
 	}
-	
+
 	// RETRIEVE ALL WHO HAVE NO ORDER
 	public ArrayList<Utilisateur> getAllProspect() {
-		
+
 		ArrayList<Utilisateur> list = new ArrayList<Utilisateur>();
-		
+
 		try {
-			
+
 			VisiteDAO vd = new VisiteDAO();
-			
+
 			PreparedStatement ps = Database.connexion
-				.prepareStatement("SELECT * FROM `utilisateurs` WHERE id!=1 AND id NOT IN(SELECT fk_utilisateur FROM `commandes`)");
+					.prepareStatement(
+							"SELECT * FROM `utilisateurs` WHERE id!=1 AND id NOT IN(SELECT fk_utilisateur FROM `commandes`)");
 
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
-				
+
 				Utilisateur o = new Utilisateur();
-				
+
 				o.setId(rs.getInt("id"));
 				o.setNom(rs.getString("nom"));
 				o.setPrenom(rs.getString("prenom"));
@@ -388,23 +390,23 @@ public class UtilisateurDAO {
 				o.setEmail(rs.getString("email"));
 				o.setPassword(rs.getString("password"));
 				o.setArchiver(rs.getInt("archiver"));
-				
-				ArrayList<Visite> v = vd.getAllByClient( o.getId() );
+
+				ArrayList<Visite> v = vd.getAllByClient(o.getId());
 				o.setVisites(v);
-				
+
 				list.add(o);
 			}
-			
+
 			return list;
 
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 			return null;
-			
+
 		}
 	}
-		
+
 	public ArrayList<Utilisateur> getAllNotArchived() {
 		ArrayList<Utilisateur> list = new ArrayList<Utilisateur>();
 		try {
@@ -415,9 +417,9 @@ public class UtilisateurDAO {
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {
-				
+
 				Utilisateur u = new Utilisateur();
-				
+
 				u.setId(resultat.getInt("id"));
 				u.setNom(resultat.getString("nom"));
 				u.setPrenom(resultat.getString("prenom"));
@@ -498,6 +500,37 @@ public class UtilisateurDAO {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println("DELETED NO");
+		}
+	}
+
+	public ArrayList<Utilisateur> getByLike(String crit) {
+		ArrayList<Utilisateur> list = new ArrayList<Utilisateur>();
+		try {
+
+			PreparedStatement preparedStatement = Database.connexion
+					.prepareStatement("SELECT * FROM utilisateurs WHERE nom LIKE ? OR prenom LIKE ?;");
+			preparedStatement.setString(1, "%" + crit + "%");
+			preparedStatement.setString(2, "%" + crit + "%");
+			ResultSet resultat = preparedStatement.executeQuery();
+
+			while (resultat.next()) {
+				Utilisateur u = new Utilisateur();
+				u.setId(resultat.getInt("id"));
+				u.setNom(resultat.getString("nom"));
+				u.setPrenom(resultat.getString("prenom"));
+				u.setEmail(resultat.getString("email"));
+				u.setDate_inscription(resultat.getDate("date_inscription"));
+				u.setPassword(resultat.getString("password"));
+				u.setArchiver(resultat.getInt("archiver"));
+
+				list.add(u);
+			}
+
+			return list;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
 		}
 	}
 

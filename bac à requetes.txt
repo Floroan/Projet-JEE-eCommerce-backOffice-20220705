@@ -25,3 +25,13 @@ SELECT * FROM utilisateurs LEFT JOIN recherches
 USING(id);
 
 select * from utilisateurs where utilisateurs.id IN(SELECT recherches.fk_user FROM recherches);
+
+SELECT COLUMN_NAME, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'projetdeux_tangflo' AND TABLE_NAME = 'produits';
+
+
+SELECT COLUMN_NAME, CHARACTER_MAXIMUM_LENGTH, NUMERIC_SCALE
+  FROM INFORMATION_SCHEMA.Columns       
+  WHERE TABLE_SCHEMA = 'projetdeux_tangflo' AND TABLE_NAME = 'produits';
+  
+  
+SELECT id, LENGTH(id) AS 'id.length', name, LENGTH(name) AS 'name.length' FROM produits;

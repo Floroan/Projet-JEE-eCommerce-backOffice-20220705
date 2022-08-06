@@ -22,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Commande;
+import model.Produit;
 import model.Sous_categorie;
 import service_commande.Service_commandes;
 import tools.ChartsGenerator;
@@ -101,7 +102,8 @@ public class Dashboard extends HttpServlet {
 			request.setAttribute("lastcmds", lastcmds);
 		}
 
-		ArrayList<Commande> commandes = cmdDao.getLimit(20);
+		ArrayList<Commande> commandes = cmdDao.getAll();
+		ArrayList<Commande> commandes20 = cmdDao.getLimit(20);
 
 		String char_sscats_titre = "";
 		String char_sscats_nbr = "";
@@ -111,33 +113,13 @@ public class Dashboard extends HttpServlet {
 			char_sscats_nbr += prodDao.getCountBySsCat(ss.getId()) + ",";
 		}
 
-		/*
-		 * CAMEMBERT MOTS CLÉ RECHERCHÉS
-		 */
-//		HashMap<Recherche, Integer> mapMotsCle = new HashMap<>();
-//		mapMotsCle = rechDao.getmotsAndcount(5);
-//		String mots = "";
-//		String nbMot = "";
-//		for (Map.Entry<Recherche, Integer> entry : mapMotsCle.entrySet()) {
-//			Recherche r = entry.getKey();
-//			/*
-//			 * Problème avec Group by : -
-//			 * https://stackoverflow.com/questions/23921117/disable-only-full-group-by :
-//			 * ONLY_FULL_GROUP_BY, - tuto pour régler le problème :
-//			 * https://grafikart.fr/tutoriels/only-full-group-by-sql-1206
-//			 */
-//			mots += "'" + entry.getKey().getMotcle() + "',";
-//			nbMot += entry.getValue() + ",";
-//		}
-		/*
-		 * NOUVEAU CAMEMBERT MOTS CLÉ RECHERCHÉS
-		 */
 		HashMap<String, Integer> mapMotsCle = new HashMap<>();
+
 		mapMotsCle = rechDao.countTheMostSearchedWords(5);
 		String mots = "";
 		String nbMot = "";
 		for (Map.Entry<String, Integer> entry : mapMotsCle.entrySet()) {
-			
+
 			mots += "'" + entry.getKey() + "',";
 			nbMot += entry.getValue() + ",";
 		}
@@ -161,21 +143,28 @@ public class Dashboard extends HttpServlet {
 
 			SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 			String dt = df.format(entry.getKey());
-			visiA7jours += entry.getValue() + ", ";
+			visiA7jours += entry.getValue() + ",";
 			visitotalA7jours += entry.getValue();
 
 		}
 		System.out.println("visite 7 jours: " + visiA7jours);
 		System.out.println("visite 7 jours: " + visitotalA7jours);
 
+		// top 5 visites >> produits
+		LinkedHashMap<Produit, Integer> top5Visites = visiDao.getVisitesByProduit(5);
+		
+
 		request.setAttribute("cmdsAll", genDao.countRows("commandes"));
-		request.setAttribute("cmdsLast20", commandes);
+		request.setAttribute("cmdsLast20", commandes20);
 		request.setAttribute("total_CA", Service_commandes.chiffreAffaireTotal(commandes));
 		request.setAttribute("cmdsA24h", Service_commandes.last_commandes_With24hInterval());
 		request.setAttribute("visiA7jours", visiA7jours);
 		request.setAttribute("visitotalA7jours", visitotalA7jours);
+		request.setAttribute("top5Visites", top5Visites);
+
 		request.setAttribute("totalVisites", visiDao.getAll());
 		request.setAttribute("totalProduits", genDao.countRows("produits"));
+		request.setAttribute("prodsAlertStock", prodDao.getProduitsAlerteStock(null));
 		request.setAttribute("messagesNonLus", contDao.getAllByEtat(Constantes.nonlu));
 		request.setAttribute("sscats", ssCatDao.getAll());
 
@@ -186,10 +175,17 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("topRecherches_NBR", nbMot);
 		request.setAttribute("testChart", cg.pie(char_sscats_titre, char_sscats_nbr, null));
 
-		if (session.getAttribute("isConnected").equals(true)) {
-			request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+//		if(session.getAttribute("isConnected").equals(true)) {
+//			request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+//		}else {
+//			response.sendRedirect("Signin");
+//		}
+
+		if (session.getAttribute("isConnected") == null) {
+			request.getRequestDispatcher("/error500.jsp").forward(request, response);
+
 		} else {
-			response.sendRedirect("Signin");
+			request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
 		}
 
 	}

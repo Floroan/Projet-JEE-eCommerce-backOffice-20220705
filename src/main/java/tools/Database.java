@@ -12,12 +12,14 @@ public class Database {
 
 //	public static void Connect() {
 	public static void Connect() /*throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException*/ {
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance(); // deprecate mais attendu dans certaines versions
 																	// d'IDE
 			// Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
 			// // .newInstance()
 			System.out.println("Driver OK");
+
 			connexion = DriverManager.getConnection(dburl, dbuser, dbpass);
 
 		} catch (InstantiationException e) {
@@ -37,5 +39,6 @@ public class Database {
 			System.out.println("PROBLEME MYSQL DRIVER : SQLException");
 //			throw new SQLException("PROBLEME MYSQL DRIVER : SQLException");
 		} 
+
 	}
 }

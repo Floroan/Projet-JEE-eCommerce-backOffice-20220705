@@ -26,11 +26,11 @@ public class CommandeDAO {
 	public void save(Commande obj) {
 
 		try {
-
-			if (obj.getId() != 0) {
-				PreparedStatement preparedStatement = Database.connexion.prepareStatement(
-						"UPDATE commandes fk_utilisateur=?, date=?, total=?, fk_adresse=?, etat=?, archiver=? WHERE id=?");
-
+			
+			if(obj.getId() != 0) {
+				PreparedStatement preparedStatement  = Database.connexion
+						.prepareStatement("UPDATE commandes SET fk_utilisateur=?, date=?, total=?, fk_adresse=?, etat=?, archiver=? WHERE id=?;");
+				
 				preparedStatement.setInt(1, obj.getFk_utilisateur());
 				preparedStatement.setDate(2, obj.getDate());
 				preparedStatement.setDouble(3, obj.getTotal());
@@ -43,6 +43,7 @@ public class CommandeDAO {
 //				preparedStatement.setDate(3, d);
 
 				preparedStatement.executeUpdate();
+				
 			} else {
 				PreparedStatement preparedStatement = Database.connexion.prepareStatement(
 						"INSERT INTO commandes (fk_utilisateur, date, total, fk_adresse, etat, archiver) VALUES(?,?,?,?,?,?)");
@@ -311,7 +312,7 @@ public ArrayList<Commande> getAllByEtat(int etat) {
 	ArrayList<Commande> list = new ArrayList<Commande>();
 	try {
 		
-			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM commandes WHERE etat=?;");
+			PreparedStatement preparedStatement  = Database.connexion.prepareStatement("SELECT * FROM commandes WHERE etat=? AND archiver=0;");
 			preparedStatement.setInt(1, etat);
 			ResultSet resultat=preparedStatement.executeQuery();
 

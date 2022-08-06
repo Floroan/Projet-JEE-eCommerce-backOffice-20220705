@@ -78,6 +78,7 @@ if ( privileges.contains("stat") ) {
                		<div class="menu-title">Front Office</div>
                	</a>
              	<ul>
+                	<li> <a href="TopOfTheTop"><i class="bi bi-circle"></i>Utilisateurs</a></li>
 		<%
 		if ( privileges.contains("foStatClients") ) {
 		%>
@@ -155,14 +156,14 @@ if ( privileges.contains("commandes") ) {
               <ul>
                 <li> <a href="TableCommandes?"><i class="bi bi-circle"></i>Toutes les commandes</a>
                 </li>
-                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdEnCours%>"><i class="bi bi-circle"></i>Les commandes en cours</a>
+                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdEnCours%>"><i class="bi bi-circle"></i>Les commandes à préparer</a>
                 </li>
-                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdValidees%>"><i class="bi bi-circle"></i>Les commandes validées</a>
+                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdValidee%>"><i class="bi bi-circle"></i>Les commandes à livrer</a>
                 </li>
-                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdLivrees%>"><i class="bi bi-circle"></i>Les commandes livrées</a>
-                </li>
-                <li> <a href="DetailCommande?id=0"><i class="bi bi-circle"></i>Détails/recherche d'une commande</a>
-                </li>
+                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdLivree%>"><i class="bi bi-circle"></i>Les commandes livrées</a>
+                </li> 
+                <li> <a href="TableCommandesByEtat?etat=<%= Constantes.cmdSignalee %>"><i class="bi bi-circle"></i>Les commandes signalées</a>
+                </li> 
               </ul>
             </li>
             <li>
@@ -197,16 +198,17 @@ if ( privileges.contains("utilisateurs") ) {
 		%>
              	<ul>
                		<li> <a class="has-arrow" href="AdminList"><i class="bi bi-circle"></i>Employés</a>
-               		<ul>
-               		<%
-               		if ( abFromServletAdminCard != null ) {
-               		%>
-	               		<li> <a href="javascript:;"><i class="bi bi-circle"></i><%= abFromServletAdminCard %></a></li>
-               		<%
-               		}
-               		%>
-               		</ul>
+	               		<ul>
+	               		<%
+	               		if ( abFromServletAdminCard != null ) {
+	               		%>
+		               		<li> <a href="javascript:;"><i class="bi bi-circle"></i><%= abFromServletAdminCard %></a></li>
+	               		<%
+	               		}
+	               		%>
+	               		</ul>
                		</li>
+               		<li> <a href="#"><i class="bi bi-circle"></i>Mails</a></li>
              	</ul>
 		<%
 		}
@@ -226,6 +228,7 @@ if ( privileges.contains("utilisateurs") ) {
 		if ( privileges.contains("foUtilisateursUtilisateurs") ) {
 		%>
              		<li> <a href="UserList"><i class="bi bi-circle"></i>Utilisateurs</a></li>
+            		<li> <a href="GestionMessagerie?"><i class="bi bi-circle"></i>Mails</a></li>
 		<%
 		}
 		%>
@@ -244,7 +247,7 @@ if ( privileges.contains("utilisateurs") ) {
               <ul>
                 <li> <a href="TopRecherches?"><i class="bi bi-circle"></i>Top recherches</a>
                 </li>
-                <li> <a href="icons-boxicons.html"><i class="bi bi-circle"></i>??</a>
+                <li> <a href="TopOfTheTop"><i class="bi bi-circle"></i>Top of the tops</a>
                 </li>
                 <li> <a href="icons-feather-icons.html"><i class="bi bi-circle"></i>??</a>
                 </li>

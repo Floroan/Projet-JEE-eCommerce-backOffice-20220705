@@ -93,4 +93,12 @@ public class RegexValidator {
 //				.matcher(s)
 //				.matches();
 	}
+	
+	
+	// method generic
+	public static boolean matchMe(String matchMe, String constRegex) {
+		return Pattern.compile(constRegex)
+				.matcher(matchMe)
+				.matches();
+	}
 }

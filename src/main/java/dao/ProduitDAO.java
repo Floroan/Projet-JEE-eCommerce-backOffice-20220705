@@ -344,4 +344,68 @@ public int getCountBySsCat(int sscatid) {
 		}
 	}
 
+/*
+ * methodes Florian
+ */
+
+public Produit getTitreAndMainImageById(int id) {
+	try {
+	
+			PreparedStatement ps  = Database.connexion
+					.prepareStatement("SELECT produits.id, produits.titre, produits.image "
+							+ "FROM produits WHERE id=? AND archiver= 0");
+			ps.setInt(1,id);
+			
+			ResultSet resultat=ps.executeQuery();
+			
+			Produit u = new Produit();
+			while(resultat.next()) {
+				u.setId(resultat.getInt( "id" ));
+				u.setTitre(resultat.getString("titre"));
+				u.setImage(resultat.getString( "image" ));
+
+				
+				ImageDAO imgDao = new ImageDAO();
+				ArrayList<Image> imgs = imgDao.getAllByProduit(u.getId());
+				u.setImages(imgs);
+			}
+			return u;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
+
+// SELECT produits.id, produits.titre, produits.image, produits.stock, produits.stock_min, produits.archiver FROM `produits` WHERE produits.stock <= produits.stock_min + 10;
+public ArrayList<Produit> getProduitsAlerteStock(String crit) {
+	ArrayList<Produit> list = new ArrayList<Produit>();
+	try {
+		
+			PreparedStatement preparedStatement  =
+					Database.connexion.prepareStatement("SELECT produits.id, produits.titre,"
+							+ " produits.image, produits.stock, produits.stock_min, produits.archiver "
+							+ "FROM `produits` WHERE produits.stock <= produits.stock_min;");
+			//preparedStatement.setString(1, "%"+crit+"%");
+
+			ResultSet resultat=preparedStatement.executeQuery();
+
+			while(resultat.next()) {
+				Produit u = new Produit();
+				u.setId(resultat.getInt( "id" ));
+				u.setTitre(resultat.getString("titre"));
+				u.setImage(resultat.getString( "image" ));
+				u.setStock(resultat.getInt( "stock" ));
+				u.setStock_min(resultat.getInt( "stock_min" ));
+				u.setArchiver(resultat.getInt( "archiver" ));
+				list.add(u);
+			}
+			
+			return list;
+		
+	} catch (Exception ex) {
+    	ex.printStackTrace();
+    	return null;
+    }
+}
 }

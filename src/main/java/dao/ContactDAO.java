@@ -251,7 +251,8 @@ public class ContactDAO {
 			PreparedStatement preparedStatement = Database.connexion
 					.prepareStatement("SELECT * FROM contacts  WHERE fk_user=? AND etat=? ORDER BY contacts.date DESC");
 			preparedStatement.setInt(1, idCli);
-			preparedStatement.setInt(1, etat);
+			preparedStatement.setInt(2, etat);
+
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {
@@ -311,48 +312,83 @@ public class ContactDAO {
 			System.out.println("DELETED NO");
 		}
 	}
-	
+
 	/**********************
 	 * 
-	 * 		MÉTHODES
+	 * MÉTHODES
 	 * 
 	 **********************/
-	
+
 	// COUNT ALL MESSAGES BY ONE USER PER EACH MONTH OF THE CURRENT YEAR
 	// return String
-	public String countAllMessagesByOneUserPerEachMonthOfTheCurrentYear (int fk_user) {
-		
+	public String countAllMessagesByOneUserPerEachMonthOfTheCurrentYear(int fk_user) {
+
 		DaoTools dt = new DaoTools();
-		String paramGraph =  dt.countAllClicksByOneUserPerEachMonthOfTheCurrentYearForOneTable(fk_user, "contacts");
-		
+		String paramGraph = dt.countAllClicksByOneUserPerEachMonthOfTheCurrentYearForOneTable(fk_user, "contacts");
+
 		return paramGraph;
 
 	}
-	
+
 	// COUNT ALL MESSAGES BY ONE USER PER EACH MONTH OF THE CURRENT YEAR
 	// return int
-	public int countAllMessagesByOneUser (int fk_user) {
-		
+	public int countAllMessagesByOneUser(int fk_user) {
+
 		try {
-			
+
 			PreparedStatement ps = Database.connexion
 					.prepareStatement("SELECT COUNT(*) FROM `contacts` WHERE `fk_user`=? ");
 			ps.setInt(1, fk_user);
-			
+
 			ResultSet rs = ps.executeQuery();
-			
+
 			rs.next();
-			
+
 			int c = rs.getInt("COUNT(*)");
 
 			return c;
-			
+
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 			return 0;
-			
 		}
+	}
 
+	public ArrayList<Contact> getByLike(String crit) {
+		ArrayList<Contact> list = new ArrayList<Contact>();
+		try {
+
+			PreparedStatement preparedStatement = Database.connexion
+					.prepareStatement("SELECT * FROM contacts WHERE sujet LIKE ? OR message LIKE ?");
+			preparedStatement.setString(1, "%" + crit + "%");
+			preparedStatement.setString(2, "%" + crit + "%");
+			ResultSet resultat = preparedStatement.executeQuery();
+			UtilisateurDAO utilDao = new UtilisateurDAO();
+
+			while (resultat.next()) {
+				Contact u = new Contact();
+				u.setId(resultat.getInt("id"));
+				u.setFk_user(resultat.getInt("fk_user"));
+				u.setSujet(resultat.getString("sujet"));
+				u.setEmail(resultat.getString("email"));
+				u.setMessage(resultat.getString("message"));
+				u.setDate(resultat.getDate("date"));
+				u.setEtat(resultat.getInt("etat"));
+				u.setArchiver(resultat.getInt("archiver"));
+
+				Utilisateur c;
+				c = utilDao.getById(u.getFk_user());
+				u.setU(c);
+
+				list.add(u);
+			}
+
+			return list;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
 	}
 }

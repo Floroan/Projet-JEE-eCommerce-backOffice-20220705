@@ -1,7 +1,33 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> main
 /control/
 /dao/
 /model/
 /tools/
+<<<<<<< HEAD
 /service_adresse_livraison/
 /tests/
 /service_commande/
+=======
+=======
+<<<<<<< HEAD
+/Service_commandes.class
+/control/
+/dao/
+/model/
+/service_adresse_livraison/
+/service_archivage/
+/service_commande/
+/service_produit/
+/tests/
+/tools/
+=======
+/control/
+/service_adresse_livraison/
+/tools/
+/dao/
+>>>>>>> mainFloroan
+>>>>>>> 26b76057dedf13b9f0595b83813c87ae945e0226
+>>>>>>> main

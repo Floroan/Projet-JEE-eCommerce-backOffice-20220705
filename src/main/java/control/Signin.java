@@ -99,6 +99,11 @@ public class Signin extends HttpServlet {
 		boolean conn = false;
 
 		if (request.getParameter("auth") != null) {
+
+			//try {
+			System.out.println("passe ici signin");
+
+			Database.Connect();
 			
 			String user = request.getParameter("nom");
 			String userMail = request.getParameter("mail");
@@ -183,6 +188,12 @@ public class Signin extends HttpServlet {
 
 			}
 
+//		}catch(SocketException e){
+//			request.setAttribute("communicationError", "serveur déconnecté");
+//			response.sendRedirect("/error500.jsp");
+//		}
+		
+		
 		} // fin if control Regex..
 
 		if (conn == false) {

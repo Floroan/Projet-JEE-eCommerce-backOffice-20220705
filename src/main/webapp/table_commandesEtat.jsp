@@ -3,7 +3,7 @@
 <%@page import="model.Commande"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="UTF-8"%>
     
 <!-- <!doctype html> -->
 <!-- <html lang="en"> -->
@@ -63,22 +63,27 @@
 								<tbody>
 								
 								<% for(Commande cmd: commandes){ %>
+								
 									<tr>
-									<form method="post">
-										<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/>
+			
 										<td><%= cmd.getId() %></td>
 										<td><%= cmd.getDate() %></td>
 										<td><%= cmd.getTotal() %></td>
 										<td><%= cmd.getEtat() %></td>
 										<td><%= cmd.getArchiver() %></td>
 										<td>
-	                                    <div class="d-flex align-items-center gap-3 fs-6">
-	                                      	<a href="DetailCommande?id=<%=cmd.getId() %>" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit" type="submit"><i class="bi bi-pencil-fill"></i></a>
-	                                      	<button name="archiveCommande" type="submit" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Archiver" aria-label="Delete"><i class="lni lni-archive"></i></button>                                 
-	                                     </form>
-	                                    </div>
+										<form method="post" >
+										<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/>
+		                                    <div class="d-flex align-items-center gap-3 fs-6">
+		                                      	<a href="DetailCommande?id=<%=cmd.getId() %>" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit" type="submit"><i class="bi bi-pencil-fill"></i></a>
+		                                      	<button name="${titreBouton }" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="${titreBouton }" aria-label="" class="btn btn-warning px-5">${titreBouton }</button>
+		                                      	<% if(cmd.getEtat() == 2 || cmd.getEtat() == 4){ %>
+		                                      	<button type="submit" name="<%= Constantes.remonteCmd %>" class="btn btn-outline-secondary px-5" data-bs-toggle="tooltip" data-bs-original-title="Remonter la commande au tableau des commandes à préparer">Remonter en commande à préparer</button> 
+		                                     	<%} %>
+		                                     </form> 
+		                                    </div>
 	                                   </td>
-	                                   
+	           						                       
 									</tr>
 									<%} %>
 

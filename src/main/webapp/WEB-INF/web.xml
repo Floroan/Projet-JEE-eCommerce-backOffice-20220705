@@ -395,4 +395,13 @@
     <servlet-name>CommentairesUser</servlet-name>
     <url-pattern>/CommentairesUser</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <display-name>TopOfTheTop</display-name>
+    <servlet-name>TopOfTheTop</servlet-name>
+    <servlet-class>control.TopOfTheTop</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TopOfTheTop</servlet-name>
+    <url-pattern>/TopOfTheTop</url-pattern>
+  </servlet-mapping>
 </web-app>

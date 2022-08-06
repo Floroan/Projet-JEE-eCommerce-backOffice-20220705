@@ -69,16 +69,7 @@ ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
 			String d = DateManipulator.dateConvertToDDmmYYYY( client.getDate_inscription() );
 			%>
 			<p class="text-center">inscrit(e) depuis le <%= d %></p>
-			<hr/>
-			
-			
-			
-			
-			
-
-				
-				
-							
+			<hr/>			
 			<h6 class="mb-0 text-uppercase">Statistiques commandes</h6>
 			<hr/>
 			<div class="card">
@@ -180,8 +171,7 @@ ArrayList<Adresse_livraison> abCol = (ArrayList) request.getAttribute("abCol");
 				<div class="col">
 					<div class="card overflow-hidden radius-10">
 						<div class="card-body">
-							<div
-								class="d-flex align-items-stretch justify-content-between overflow-hidden">
+							<div class="d-flex align-items-stretch justify-content-between overflow-hidden">
 								<div class="w-50">
 									<p>
 										<a href="">Recherches</a>

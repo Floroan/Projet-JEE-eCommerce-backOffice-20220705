@@ -1,13 +1,15 @@
-
-<%@page import="java.util.Map"%>
-<%@page import="java.util.LinkedHashMap"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@page import="model.Recherche"%>
 <%@page import="tools.Constantes"%>
 <%@page import="model.Commande"%>
+<%@page import="java.util.LinkedHashMap"%>
+<%@page import="java.util.Map"%> 
+<%@page import="java.lang.Iterable"%>
 <%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    
+<% 
+LinkedHashMap<String, Integer> top = (LinkedHashMap<String, Integer>) request.getAttribute("topRecherches"); 
+%>    
 <!-- <!doctype html> -->
 <!-- <html lang="en"> -->
 
@@ -44,7 +46,7 @@
 
 <!-- <body> -->
 
-<% LinkedHashMap<Recherche, Integer> top = (LinkedHashMap<Recherche, Integer>) request.getAttribute("topRecherches"); %>
+
 
 
 				<h6 class="mb-0 text-uppercase">Top des recherches</h6>
@@ -55,7 +57,7 @@
 							<table id="example" class="table table-striped table-bordered" style="width:100%">
 								<thead>
 									<tr>
-										<th>ID</th>
+										<!-- <th>ID</th> -->
 										<th>Mot clé</th>
 										<th>Nombre de recherches</th>
 										<th>actions</th>
@@ -63,21 +65,21 @@
 								</thead>
 								<tbody>
 								
-								<% for(Map.Entry<Recherche, Integer> entry : top.entrySet()){ %>
-								<% Recherche r = entry.getKey(); %>
-								<% int nb = entry.getValue(); %>
+								<% 
+								for( Map.Entry<String, Integer> entry : top.entrySet() ) {  
+								%>
 									<tr>
 <!-- 									<form method="form" action="TableCommandes"> -->
 <%-- 										<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/> --%>
-										<td><%= r.getId() %></td>
-										<td><%= r.getMotcle() %></td>
-										<td><%= nb %></td>
+										<%-- <td><%= r.get %></td> --%>
+										<td><%= entry.getKey() %></td>
+										<td><%= entry.getValue() %></td>
 
 										<td>
 										<form method="post" action="TableCommandes">
-										<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= r.getId()%>"/>
+										<input type="hidden" name="<%= Constantes.idcommande %>" value=""/>
 	                                    <div class="d-flex align-items-center gap-3 fs-6">
-	                                      	<a href="DetailCommande?id=<%=r.getId() %>" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit" type="submit"><i class="bi bi-pencil-fill"></i></a>
+	                                      	<a href="DetailCommande?id=" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit" type="submit"><i class="bi bi-pencil-fill"></i></a>
 	                                      	<button name="archiveCommande" type="submit" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Archiver" aria-label="Delete"><i class="lni lni-archive"></i></button>                                 
 	                                     </form>
 	                                    </div>
