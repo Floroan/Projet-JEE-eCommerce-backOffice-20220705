@@ -75,7 +75,7 @@
 										<td class="col-md-1" >
 										<form method="post">
 												<input type="hidden" name="<%= Constantes.idcommande %>" value="<%= cmd.getId()%>"/>
-												<input class="col-md-6" type="number" min="0" max="3" value="<%= cmd.getEtat() %>" name="<%= Constantes.etat %>"/>
+												<input class="col-md-6" type="number" min="0" max="4" value="<%= cmd.getEtat() %>" name="<%= Constantes.etat %>"/>
 												<button type="submit" name="changeEtat"><i class="lni lni-reload"></i></button>
 										</form>
 										</td>

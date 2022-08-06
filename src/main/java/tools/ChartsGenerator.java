@@ -154,3 +154,28 @@ public class ChartsGenerator {
 //var chart = new ApexCharts(document.querySelector("#chart"), options);
 //chart.render()
 //</script>
+
+
+
+// ce script est le donut original à tester car malfunction
+//<script>
+//var chart = new Chart(document.getElementById('chart61'), {
+//type: 'doughnut',
+//data: {
+//labels: [${topVisites_produits}],
+//datasets: [{
+//label: "Device Users",
+//backgroundColor: ["#12bf24", "#3461ff", "#ff6632"],
+//data: [${topVisites_values}]
+//}]
+//},
+//options: {
+//maintainAspectRatio: false,
+//cutoutPercentage: 85,
+//responsive: true,
+//legend: {
+//display: false
+//}
+//}
+//});
+//</script>

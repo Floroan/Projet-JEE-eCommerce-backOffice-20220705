@@ -7,6 +7,7 @@
 <%@page import="model.Commande"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
+<%@page import="java.util.LinkedHashMap"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!doctype html>
@@ -87,6 +88,7 @@
 <% ArrayList<Sous_categorie> sscats = (ArrayList<Sous_categorie>) request.getAttribute("sscats"); %>
 <% ArrayList<Produit> prodsAlertStock = (ArrayList<Produit>) request.getAttribute("prodsAlertStock"); %>
 <% HashMap<Recherche, Integer> top = (HashMap<Recherche, Integer>) request.getAttribute("topRecherches"); %>
+<% LinkedHashMap<Produit, Integer> top5Visites = (LinkedHashMap) request.getAttribute("top5Visites");%>
 <% double ca = (Double) request.getAttribute("total_CA"); %>
   <!--start wrapper-->
   <div class="wrapper">
@@ -376,30 +378,63 @@
                 <div class="card radius-10 w-100">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
-                       <h6 class="mb-0">Visites par produit</h6>
+                       <h6 class="mb-0">Visites par produit - Top 5</h6>
 
                     </div>
                     <div class="row row-cols-1 row-cols-md-2 g-3 mt-2 align-items-center">
                       <div class="col-lg-7 col-xl-7 col-xxl-8">
                         <div class="by-device-container">
                            <div class="piechart-legend">
-                              <h2 class="mb-1"><%= visites.size() %></h2>
-                              <h6 class="mb-0">Total Visites</h6>
+                                                     <div id="chart61">
+                          </div>
+                          		<h6 class="mb-0">Total des Visites</h6>
+                              	<h2 class="mb-1"><%= visites.size() %></h2>
+                              
                            </div>
-                          <canvas id="chart61">
-                          </canvas> 
+<!--                           <canvas id="chart61"> -->
+<!--                           </canvas>  -->
                         </div>
                       </div>
                       <div class="col-lg-5 col-xl-5 col-xxl-4">
                         <div class="">
-                        <% ArrayList<String> titres = (ArrayList) request.getAttribute("topVisites_titresProduits"); %>
-                        <%for(String tp : titres){ %>
+
                           <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex align-items-center justify-content-between border-0">
-                              <i class="bi bi-display-fill me-2 text-primary"></i> <span><%= tp.substring(0,15) %></span> <span>15.2%</span>
-                            </li>
-							<%} %>
+                          	  
+                              <%
+                              int ttl = 0;
+                              for(Map.Entry<Produit, Integer> entry : top5Visites.entrySet()){	  
+                            	 ttl += entry.getValue();
+                              }
+                              for(Map.Entry<Produit, Integer> entry : top5Visites.entrySet()){
+                              %>
+                              
+		                            <li class="list-group-item d-flex align-items-center justify-content-between border-0">
+		<!--                               <i class="bi bi-display-fill me-2 text-primary"></i> -->
+		                              		<img src="<%= entry.getKey().getImage() %>" height="50px" width="50px" data-bs-toggle="tooltip" data-bs-original-title="<%=entry.getKey().getTitre() %>" />
+									  		<span><%= entry.getValue() * 100 / ttl %>%</span>
+									  		
+<%-- 									  	<% if(entry.getKey().getTitre().length() > 15){ %> --%>
+<%-- 		                              		<span><%= entry.getKey().getTitre().substring(0, 15) %></span> <span><%= entry.getValue() * 100 / ttl %>%</span> --%>
+<%-- 		                              	<% } else { %> --%>
+<%-- 		                              		<span><%= entry.getKey().getTitre() %></span> <span><%= entry.getValue() * 100 / ttl %>%</span> --%>
+<%-- 		                              	<%} %> --%>
+									
+									</li>	
+							  <%} %>
                           </ul>
+                          
+<!--                           <ul class="list-group list-group-flush"> -->
+<%--                               <%for(String img : images){ %> --%>
+<!--                             <li class="list-group-item d-flex align-items-center justify-content-between border-0"> -->
+<!-- <!--                               <i class="bi bi-display-fill me-2 text-primary"></i> --> 
+<%--                               	<img src="<%= img  %>" height="50px" width="50px" /> --%>
+							  
+<%-- 							  <%for(String tp : titres){ %> --%>
+<%--                               	<span><%= tp.substring(0,15) %></span> <span>15.2%</span> --%>
+<!-- 							</li> -->
+<%-- 							 <%} %> --%>
+<%-- 							  <%} %> --%>
+<!--                           </ul> -->
                          </div>
                       </div>
                     </div>
@@ -407,27 +442,31 @@
                 </div>
               </div>
               
-                          <script>
-                          var chart = new Chart(document.getElementById('chart61'), {
-                        		type: 'doughnut',
-                        		data: {
-                        			labels: [${topVisites_produits}],
-                        			datasets: [{
-                        				label: "Device Users",
-                        				backgroundColor: ["#12bf24", "#3461ff", "#ff6632"],
-                        				data: [${topVisites_values}]
-                        			}]
-                        		  },
-                        		options: {
-                        			maintainAspectRatio: false,
-                        			cutoutPercentage: 85,
-                        			responsive: true,
-                        		  legend: {
-                        			display: false
-                        		  }
-                        		}
-                        	  });
-                          </script>
+              
+              					<script>
+					var options = {
+					  series: [${topVisites_values}],
+					  chart: {
+					  width: 380,
+					  type: 'donut',
+					},
+					labels: [${topVisites_produits}],
+					responsive: [{
+					  breakpoint: 480,
+					  options: {
+					    chart: {
+					      width: 200
+					    },
+					    legend: {
+					      position: 'bottom'
+					    }
+					  }
+					}]
+					};
+
+					var chart = new ApexCharts(document.querySelector("#chart61"), options);
+					chart.render()
+					</script>
               
               
             </div><!--end row-->

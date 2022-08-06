@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-/Service_commandes.class
-/control/
 /dao/
 /model/
 /service_adresse_livraison/
@@ -9,9 +6,4 @@
 /service_produit/
 /tests/
 /tools/
-=======
 /control/
-/service_adresse_livraison/
-/tools/
-/dao/
->>>>>>> mainFloroan

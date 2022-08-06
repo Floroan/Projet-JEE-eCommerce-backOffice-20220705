@@ -3,6 +3,8 @@ package model;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import tools.Constantes;
+
 public class Commande {
 
 	private int id, fk_utilisateur, fk_adresse, etat, archiver;
@@ -75,7 +77,12 @@ public class Commande {
 	}
 
 	public void setEtat(int etat) {
-		this.etat = etat;
+		if(etat <= Constantes.maxEtats) {
+			this.etat = etat;
+		}else {
+			// soulever l'exception
+		}
+		
 	}
 
 	public int getArchiver() {
