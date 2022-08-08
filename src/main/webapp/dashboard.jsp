@@ -73,6 +73,8 @@
 		margin: 20px auto;
 		}
 		
+
+		
 		#chart90 {
 		  max-width: 650px;
 		  margin: 35px auto;
@@ -82,14 +84,14 @@
 </head>
 
 <body>
-<% ArrayList<Commande> cmdsLast20 = (ArrayList<Commande>) request.getAttribute("cmdsLast20"); %>
-<% ArrayList<Visite> visites = (ArrayList<Visite>) request.getAttribute("totalVisites"); %>
-<% ArrayList<Contact> messagesNonLus = (ArrayList<Contact>) request.getAttribute("messagesNonLus"); %>
-<% ArrayList<Sous_categorie> sscats = (ArrayList<Sous_categorie>) request.getAttribute("sscats"); %>
-<% ArrayList<Produit> prodsAlertStock = (ArrayList<Produit>) request.getAttribute("prodsAlertStock"); %>
-<% HashMap<Recherche, Integer> top = (HashMap<Recherche, Integer>) request.getAttribute("topRecherches"); %>
-<% LinkedHashMap<Produit, Integer> top5Visites = (LinkedHashMap) request.getAttribute("top5Visites");%>
-<% double ca = (Double) request.getAttribute("total_CA"); %>
+		<% ArrayList<Commande> cmdsLast20 = (ArrayList<Commande>) request.getAttribute("cmdsLast20"); %>
+		<% ArrayList<Visite> visites = (ArrayList<Visite>) request.getAttribute("totalVisites"); %>
+		<% ArrayList<Contact> messagesNonLus = (ArrayList<Contact>) request.getAttribute("messagesNonLus"); %>
+		<% ArrayList<Sous_categorie> sscats = (ArrayList<Sous_categorie>) request.getAttribute("sscats"); %>
+		<% ArrayList<Produit> prodsAlertStock = (ArrayList<Produit>) request.getAttribute("prodsAlertStock"); %>
+		<% HashMap<Recherche, Integer> top = (HashMap<Recherche, Integer>) request.getAttribute("topRecherches"); %>
+		<% LinkedHashMap<Produit, Integer> top5Visites = (LinkedHashMap) request.getAttribute("top5Visites");%>
+		<% double ca = (Double) request.getAttribute("total_CA"); %>
   <!--start wrapper-->
   <div class="wrapper">
   
@@ -384,13 +386,12 @@
                     <div class="row row-cols-1 row-cols-md-2 g-3 mt-2 align-items-center">
                       <div class="col-lg-7 col-xl-7 col-xxl-8">
                         <div class="by-device-container">
+                        <div id="chart61">
                            <div class="piechart-legend">
-                                                     <div id="chart61">
-                          </div>
                           		<h6 class="mb-0">Total des Visites</h6>
                               	<h2 class="mb-1"><%= visites.size() %></h2>
-                              
                            </div>
+                          </div>
 <!--                           <canvas id="chart61"> -->
 <!--                           </canvas>  -->
                         </div>
@@ -443,31 +444,32 @@
               </div>
               
               
-              					<script>
-					var options = {
-					  series: [${topVisites_values}],
-					  chart: {
-					  width: 380,
-					  type: 'donut',
-					},
-					labels: [${topVisites_produits}],
-					responsive: [{
-					  breakpoint: 480,
-					  options: {
-					    chart: {
-					      width: 200
-					    },
-					    legend: {
-					      position: 'bottom'
-					    }
-					  }
-					}]
-					};
+              	<script>
+var options = {
+  	series: [${topVisites_values}],
+	labels: [${topVisites_produits}],
+  	chart: {
+  		width: 380,
+  		type: 'donut'
+	},
+	responsive: [{
+ 		breakpoint: 480,
+  		options: {
+    		chart: {
+      			width: 200
+    		},
+		}
+	}],
+    legend: {
+     	show : false,
+      	position: 'bottom'
+    }
+};
 
 					var chart = new ApexCharts(document.querySelector("#chart61"), options);
 					chart.render()
 					</script>
-              
+					
               
             </div><!--end row-->
 
@@ -896,11 +898,10 @@
               </div>
             </div>
             
-          </div><!--end row-->
+          </div><!--end row--
+	</div>
 
-
-
-          </main>
+         
        <!--end page main-->
 
        <!--start overlay-->
@@ -975,6 +976,10 @@
        </div>
        <!--end switcher-->
 
+  </div>
+  
+   </main>
+  
   </div>
   <!--end wrapper-->
 

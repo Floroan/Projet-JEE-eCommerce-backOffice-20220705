@@ -99,7 +99,7 @@ public class TableCommandesByEtat extends HttpServlet {
 		    break;
 		    
 		case "4" : request.setAttribute("titre", "les commandes signalées ");  
-		   request.setAttribute("message", "Plus de commandes signalées, voir les archivages.");
+		   		request.setAttribute("message", "Plus de commandes signalées, voir les archivages.");
 		   request.setAttribute("titreBouton", "Archiver");
 		   break;
 		}
